@@ -1,0 +1,543 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     18190,        534]
+NotebookOptionsPosition[     17047,        491]
+NotebookOutlinePosition[     17392,        506]
+CellTagsIndexPosition[     17349,        503]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Flux Calculator", "Title",
+ CellChangeTimes->{{3.6342533632624245`*^9, 3.634253365233427*^9}}],
+
+Cell[TextData[StyleBox["Takes list of nodestrings, of variable length, and \
+fort.64 (Depth-averaged velocity) and converts to list of \
+\[OpenCurlyDoubleQuote]Q\[CloseCurlyDoubleQuote] values attributable to each \
+node (not q (in e.g. ft^2/)! Q, in e.g. cfs).", "Text"]], "Subtitle",
+ CellChangeTimes->{{3.6342533697344337`*^9, 3.634253452559558*^9}, {
+  3.6342535022216296`*^9, 3.63425350285163*^9}}],
+
+Cell["Step 1. Reads in nodestrings", "Subtitle",
+ CellChangeTimes->{{3.6342534893596115`*^9, 3.634253509092639*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"errorlist", "=", 
+   RowBox[{"{", "}"}]}], ";"}]], "Code",
+ CellChangeTimes->{3.63425912407747*^9}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Step 2. Reads in .14 (nodenum, x, y, z)\
+\>", "Subtitle",
+ CellChangeTimes->{{3.634253515498649*^9, 3.634253557137709*^9}}],
+
+Cell[BoxData[""], "Code"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Step 3. Reads in .64 (nodenum, ux, uy)\
+\>", "Subtitle",
+ CellChangeTimes->{{3.6342535377566805`*^9, 3.6342535690997257`*^9}}],
+
+Cell[BoxData[""], "Code"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Step 4. Converts x,y,ux,uy into Q[[nodenum]]\
+\>", "Subtitle",
+ CellChangeTimes->{{3.6342536178497972`*^9, 3.634253631181816*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"For", " ", "each", " ", "nodestring"}], "*)"}], "\n", 
+  RowBox[{
+   RowBox[{"nodestringnumber", "=", "1"}], "\n", 
+   RowBox[{
+    RowBox[{"x", "=", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "2", ",", "4"}], "}"}]}], ";", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{"list", " ", "of", " ", "xs", " ", "in", " ", "nodestring"}], 
+      ",", " ", 
+      RowBox[{"in", " ", "order", " ", "they", " ", "appear"}]}], "*)"}], 
+    "\n", 
+    RowBox[{"y", "=", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "2", ",", "0"}], "}"}]}], ";", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{"list", " ", "of", " ", "ys", " ", "in", " ", "nodestring"}], 
+      ",", " ", 
+      RowBox[{"same", " ", "order"}]}], "*)"}], "\n", 
+    RowBox[{"ux", "=", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], ";", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{"list", " ", "of", " ", "uxs", " ", "in", " ", "nodestring"}], 
+      ",", " ", 
+      RowBox[{"same", " ", "order"}]}], "*)"}], "\n", 
+    RowBox[{"uy", "=", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], ";", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{"list", " ", "of", " ", "uys", " ", "in", " ", "nodestring"}], 
+      ",", " ", 
+      RowBox[{"same", " ", "order"}]}], "*)"}], "\n", 
+    RowBox[{"u", "=", 
+     RowBox[{"Transpose", "[", 
+      RowBox[{"Table", "[", 
+       RowBox[{"{", 
+        RowBox[{"ux", ",", "uy"}], "}"}], "]"}], "]"}]}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{"list", " ", "of", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"ux", 
+          RowBox[{"(", "n", ")"}]}], ",", 
+         RowBox[{"uy", 
+          RowBox[{"(", "n", ")"}]}]}], ")"}]}], ",", " ", 
+      RowBox[{"same", " ", "order"}]}], "*)"}], "\n", 
+    RowBox[{"nnodes", "=", "3"}], ";", 
+    RowBox[{"(*", 
+     RowBox[{
+     "number", " ", "of", " ", "nodes", " ", "in", " ", "nodestring"}], 
+     "*)"}], "\n", "\n", 
+    RowBox[{"nsegs", "=", 
+     RowBox[{"nnodes", "-", "1"}]}], ";", " ", 
+    RowBox[{"(*", 
+     RowBox[{"number", " ", "of", " ", "segments"}], "*)"}], "\n", 
+    RowBox[{"vec", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{"{", "nsegs", "}"}]}], "]"}]}], ";", " ", 
+    RowBox[{"(*", 
+     RowBox[{
+     "list", " ", "of", " ", "vectors", " ", "defining", " ", "the", " ", 
+      "boundary"}], "*)"}], "\n", 
+    RowBox[{"norm", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{"{", "nsegs", "}"}]}], "]"}]}], ";", " ", 
+    RowBox[{"(*", 
+     RowBox[{
+     "list", " ", "of", " ", "normal", " ", "vectors", " ", "corresponding", 
+      " ", "to", " ", "boundary"}], "*)"}], "\n", 
+    RowBox[{"l", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{"{", "nsegs", "}"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Q", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{"{", "nnodes", "}"}]}], "]"}]}], ";"}], "\n", "\n", "\n", 
+   RowBox[{
+    RowBox[{"Do", "[", "\n", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"vec", "[", 
+         RowBox[{"[", "seg", "]"}], "]"}], "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"x", "[", 
+             RowBox[{"[", 
+              RowBox[{"seg", "+", "1"}], "]"}], "]"}], "-", 
+            RowBox[{"x", "[", 
+             RowBox[{"[", "seg", "]"}], "]"}]}], ")"}], ",", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"y", "[", 
+             RowBox[{"[", 
+              RowBox[{"seg", "+", "1"}], "]"}], "]"}], "-", 
+            RowBox[{"y", "[", 
+             RowBox[{"[", "seg", "]"}], "]"}]}], ")"}]}], "}"}]}], ";", " ", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"x2", "-", "x1"}], ",", 
+         RowBox[{"y2", "-", "y1"}]}], "*)"}], "\n", 
+       RowBox[{
+        RowBox[{"norm", "[", 
+         RowBox[{"[", "seg", "]"}], "]"}], "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", 
+           RowBox[{"vec", "[", 
+            RowBox[{"[", 
+             RowBox[{"seg", ",", "2"}], "]"}], "]"}]}], ",", 
+          RowBox[{"vec", "[", 
+           RowBox[{"[", 
+            RowBox[{"seg", ",", "1"}], "]"}], "]"}]}], "}"}]}], ";", 
+       RowBox[{"(*", 
+        RowBox[{"normal", " ", "vector"}], "*)"}], "\n", 
+       RowBox[{
+        RowBox[{"l", "[", 
+         RowBox[{"[", "seg", "]"}], "]"}], "=", 
+        RowBox[{"Sqrt", "[", 
+         RowBox[{"Sum", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"norm", "[", 
+             RowBox[{"[", 
+              RowBox[{"seg", ",", "i"}], "]"}], "]"}], "^", "2"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"i", ",", "1", ",", "2"}], "}"}]}], "]"}], "]"}]}], ";", 
+       "\n", 
+       RowBox[{
+        RowBox[{"norm", "[", 
+         RowBox[{"[", "seg", "]"}], "]"}], "=", 
+        RowBox[{
+         RowBox[{"norm", "[", 
+          RowBox[{"[", "seg", "]"}], "]"}], "/", 
+         RowBox[{"l", "[", 
+          RowBox[{"[", "seg", "]"}], "]"}]}]}], ";"}], " ", 
+      RowBox[{"(*", 
+       RowBox[{"unit", " ", "normal"}], "*)"}], "\n", ",", 
+      RowBox[{"{", 
+       RowBox[{"seg", ",", "1", ",", "nsegs"}], "}"}]}], "]"}], ";"}], "\n", 
+   "\n", 
+   RowBox[{
+    RowBox[{"Do", "[", "\n", 
+     RowBox[{"(*", "\n", 
+      RowBox[{
+       RowBox[{"Calculate", " ", "Q", " ", "contributions"}], ",", " ", 
+       RowBox[{
+        RowBox[{"defined", " ", "as", " ", "velocity"}], "-", "dot", "-", 
+        RowBox[{
+        "unit", " ", "normal", " ", "vector", "\n", "for", " ", "nodes", " ", 
+         "on", " ", "end"}]}], ",", " ", 
+       RowBox[{"calculate", " ", 
+        RowBox[{"1", "/", "2"}], " ", "of", " ", "contributing", " ", 
+        RowBox[{"Q", ".", " ", "\n", "Also"}]}], ",", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+         "return", " ", "error", " ", "message", " ", "if", " ", "value", " ",
+           "is"}], " ", ">", "0"}], ".."}]}], "*)"}], "\n", "\n", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"node", "\[Equal]", "1"}], ",", " ", "\n", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Q", "[", 
+            RowBox[{"[", "node", "]"}], "]"}], "=", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"ux", "[", 
+                RowBox[{"[", "node", "]"}], "]"}], "*", 
+               RowBox[{"norm", "[", 
+                RowBox[{"[", 
+                 RowBox[{"node", ",", "1"}], "]"}], "]"}]}], "+", 
+              RowBox[{
+               RowBox[{"uy", "[", 
+                RowBox[{"[", "node", "]"}], "]"}], "*", 
+               RowBox[{"norm", "[", 
+                RowBox[{"[", 
+                 RowBox[{"node", ",", "2"}], "]"}], "]"}]}]}], ")"}], "*", 
+            RowBox[{"l", "[", 
+             RowBox[{"[", "node", "]"}], "]"}], "*", "0.5"}]}], ";", "\n", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Q", "[", 
+              RowBox[{"[", "node", "]"}], "]"}], ">", "0"}], ",", 
+            RowBox[{
+             RowBox[{"errorlist", "=", 
+              RowBox[{"Append", "[", 
+               RowBox[{"errorlist", ",", 
+                RowBox[{"{", 
+                 RowBox[{"StringJoin", "[", 
+                  RowBox[{
+                  "\"\<Nonzero start node Q at boundary: \>\"", ",", " ", 
+                   RowBox[{"ToString", "[", "nodestringnumber", "]"}]}], 
+                  "]"}], "}"}]}], "]"}]}], ";"}]}], "]"}]}], "\n", ",", " ", 
+         RowBox[{"(*", 
+          RowBox[{"else", " ", "for", " ", "end", " ", "node"}], "*)"}], "\n", 
+         RowBox[{
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"node", "\[Equal]", "nnodes"}], ",", "\n", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Q", "[", 
+               RowBox[{"[", "node", "]"}], "]"}], "=", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"ux", "[", 
+                   RowBox[{"[", "node", "]"}], "]"}], "*", 
+                  RowBox[{"norm", "[", 
+                   RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"node", "-", "1"}], ",", "1"}], "]"}], "]"}]}], 
+                 "+", 
+                 RowBox[{
+                  RowBox[{"uy", "[", 
+                   RowBox[{"[", "node", "]"}], "]"}], "*", 
+                  RowBox[{"norm", "[", 
+                   RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"node", "-", "1"}], ",", "2"}], "]"}], "]"}]}]}], 
+                ")"}], "*", 
+               RowBox[{"l", "[", 
+                RowBox[{"[", 
+                 RowBox[{"node", "-", "1"}], "]"}], "]"}], "*", "0.5"}]}], 
+             ";", "\n", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Q", "[", 
+                 RowBox[{"[", "node", "]"}], "]"}], ">", "0"}], ",", 
+               RowBox[{
+                RowBox[{"errorlist", "=", 
+                 RowBox[{"Append", "[", 
+                  RowBox[{"errorlist", ",", 
+                   RowBox[{"{", 
+                    RowBox[{"StringJoin", "[", 
+                    RowBox[{
+                    "\"\<Nonzero end node Q at a boundary: \>\"", ",", " ", 
+                    RowBox[{"ToString", "[", "nodestringnumber", "]"}]}], 
+                    "]"}], "}"}]}], "]"}]}], ";"}]}], "]"}]}], "\n", ",", 
+            RowBox[{"(*", 
+             RowBox[{"for", " ", "all", " ", "other", " ", "nodes"}], "*)"}], 
+            "\n", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Q", "[", 
+               RowBox[{"[", "node", "]"}], "]"}], "=", "\n", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"ux", "[", 
+                    RowBox[{"[", "node", "]"}], "]"}], "*", 
+                    RowBox[{"norm", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"node", ",", "1"}], "]"}], "]"}]}], "+", 
+                   RowBox[{
+                    RowBox[{"uy", "[", 
+                    RowBox[{"[", "node", "]"}], "]"}], "*", 
+                    RowBox[{"norm", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"node", ",", "2"}], "]"}], "]"}]}]}], ")"}], "*", 
+                 RowBox[{"l", "[", 
+                  RowBox[{"[", "node", "]"}], "]"}], "*", "0.5"}], ")"}], "+", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"ux", "[", 
+                    RowBox[{"[", "node", "]"}], "]"}], "*", 
+                    RowBox[{"norm", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"node", "-", "1"}], ",", "1"}], "]"}], "]"}]}], 
+                   "+", 
+                   RowBox[{
+                    RowBox[{"uy", "[", 
+                    RowBox[{"[", "node", "]"}], "]"}], "*", 
+                    RowBox[{"norm", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"node", "-", "1"}], ",", "2"}], "]"}], "]"}]}]}], 
+                  ")"}], "*", 
+                 RowBox[{"l", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"node", "-", "1"}], "]"}], "]"}], "*", "0.5"}], 
+                ")"}]}]}], ";"}]}], "\n", "]"}], ";"}]}], " ", 
+        RowBox[{"(*", 
+         RowBox[{"end", " ", "\"\<if node = last node\>"}], "*)"}], "\n", 
+        "]"}], ";"}], " ", 
+      RowBox[{"(*", 
+       RowBox[{"end", " ", "\"\<if node = start node\>"}], "*)"}], " ", "\n", 
+      "\n", ",", 
+      RowBox[{"{", 
+       RowBox[{"node", ",", "1", ",", "nnodes"}], "}"}]}], "]"}], ";"}], 
+   "\n"}]}]], "Code",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGAQB2IQnSu0+ftJ4deOTnZ1v0H0r3n6DKeAdMLzpbIgeo2r
+hS6I7tm3FkwHPhNeAaKjriisBdH/O+ZuBNFxSUu2gGjpT7t2gOUlefaA6DvT
+9A+B6DyV70dA9PojladA9KSNyjdB9L+V6++D6D9fvz0E0UUqOz+A6CTL5V9B
+tDar7C8QvfxtCetpIC2SyckNojcwLAHTTZMOBILogicPwPQf7mURIFr+Q3oi
+iOaYbpQHoq0TeItBdFHGgzYQXRPW2w2il6XWrQLRftc2g+mFAolnQXSSquIv
+EM0zU5blDJC+svOTMIguSr2iAqJfaAZZgGiehlkpIHrroqpMEP2rb/oUEC12
+jncaiF4z49AsEP0o4M8aEA0AlRS9WQ==
+  "]],
+
+Cell[BoxData["1"], "Output",
+ CellChangeTimes->{{3.634259189509699*^9, 3.634259244311717*^9}, {
+  3.63425930491189*^9, 3.6342593140110736`*^9}}]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.634253529404669*^9, 3.6342535303456707`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{"vec", "\[IndentingNewLine]", "norm", "\[IndentingNewLine]", \
+"Q", "\[IndentingNewLine]", "errorlist"}], "Input",
+ CellChangeTimes->{{3.634255336883107*^9, 3.6342553371731076`*^9}, {
+  3.6342557741237335`*^9, 3.634255774803734*^9}, {3.634258374978622*^9, 
+  3.6342583753186226`*^9}, {3.6342591319956193`*^9, 3.6342591336156535`*^9}, {
+  3.634259248120786*^9, 3.63425924942282*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", 
+     RowBox[{"-", "2"}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.6342592499268336`*^9, {3.6342593083089495`*^9, 3.6342593162671175`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox["1", 
+       SqrtBox["2"]]}], ",", 
+     FractionBox["1", 
+      SqrtBox["2"]]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox["1", 
+      SqrtBox["2"]], ",", 
+     FractionBox["1", 
+      SqrtBox["2"]]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.6342592499268336`*^9, {3.6342593083089495`*^9, 3.6342593162671175`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.`", ",", "2.0000000000000004`", ",", "2.0000000000000004`"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{
+  3.6342592499268336`*^9, {3.6342593083089495`*^9, 3.6342593162771177`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", "\<\"Nonzero end node Q at a boundary: 1\"\>", "}"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{
+  3.6342592499268336`*^9, {3.6342593083089495`*^9, 3.6342593162771177`*^9}}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", 
+     RowBox[{"-", "2"}]}], "}"}]}], "}"}]], "Input",
+ CellChangeTimes->{3.634259246159749*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", 
+     RowBox[{"-", "2"}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.634255337643108*^9, 3.634255519307366*^9, 3.634255555605418*^9, 
+   3.634255775433735*^9, 3.6342558799089594`*^9, 3.634255918874015*^9, 
+   3.63425648806183*^9, 3.6342583772686253`*^9, 3.634258770921767*^9, {
+   3.63425913423267*^9, 3.634259162400219*^9}, {3.634259215865213*^9, 
+   3.6342592462137513`*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{916, 637},
+WindowMargins->{{Automatic, 126}, {63, Automatic}},
+FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (January 25, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 100, 1, 90, "Title"],
+Cell[682, 25, 403, 5, 57, "Subtitle"],
+Cell[1088, 32, 116, 1, 49, "Subtitle"],
+Cell[1207, 35, 134, 4, 52, "Code"],
+Cell[CellGroupData[{
+Cell[1366, 43, 133, 3, 49, "Subtitle"],
+Cell[1502, 48, 25, 0, 52, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1564, 53, 136, 3, 49, "Subtitle"],
+Cell[1703, 58, 25, 0, 52, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1765, 63, 140, 3, 49, "Subtitle"],
+Cell[CellGroupData[{
+Cell[1930, 70, 12448, 330, 913, "Code"],
+Cell[14381, 402, 144, 2, 31, "Output"]
+}, Open  ]],
+Cell[14540, 407, 94, 1, 31, "Input"],
+Cell[CellGroupData[{
+Cell[14659, 412, 396, 5, 92, "Input"],
+Cell[15058, 419, 289, 9, 31, "Output"],
+Cell[15350, 430, 451, 17, 51, "Output"],
+Cell[15804, 449, 221, 5, 31, "Output"],
+Cell[16028, 456, 215, 5, 31, "Output"]
+}, Open  ]],
+Cell[16258, 464, 233, 8, 31, "Input"],
+Cell[16494, 474, 525, 13, 31, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

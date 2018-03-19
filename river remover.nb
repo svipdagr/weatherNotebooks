@@ -1,0 +1,121 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      4060,        112]
+NotebookOptionsPosition[      3821,         99]
+NotebookOutlinePosition[      4162,        114]
+CellTagsIndexPosition[      4119,        111]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"step", " ", "1"}], " ", "-", " ", 
+    RowBox[{"replace", " ", "non"}], "-", 
+    RowBox[{
+    "periodic", " ", "boundary", " ", "condition", " ", "from", " ", "fort", 
+     ".14", " ", "with", " ", "land", " ", 
+     RowBox[{"boundary", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"r", "=", "\"\<\>\""}], ";", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"in", "=", 
+     RowBox[{"OpenRead", "[", 
+      RowBox[{"StringJoin", "[", 
+       RowBox[{"r", ",", "\"\<fort.14\>\""}], "]"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"out", "=", 
+     RowBox[{"OpenWrite", "[", 
+      RowBox[{"StringJoin", "[", 
+       RowBox[{"r", ",", "\"\<noriver.14\>\""}], "]"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"temp", "=", 
+     RowBox[{"Read", "[", 
+      RowBox[{"in", ",", "String"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Write", "[", 
+     RowBox[{"out", ",", "temp"}], "]"}], ";", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"ne", "=", 
+     RowBox[{"Read", "[", 
+      RowBox[{"in", ",", "Number"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"nn", "=", 
+     RowBox[{"Read", "[", 
+      RowBox[{"in", ",", "Number"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Do", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"temp", "=", 
+        RowBox[{"Read", "[", 
+         RowBox[{"in", ",", "String"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Write", "[", 
+        RowBox[{"out", ",", "temp"}], "]"}], ";"}], "\[IndentingNewLine]", 
+      ",", 
+      RowBox[{"{", "nn", "}"}]}], "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Do", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"temp", "=", 
+        RowBox[{"Read", "[", 
+         RowBox[{"in", ",", "String"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Write", "[", 
+        RowBox[{"out", ",", "temp"}], "]"}], ";"}], "\[IndentingNewLine]", 
+      ",", 
+      RowBox[{"{", "ne", "}"}]}], "]"}], ";", " ", 
+    RowBox[{
+     RowBox[{"--", 
+      RowBox[{"--", " ", "USE"}]}], " ", 
+     RowBox[{"SMS", ".", " ", 
+      RowBox[{"It", "'"}]}], "s", " ", "dead", " ", 
+     RowBox[{"simple", ".", " ", 
+      RowBox[{"--", "--"}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"step", " ", "2"}], " ", "-", " ", 
+    RowBox[{"there", " ", "is", " ", "no", " ", "step", " ", "2."}]}], " ", 
+   "*)"}]}]], "Input",
+ CellChangeTimes->{{3.641140934333354*^9, 3.6411410253434815`*^9}, {
+  3.6411413654502664`*^9, 3.6411414660210915`*^9}, {3.641141515010733*^9, 
+  3.641141578723018*^9}, {3.6412020821894646`*^9, 3.6412020938494806`*^9}}]
+},
+WindowSize->{784, 802},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+FrontEndVersion->"10.1 for Microsoft Windows (64-bit) (March 23, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 3259, 77, 792, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

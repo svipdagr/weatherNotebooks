@@ -1,0 +1,1492 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     52797,       1483]
+NotebookOptionsPosition[     51245,       1430]
+NotebookOutlinePosition[     51585,       1445]
+CellTagsIndexPosition[     51542,       1442]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"usbcs", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<adcirc_flow\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+     "\"\<rdhm_flow\>\""}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"dsbcs", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<adcirc_stage\>\"", ",", "\"\<stage_0\>\"", ",", 
+     "\"\<noriver_adcirc_stage\>\""}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"sites", "=", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<greenville\>\"", ",", "\"\<rock_springs\>\"", ",", 
+      "\"\<grimesland\>\""}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{"Quiet", "[", 
+   RowBox[{
+    RowBox[{"s1", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<tarboro\>\"", ",", "\"\<flow\>\""}], 
+        "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<tarboro\>\"", ",", "\"\<flow\>\""}], 
+        "]"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"s2", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"s3", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}]}], "}"}]}], ";"}], "]"}], 
+  "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\n", "s1", "\n", "s2", "\n", 
+ RowBox[{"s3", "\[IndentingNewLine]"}], "\n"}], "Input",
+ CellChangeTimes->{{3.69212386837058*^9, 3.692123868377599*^9}, 
+   3.716850511817094*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "14688.`"}], ",", "1127.880000000001`"}], "}"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "14688.`"}], ",", "1127.880000000001`"}], "}"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "75168.00000047684`"}], ",", "10844.79`"}], "}"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "64800.`"}], ",", "7536.619999999999`"}], "}"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "64800.`"}], ",", "7536.639999999999`"}], "}"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "75168.00000047684`"}], ",", "10844.79`"}], "}"}], "}"}]}],
+   "}"}]], "Output",
+ CellChangeTimes->{3.6921263764669685`*^9, 3.7168517598827724`*^9, 
+  3.7168552233080006`*^9, 3.71686263912779*^9, 3.7168662352699337`*^9, 
+  3.7168712060528545`*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"24192.`", ",", "1580.1599999999999`"}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"24192.`", ",", "1580.1599999999999`"}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "22464.`"}], ",", "5144.740000000002`"}], "}"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"9504.`", ",", "8006.709999999999`"}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"9504.`", ",", "8004.459999999999`"}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "22464.`"}], ",", "5144.740000000002`"}], "}"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.6921263764669685`*^9, 3.7168517598827724`*^9, 
+  3.7168552233080006`*^9, 3.71686263912779*^9, 3.7168662352699337`*^9, 
+  3.716871206059372*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"153792.`", ",", 
+      RowBox[{"-", "2885.869999999999`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"153792.`", ",", 
+      RowBox[{"-", "2885.869999999999`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"63936.`", ",", "1701.8899999999994`"}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"153792.`", ",", "3470.16`"}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"153792.`", ",", "3969.1100000000006`"}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"63936.`", ",", "1701.8899999999994`"}], "}"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.6921263764669685`*^9, 3.7168517598827724`*^9, 
+  3.7168552233080006`*^9, 3.71686263912779*^9, 3.7168662352699337`*^9, 
+  3.7168712060613775`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"hecpeaks", "[", 
+  RowBox[{
+  "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", "\"\<adcirc_stage\>\"", 
+   ",", "\"\<tarboro\>\"", ",", "\"\<flow\>\""}], "]"}]], "Input",
+ CellChangeTimes->{3.7168593427624493`*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"3.259587744`*^9", ",", "21000.`"}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"3.259573056`*^9", ",", "22127.88`"}], "}"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.7168559982872753`*^9, 3.7168592108574066`*^9, 
+  3.7168593483807855`*^9, 3.7168598423174353`*^9, 3.7168629217167053`*^9, 
+  3.716862975291765*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Quiet", "[", 
+   RowBox[{
+    RowBox[{"s1", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<tarboro\>\"", ",", "\"\<stage\>\""}], 
+        "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<tarboro\>\"", ",", "\"\<stage\>\""}], 
+        "]"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"s2", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<stage\>\""}], "]"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"s3", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<april2003\>\"", ",", "\"\<rivers_on\>\"", ",", 
+         "\"\<fine_grid\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<stage\>\""}], "]"}]}], "}"}]}], ";"}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", "s1", \
+"\[IndentingNewLine]", "s2", "\[IndentingNewLine]", "s3"}], "Input",
+ CellChangeTimes->{{3.7168721997913656`*^9, 3.7168722512931767`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"46656.`", ",", 
+      RowBox[{"-", "3.3400000000000034`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"46656.`", ",", 
+      RowBox[{"-", "3.3400000000000034`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"20736.`", ",", 
+      RowBox[{"-", "1.2999999999999972`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"28512.`", ",", 
+      RowBox[{"-", "1.2999999999999972`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"28512.`", ",", 
+      RowBox[{"-", "1.2999999999999972`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"20736.`", ",", 
+      RowBox[{"-", "1.2999999999999972`"}]}], "}"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.7168750389841075`*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"57888.`", ",", 
+      RowBox[{"-", "2.5199999999999996`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"57888.`", ",", 
+      RowBox[{"-", "2.5199999999999996`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"14688.`", ",", 
+      RowBox[{"-", "0.41000000000000014`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"36288.`", ",", 
+      RowBox[{"-", "1.2100000000000009`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"46656.`", ",", 
+      RowBox[{"-", "1.2100000000000009`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"14688.`", ",", 
+      RowBox[{"-", "0.41000000000000014`"}]}], "}"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.7168750389876165`*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"644544.`", ",", 
+      RowBox[{"-", "0.8099999999999998`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"644544.`", ",", 
+      RowBox[{"-", "0.8099999999999998`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"643679.9999995232`", ",", 
+      RowBox[{"-", "0.7999999999999998`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"644544.`", ",", 
+      RowBox[{"-", "0.8099999999999998`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"644544.`", ",", 
+      RowBox[{"-", "1.2999999999999998`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"643679.9999995232`", ",", 
+      RowBox[{"-", "0.7999999999999998`"}]}], "}"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.71687503898862*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"usbcs", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<adcirc_flow\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+     "\"\<rdhm_flow\>\""}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"dsbcs", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<adcirc_stage\>\"", ",", "\"\<stage_0\>\"", ",", 
+     "\"\<noriver_adcirc_stage\>\""}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"sites", "=", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<greenville\>\"", ",", "\"\<rock_springs\>\"", ",", 
+      "\"\<grimesland\>\""}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "[", 
+   RowBox[{
+    RowBox[{"s1", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<tarboro\>\"", ",", "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<tarboro\>\"", ",", "\"\<flow\>\""}], "]"}]}], "}"}]}], ";",
+     "\[IndentingNewLine]", 
+    RowBox[{"s2", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<greenville\>\"", ",", "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<greenville\>\"", ",", "\"\<flow\>\""}], "]"}]}], "}"}]}], 
+    ";", "\[IndentingNewLine]", 
+    RowBox[{"s3", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<washington\>\"", ",", "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<washington\>\"", ",", "\"\<flow\>\""}], "]"}]}], "}"}]}], 
+    ";"}], "]"}], "\[IndentingNewLine]", 
+  "\n"}], "\[IndentingNewLine]", "s1", "\n", "s2", "\n", "s3", "\
+\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.7170003531635084`*^9, 3.71700036314832*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "125999.71199989319`"}], ",", "6665.179999999993`"}], 
+     "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "125999.71199989319`"}], ",", "6665.179999999993`"}], 
+     "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "151200.`"}], ",", 
+      RowBox[{"-", "7016.8438099999985`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "133200.2880001068`"}], ",", "1239.050000000003`"}], "}"}],
+     "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "133200.2880001068`"}], ",", "1239.1300000000047`"}], 
+     "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "151200.`"}], ",", 
+      RowBox[{"-", "7016.8438099999985`"}]}], "}"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.717004199138619*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "61056.28800010681`"}], ",", 
+      RowBox[{"-", "2665.979999999996`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "61056.28800010681`"}], ",", 
+      RowBox[{"-", "2661.6199999999953`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "97055.71199989319`"}], ",", 
+      RowBox[{"-", "3724.225170000005`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "64655.71199989319`"}], ",", 
+      RowBox[{"-", "6954.300000000003`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "64655.71199989319`"}], ",", 
+      RowBox[{"-", "6952.470000000001`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "97055.71199989319`"}], ",", 
+      RowBox[{"-", "3724.225170000005`"}]}], "}"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.7170041991556644`*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "463536.`"}], ",", "6352.669999999998`"}], "}"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "63936.`"}], ",", 
+      RowBox[{"-", "14201.14`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "121536.28800010681`"}], ",", 
+      RowBox[{"-", "7670.6373900000035`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "463536.`"}], ",", "17461.800000000003`"}], "}"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "60335.71199989319`"}], ",", 
+      RowBox[{"-", "17680.36`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "121536.28800010681`"}], ",", 
+      RowBox[{"-", "7670.6373900000035`"}]}], "}"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.7170041991656923`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Quiet", "[", 
+    RowBox[{
+     RowBox[{"s1", "=", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+          "\"\<adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+          "\"\<noriver_adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+          ",", "\"\<tarboro\>\"", ",", "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+          "\"\<adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+          "\"\<noriver_adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+          ",", "\"\<tarboro\>\"", ",", "\"\<stage\>\""}], "]"}]}], "}"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"s2", "=", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+          "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+          "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+          ",", "\"\<greenville\>\"", ",", "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+          "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+          "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+          ",", "\"\<greenville\>\"", ",", "\"\<stage\>\""}], "]"}]}], "}"}]}],
+      ";", "\[IndentingNewLine]", 
+     RowBox[{"s3", "=", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+          "\"\<adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+          "\"\<noriver_adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+          ",", "\"\<washington\>\"", ",", "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+          "\"\<adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+          "\"\<noriver_adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+          "\"\<stage\>\""}], "]"}], ",", 
+        RowBox[{"hecpeakerrors", "[", 
+         RowBox[{
+         "\"\<floyd\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+          ",", "\"\<washington\>\"", ",", "\"\<stage\>\""}], "]"}]}], "}"}]}],
+      ";"}], "]"}], "\[IndentingNewLine]", "\n", "s1", "\n", "s2", "\n", "s3",
+    "\n", "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.7170003531635084`*^9, 3.717000370203063*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "118800.`"}], ",", 
+      RowBox[{"-", "6.029999999999994`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "118800.`"}], ",", 
+      RowBox[{"-", "6.029999999999994`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "128399.90399980545`"}], ",", 
+      RowBox[{"-", "6.6949167`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "133200.2880001068`"}], ",", 
+      RowBox[{"-", "6.699999999999996`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "133200.2880001068`"}], ",", 
+      RowBox[{"-", "6.699999999999996`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "128399.90399980545`"}], ",", 
+      RowBox[{"-", "6.6949167`"}]}], "}"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.7170077457631903`*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "219600.2880001068`"}], ",", 
+      RowBox[{"-", "7.760000000000002`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "223199.7119998932`"}], ",", 
+      RowBox[{"-", "7.77`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "249600.09600019455`"}], ",", 
+      RowBox[{"-", "6.423704440000002`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "223199.7119998932`"}], ",", 
+      RowBox[{"-", "8.170000000000002`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "226800.`"}], ",", 
+      RowBox[{"-", "8.18`"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "249600.09600019455`"}], ",", 
+      RowBox[{"-", "6.423704440000002`"}]}], "}"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.717007745765169*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"3.146648400288`*^9", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}], ",", 
+      RowBox[{"8", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}]}], "}"}], 
+    "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"3.1466448`*^9", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}], ",", 
+      RowBox[{"7.33`", "\[VeryThinSpace]", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}]}], "}"}], 
+    "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"3.1466448`*^9", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}], ",", 
+      RowBox[{"8.000979627`", "\[VeryThinSpace]", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}]}], "}"}], 
+    "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"3.146648400288`*^9", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}], ",", 
+      RowBox[{"8", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}]}], "}"}], 
+    "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"3.1466448`*^9", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}], ",", 
+      RowBox[{"7.33`", "\[VeryThinSpace]", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}]}], "}"}], 
+    "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"3.1466448`*^9", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}], ",", 
+      RowBox[{"8.000979627`", "\[VeryThinSpace]", "-", 
+       RowBox[{
+        RowBox[{"{", "}"}], "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"{", "}"}], "\[LeftDoubleBracket]", "1", 
+         "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}]}], "}"}], 
+    "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.717007745771186*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Quiet", "[", 
+   RowBox[{
+    RowBox[{"s1", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<grimesland\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<grimesland\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<grimesland\>\"", ",", "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<grimesland\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<grimesland\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<grimesland\>\"", ",", "\"\<stage\>\""}], "]"}]}], "}"}]}], 
+    ";", "\[IndentingNewLine]", 
+    RowBox[{"s2", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<greenville\>\"", ",", "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<greenville\>\"", ",", "\"\<stage\>\""}], "]"}]}], "}"}]}], 
+    ";", "\[IndentingNewLine]", 
+    RowBox[{"s3", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<rock_springs\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<rock_springs\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<rock_springs\>\"", ",", "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<rock_springs\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<rock_springs\>\"", ",", 
+         "\"\<stage\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<rock_springs\>\"", ",", "\"\<stage\>\""}], "]"}]}], 
+      "}"}]}], ";"}], "]"}], 
+  "\[IndentingNewLine]"}], "\n", "s1", "\n", "s2", "\n", "s3"}], "Input",
+ CellChangeTimes->{{3.7170062786679945`*^9, 3.7170062786795273`*^9}, {
+  3.7170306825052924`*^9, 3.7170307328993044`*^9}, {3.7170335373863897`*^9, 
+  3.7170335558112345`*^9}}],
+
+Cell[BoxData["$Aborted"], "Output",
+ CellChangeTimes->{3.7170160477711225`*^9, 3.717038616249857*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.523630176288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "5.41`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.523630176288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "5.41`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "9876.384000301361`"}], ",", "1.7665069999999998`"}], 
+     "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.523630176288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "5.41`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.523630176288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "5.41`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "9876.384000301361`"}], ",", "1.7665069999999998`"}], 
+     "}"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.7170160477711225`*^9, 3.717038616253868*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.524011200288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.524011200288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "2.0883000960001945`*^6"}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", "na"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.524011200288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.524011200288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "2.0883000960001945`*^6"}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", "na"}]}], "}"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.7170160477711225`*^9, 3.717038616256875*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}], ",", 
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}], ",", 
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}], ",", 
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}], ",", 
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}], ",", 
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.7170160477711225`*^9, 3.717038616261387*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Quiet", "[", 
+   RowBox[{
+    RowBox[{"s1", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<tarboro\>\"", ",", "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<tarboro\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<tarboro\>\"", ",", "\"\<flow\>\""}], "]"}]}], "}"}]}], ";",
+     "\[IndentingNewLine]", 
+    RowBox[{"s2", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<greenville\>\"", ",", "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<greenville\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<greenville\>\"", ",", "\"\<flow\>\""}], "]"}]}], "}"}]}], 
+    ";", "\[IndentingNewLine]", 
+    RowBox[{"s3", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rdhm_flow\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<washington\>\"", ",", "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<adcirc_stage\>\"", ",", 
+         "\"\<noriver_adcirc_stage\>\"", ",", "\"\<washington\>\"", ",", 
+         "\"\<flow\>\""}], "]"}], ",", 
+       RowBox[{"hecpeakerrors", "[", 
+        RowBox[{
+        "\"\<irene\>\"", ",", "\"\<rivers_on\>\"", ",", "\"\<fine_grid\>\"", 
+         ",", "\"\<washington\>\"", ",", "\"\<flow\>\""}], "]"}]}], "}"}]}], 
+    ";"}], "]"}], 
+  "\n"}], "\[IndentingNewLine]", "s1", "\n", "s2", "\n", "s3"}], "Input",
+ CellChangeTimes->{{3.7170149968772388`*^9, 3.717014996889271*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.5239239362879996`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "9940.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.5239239362879996`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "9940.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "2.0010360959997177`*^6"}], ",", 
+      RowBox[{
+       RowBox[{"-", "9940.`"}], "+", "na"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.5239239362879996`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "9940.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.5239239362879996`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "9940.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "2.0010360959997177`*^6"}], ",", 
+      RowBox[{
+       RowBox[{"-", "9940.`"}], "+", "na"}]}], "}"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.7170233751666822`*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.524011200288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.524011200288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "2.0883000960001945`*^6"}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", "na"}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.524011200288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "3.524011200288`*^9"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", 
+       RowBox[{"Symbol", "[", "]"}]}]}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "2.0883000960001945`*^6"}], ",", 
+      RowBox[{
+       RowBox[{"-", "12800.`"}], "+", "na"}]}], "}"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.717023375168661*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}], ",", 
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}], ",", 
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}], ",", 
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}], ",", 
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}], ",", 
+   RowBox[{"hecflowpeak", "-", "obflowpeak"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.717023375170667*^9}]
+}, Open  ]]
+},
+WindowSize->{958, 988},
+WindowMargins->{{Automatic, -7}, {Automatic, 0}},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 5187, 127, 612, "Input"],
+Cell[5770, 151, 1027, 35, 52, "Output"],
+Cell[6800, 188, 917, 27, 52, "Output"],
+Cell[7720, 217, 912, 26, 52, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8669, 248, 241, 5, 31, "Input"],
+Cell[8913, 255, 436, 12, 34, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9386, 272, 4562, 105, 452, "Input"],
+Cell[13951, 379, 883, 27, 52, "Output"],
+Cell[14837, 408, 888, 28, 52, "Output"],
+Cell[15728, 438, 906, 27, 52, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16671, 470, 5029, 122, 592, "Input"],
+Cell[21703, 594, 993, 33, 52, "Output"],
+Cell[22699, 629, 1076, 33, 52, "Output"],
+Cell[23778, 664, 995, 33, 52, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[24810, 702, 4554, 102, 512, "Input"],
+Cell[29367, 806, 1041, 33, 52, "Output"],
+Cell[30411, 841, 1039, 33, 52, "Output"],
+Cell[31453, 876, 3599, 99, 80, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[35089, 980, 4526, 103, 452, "Input"],
+Cell[39618, 1085, 101, 1, 31, "Output"],
+Cell[39722, 1088, 1503, 49, 80, "Output"],
+Cell[41228, 1139, 1588, 52, 80, "Output"],
+Cell[42819, 1193, 437, 9, 52, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[43293, 1207, 4374, 101, 452, "Input"],
+Cell[47670, 1310, 1576, 52, 80, "Output"],
+Cell[49249, 1364, 1564, 52, 80, "Output"],
+Cell[50816, 1418, 413, 9, 52, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

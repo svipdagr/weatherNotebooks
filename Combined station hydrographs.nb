@@ -1,0 +1,1021 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     39217,       1012]
+NotebookOptionsPosition[     36954,        944]
+NotebookOutlinePosition[     37294,        959]
+CellTagsIndexPosition[     37251,        956]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Initialize", "Title",
+ CellChangeTimes->{{3.6409467234963703`*^9, 3.640946725087573*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"ReadQfile", "[", "fpath_", "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"s", ",", "table"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"s", "=", 
+       RowBox[{"OpenRead", "[", "fpath", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"table", "=", 
+       RowBox[{"ReadList", "[", 
+        RowBox[{"s", ",", "Number"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Close", "[", "s", "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Return", "[", "table", "]"}]}]}], "\[IndentingNewLine]", 
+    "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.6407564367608213`*^9, 3.640756570552474*^9}, {
+  3.6407664356848493`*^9, 3.640766438534853*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"stationlist", "=", 
+    RowBox[{"{", 
+     RowBox[{"\"\<02083500\>\"", ",", 
+      RowBox[{"(*", 
+       RowBox[{"\"\<02084000\>\"", ","}], "*)"}], "\"\<02084472\>\""}], 
+     "}"}]}], ";"}], 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+     "\"\<NBDC41001\>\"", ",", "\"\<NBDC41002\>\"", ",", "\"\<NBDC41025\>\"", 
+      ",", 
+      RowBox[{"(*", 
+       RowBox[{"\"\<NBDCCLKN7\>\"", ","}], "*)"}], "\"\<NBDCDUCN7\>\"", ",", 
+      "\"\<NBDCFPSN7\>\""}], "}"}], ";"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"runlist", "=", 
+   RowBox[{"{", "\"\<outputs\>\"", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "r", "=", 
+   "\"\<D:\\\\Dropbox\\\\Irene\\\\run 8 - correct wtiminc daisy chained\\\\\>\
+\""}], ";"}]}], "Input",
+ CellChangeTimes->{{3.6407564528807435`*^9, 3.640756463783367*^9}, {
+   3.64075657397467*^9, 3.640756939351568*^9}, {3.6407663445347214`*^9, 
+   3.6407663592147417`*^9}, {3.6407664016248016`*^9, 3.6407664093848124`*^9}, 
+   3.640766510024953*^9, {3.640767174365373*^9, 3.6407672428264694`*^9}, {
+   3.6407673464766145`*^9, 3.6407673491366177`*^9}, {3.640767401748674*^9, 
+   3.640767437960332*^9}, 3.6408681234836626`*^9, {3.6422487565616465`*^9, 
+   3.642248770416871*^9}, {3.642249235529293*^9, 3.642249247198114*^9}, {
+   3.6422504399066696`*^9, 3.6422504433854756`*^9}, {3.642265598440792*^9, 
+   3.6422656076223173`*^9}, 3.6439835839018297`*^9, 3.6829732585287385`*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"wselist", "=", 
+    RowBox[{"Table", "[", 
+     RowBox[{"0", ",", 
+      RowBox[{"{", 
+       RowBox[{"Length", "[", "stationlist", "]"}], "}"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Do", "["}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"replaced", ";", " ", 
+    RowBox[{
+    "for", " ", "irene", " ", "the", " ", "\"\<spindown\>\"", " ", "fort", 
+     ".61", " ", "reflects", " ", "the", " ", "entire", " ", "combined", " ", 
+     "solution"}]}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Do", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"fpath", "=", "\[IndentingNewLine]", 
+       RowBox[{"StringJoin", "[", 
+        RowBox[{"r", ",", 
+         RowBox[{"runlist", "[", 
+          RowBox[{"[", "1", "]"}], "]"}], ",", "\"\<\\\\\>\"", ",", 
+         RowBox[{"stationlist", "[", 
+          RowBox[{"[", "j", "]"}], "]"}], ",", 
+         "\"\<_WSE_Timeseries.txt\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"wselist", "[", 
+        RowBox[{"[", "j", "]"}], "]"}], "=", 
+       RowBox[{"ReadQfile", "[", "fpath", "]"}]}]}], "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{
+        RowBox[{",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", 
+           RowBox[{"Length", "[", "runlist", "]"}]}], "}"}]}], "]"}], ";"}], 
+      "*)"}], "\[IndentingNewLine]", ",", 
+     RowBox[{"{", 
+      RowBox[{"j", ",", "1", ",", 
+       RowBox[{"Length", "[", "stationlist", "]"}]}], "}"}]}], "]"}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"next", " ", 
+    RowBox[{"step", ":", " ", 
+     RowBox[{
+     "timestamp", " ", "each", " ", "one", " ", "in", " ", "10", " ", 
+      "minute", " ", 
+      RowBox[{"intervals", ".", " ", "date"}], " ", "label", " ", "scheme"}], 
+     ":", " ", 
+     RowBox[{"days", " ", "past", " ", "run", " ", "start", " ", "date"}]}]}],
+    "*)"}]}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.6407564528807435`*^9, 3.640756463783367*^9}, {
+   3.64075657397467*^9, 3.640756939351568*^9}, {3.6407663445347214`*^9, 
+   3.6407663592147417`*^9}, {3.6407664016248016`*^9, 3.6407664093848124`*^9}, 
+   3.640766510024953*^9, {3.640767174365373*^9, 3.6407672428264694`*^9}, {
+   3.6407673464766145`*^9, 3.6407673491366177`*^9}, {3.640767401748674*^9, 
+   3.640767437960332*^9}, 3.6408681234836626`*^9, {3.6409431656875706`*^9, 
+   3.6409431742519855`*^9}, {3.640946497583973*^9, 3.640946499050376*^9}, {
+   3.6422492258416767`*^9, 3.6422492258884764`*^9}, {3.642250431435855*^9, 
+   3.6422504322002563`*^9}, 3.6439835599717965`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"OpenRead", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \[NoBreak]\\!\\(\\\"C:\\\\\\\\Users\\\\\\\\Sam\
+\\\\\\\\Desktop\\\\\\\\Thesis Work\\\\\\\\Irene\\\\\\\\run 8 - correct \
+wtiminc daisy \
+chained\\\\\\\\outputs\\\\\\\\02083500_WSE_Timeseries.txt\\\"\\)\[NoBreak]. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/noopen\\\", \
+ButtonNote -> \\\"OpenRead::noopen\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.643983566141805*^9, 3.682973192453658*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.643983566141805*^9, 3.6829731924722247`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "openx"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not open. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/openx\\\", \
+ButtonNote -> \\\"General::openx\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.643983566141805*^9, 3.6829731924922485`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"ReadList", "::", "nffil"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"File not found during \
+\[NoBreak]\\!\\(ReadList[\\(\\($Failed, Number\\)\\)]\\)\[NoBreak]. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/nffil\\\", \
+ButtonNote -> \\\"ReadList::nffil\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.643983566141805*^9, 3.6829731925218534`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.643983566141805*^9, 3.6829731925384254`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"OpenRead", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \[NoBreak]\\!\\(\\\"C:\\\\\\\\Users\\\\\\\\Sam\
+\\\\\\\\Desktop\\\\\\\\Thesis Work\\\\\\\\Irene\\\\\\\\run 8 - correct \
+wtiminc daisy \
+chained\\\\\\\\outputs\\\\\\\\02084472_WSE_Timeseries.txt\\\"\\)\[NoBreak]. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/noopen\\\", \
+ButtonNote -> \\\"OpenRead::noopen\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.643983566141805*^9, 3.6829731925694666`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.643983566141805*^9, 3.682973192589244*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stop"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Further output of \[NoBreak]\\!\\(\\*StyleBox[\\(General \
+:: stream\\), \\\"MessageName\\\"]\\)\[NoBreak] will be suppressed during \
+this calculation. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stop\\\", ButtonNote -> \
+\\\"General::stop\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.643983566141805*^9, 3.682973192606295*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "openx"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not open. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/openx\\\", \
+ButtonNote -> \\\"General::openx\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.643983566141805*^9, 3.6829731926223392`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"ReadList", "::", "nffil"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"File not found during \
+\[NoBreak]\\!\\(ReadList[\\(\\($Failed, Number\\)\\)]\\)\[NoBreak]. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/nffil\\\", \
+ButtonNote -> \\\"ReadList::nffil\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.643983566141805*^9, 3.682973192646515*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"next", " ", 
+    RowBox[{"step", ":", " ", 
+     RowBox[{"Import", " ", "data", " ", "from", " ", "station"}]}]}], "*)"}],
+   "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"ReadUSGSQfile", "[", 
+      RowBox[{
+      "fpath_", ",", "headerrows_", ",", "ncolumns_", ",", 
+       "columnofinterest_", ",", "format_"}], "]"}], ":=", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"s", ",", "table", ",", "L"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"s", "=", 
+         RowBox[{"OpenRead", "[", "fpath", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"table", "=", 
+         RowBox[{"ReadList", "[", 
+          RowBox[{"s", ",", "String"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Close", "[", "s", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"L", "=", 
+         RowBox[{"Length", "[", "table", "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"table", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{"0", ",", 
+           RowBox[{"{", "L", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{"OpenRead", "[", "fpath", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Skip", "[", 
+         RowBox[{"s", ",", "String", ",", "headerrows"}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Do", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Skip", "[", 
+            RowBox[{"s", ",", "Word", ",", 
+             RowBox[{"columnofinterest", "-", "1"}]}], "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"table", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "=", 
+            RowBox[{"Read", "[", 
+             RowBox[{"s", ",", "format"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Skip", "[", 
+            RowBox[{"s", ",", "Word", ",", 
+             RowBox[{"ncolumns", "-", "columnofinterest"}]}], "]"}], ";"}], 
+          "\[IndentingNewLine]", ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", 
+            RowBox[{"L", "-", "headerrows"}]}], "}"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Close", "[", "s", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "table", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.640867395972565*^9, 3.6408674980827084`*^9}, {
+  3.6408675596527944`*^9, 3.6408676150128717`*^9}, {3.640867668919252*^9, 
+  3.640867892553339*^9}, {3.6408682019537725`*^9, 3.6408682039937754`*^9}, {
+  3.6409426035405827`*^9, 3.6409426198582115`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"makemodelscatter", "[", 
+    RowBox[{
+    "modelresults_", ",", "modelstn_", ",", "modelts_", ",", "timestart_", 
+     ",", "scalar_", ",", "offset_"}], "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"qtable", ",", "timetable", ",", "modelscatter"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"qtable", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"modelresults", "[", 
+              RowBox[{"[", "modelstn", "]"}], "]"}], "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "*", "scalar"}], "+", "offset"}],
+           ")"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", 
+           RowBox[{"Length", "[", 
+            RowBox[{"modelresults", "[", 
+             RowBox[{"[", "modelstn", "]"}], "]"}], "]"}]}], "}"}]}], "]"}]}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{"timetable", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"timestart", "+", 
+          RowBox[{"(", 
+           RowBox[{"i", "*", "modelts"}], ")"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", 
+           RowBox[{"Length", "[", 
+            RowBox[{"modelresults", "[", 
+             RowBox[{"[", "modelstn", "]"}], "]"}], "]"}]}], "}"}]}], "]"}]}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{"modelscatter", "=", 
+       RowBox[{"Transpose", "[", 
+        RowBox[{"Table", "[", 
+         RowBox[{"{", 
+          RowBox[{"timetable", ",", "qtable"}], "}"}], "]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Return", "[", "modelscatter", "]"}]}]}], "\[IndentingNewLine]",
+     "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"model", " ", "ts"}], " ", "=", " ", 
+     RowBox[{"the", " ", 
+      RowBox[{"models", "'"}], " ", "timestep"}]}], ",", " ", 
+    RowBox[{
+     RowBox[{"in", " ", "units", " ", "of", " ", "the", " ", "x"}], "-", 
+     RowBox[{"axis", " ", "unit", " ", "of", " ", "the", " ", 
+      RowBox[{"graph", ".", " ", "E", ".", "g", ".", " ", "with"}], " ", "10",
+       " ", "minute", " ", "output", " ", "timestep", " ", "for", " ", "a", 
+      " ", "fort", ".61"}]}], ",", " ", 
+    RowBox[{
+     RowBox[{
+     "to", " ", "show", " ", "a", " ", "graph", " ", "in", " ", "days", " ", 
+      "requires", " ", "\"\<modelts\>\""}], " ", "=", " ", 
+     RowBox[{
+      RowBox[{"10", " ", 
+       RowBox[{"min", " ", "/", " ", "60"}], "*", "24", " ", 
+       RowBox[{"(", 
+        RowBox[{"min", "/", "day"}], ")"}]}], " ", "=", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"1", "/", "144."}], " ", "5"}], "-", 
+       RowBox[{"minute", " ", "would", " ", "be", " ", 
+        RowBox[{"1", "/", "288."}]}]}]}]}]}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.6409427599308577`*^9, 3.640943021714917*^9}, {
+  3.6409444977666693`*^9, 3.6409445100126905`*^9}, {3.640944662487358*^9, 
+  3.6409446650925627`*^9}, {3.640945199743822*^9, 3.6409452338298817`*^9}, {
+  3.6409453652913127`*^9, 3.6409453668981156`*^9}, {3.6422499304257245`*^9, 
+  3.642249973903001*^9}, {3.6422504672379174`*^9, 3.642250522758415*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"scattercompare", "[", 
+     RowBox[{"modelscatter_", ",", "obscatter_"}], "]"}], ":=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Show", "[", 
+     RowBox[{
+      RowBox[{"ListPlot", "[", 
+       RowBox[{"modelscatter", ",", 
+        RowBox[{"Joined", "\[Rule]", "True"}]}], "]"}], ",", 
+      RowBox[{"ListPlot", "[", "obscatter", "]"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.6409427599308577`*^9, 3.640943093241043*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Water Surface Elevations - 02084472", "Title",
+ CellChangeTimes->{{3.6409467088323445`*^9, 3.640946714744755*^9}, {
+  3.642265728144211*^9, 3.6422657315854073`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", "02084472", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"fpath", "=", 
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"r", ",", "\"\<observed\\\\02084472_filled.txt\>\""}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"dates", "=", 
+     RowBox[{"ReadUSGSQfile", "[", 
+      RowBox[{"fpath", ",", "1", ",", "4", ",", "1", ",", "Word"}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"dayselapsed", "=", 
+     RowBox[{"ReadUSGSQfile", "[", 
+      RowBox[{"fpath", ",", "1", ",", "4", ",", "4", ",", "Number"}], "]"}]}],
+     ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Qts", "=", 
+      RowBox[{"ReadUSGSQfile", "[", 
+       RowBox[{"fpath", ",", "1", ",", "4", ",", "3", ",", "Number"}], 
+       "]"}]}], ";"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"WSEts", "=", 
+     RowBox[{"ReadUSGSQfile", "[", 
+      RowBox[{"fpath", ",", "1", ",", "4", ",", "3", ",", "Number"}], "]"}]}],
+     ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Qscatter", "=", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"Table", "[", 
+        RowBox[{"{", 
+         RowBox[{"dayselapsed", ",", "Qts"}], "}"}], "]"}], "]"}]}], ";"}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"WSEscatter", "=", 
+     RowBox[{"Transpose", "[", 
+      RowBox[{"Table", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"dayselapsed", "-", "45"}], ",", "WSEts"}], "}"}], "]"}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"modelWSEscatter", "=", 
+     RowBox[{"makemodelscatter", "[", 
+      RowBox[{"wselist", ",", "2", ",", 
+       RowBox[{"(", 
+        RowBox[{"1", "/", "288"}], ")"}], ",", "0", ",", "3.28084", ",", 
+       "1"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"Show", "[", 
+    RowBox[{
+     RowBox[{"ListPlot", "[", 
+      RowBox[{"modelWSEscatter", ",", 
+       RowBox[{"Joined", "\[Rule]", "True"}], ",", 
+       RowBox[{"PlotStyle", "\[Rule]", "Red"}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "10"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "3"}], "}"}]}], "}"}]}]}], "]"}], ",", 
+     RowBox[{"ListPlot", "[", 
+      RowBox[{"WSEscatter", ",", 
+       RowBox[{"PlotStyle", "\[Rule]", "Black"}]}], "]"}]}], "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+   "(*", "\"\<set tidal factors according to center of simulation period. IE \
+45-day spinup, 10-day hurricane, 31 day spindown, starting Jun1, I should \
+*lie* and say start Jun1, but give it a total run time of 100 days. \>", 
+    "*)"}]}]}]], "Input",
+ CellChangeTimes->{{3.640867896603345*^9, 3.6408679656534414`*^9}, {
+   3.6408680383935432`*^9, 3.6408681053036375`*^9}, {3.640868175723736*^9, 
+   3.6408681805937424`*^9}, 3.6408682382138233`*^9, {3.6409423615709567`*^9, 
+   3.6409423741289787`*^9}, {3.6409424277594743`*^9, 3.640942546538083*^9}, {
+   3.6409426248502207`*^9, 3.6409426366126413`*^9}, {3.64094499926787*^9, 
+   3.64094505059196*^9}, {3.640945781439271*^9, 3.6409458165549326`*^9}, {
+   3.6409458811369514`*^9, 3.640945882197754*^9}, {3.640946106198547*^9, 
+   3.6409461062765474`*^9}, {3.640946148147021*^9, 3.6409461515322266`*^9}, {
+   3.6409461911965313`*^9, 3.640946218706699*^9}, {3.642250552554467*^9, 
+   3.6422505759545083`*^9}, {3.6422506513962407`*^9, 
+   3.6422506813326936`*^9}, {3.6422507734296556`*^9, 
+   3.6422507847396755`*^9}, {3.6423576705943613`*^9, 3.6423577207244315`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"OpenRead", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \[NoBreak]\\!\\(\\\"C:\\\\\\\\Users\\\\\\\\Sam\
+\\\\\\\\Desktop\\\\\\\\Thesis Work\\\\\\\\Irene\\\\\\\\run 8 - correct \
+wtiminc daisy chained\\\\\\\\observed\\\\\\\\02084472_filled.txt\\\"\\)\
+\[NoBreak]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/noopen\\\", ButtonNote -> \
+\\\"OpenRead::noopen\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731927282352`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731927302437`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "openx"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not open. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/openx\\\", \
+ButtonNote -> \\\"General::openx\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731927317467`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"ReadList", "::", "nffil"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"File not found during \
+\[NoBreak]\\!\\(ReadList[\\(\\($Failed, String\\)\\)]\\)\[NoBreak]. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/nffil\\\", \
+ButtonNote -> \\\"ReadList::nffil\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731927598248`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.682973192773864*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"OpenRead", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \[NoBreak]\\!\\(\\\"C:\\\\\\\\Users\\\\\\\\Sam\
+\\\\\\\\Desktop\\\\\\\\Thesis Work\\\\\\\\Irene\\\\\\\\run 8 - correct \
+wtiminc daisy chained\\\\\\\\observed\\\\\\\\02084472_filled.txt\\\"\\)\
+\[NoBreak]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/noopen\\\", ButtonNote -> \
+\\\"OpenRead::noopen\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.682973192806474*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731928195095`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stop"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Further output of \[NoBreak]\\!\\(\\*StyleBox[\\(General \
+:: stream\\), \\\"MessageName\\\"]\\)\[NoBreak] will be suppressed during \
+this calculation. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stop\\\", ButtonNote -> \
+\\\"General::stop\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731928340034`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"OpenRead", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \[NoBreak]\\!\\(\\\"C:\\\\\\\\Users\\\\\\\\Sam\
+\\\\\\\\Desktop\\\\\\\\Thesis Work\\\\\\\\Irene\\\\\\\\run 8 - correct \
+wtiminc daisy chained\\\\\\\\observed\\\\\\\\02084472_filled.txt\\\"\\)\
+\[NoBreak]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/noopen\\\", ButtonNote -> \
+\\\"OpenRead::noopen\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.682973192862584*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.682973192878173*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "openx"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not open. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/openx\\\", \
+ButtonNote -> \\\"General::openx\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731928931613`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"ReadList", "::", "nffil"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"File not found during \
+\[NoBreak]\\!\\(ReadList[\\(\\($Failed, String\\)\\)]\\)\[NoBreak]. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/nffil\\\", \
+ButtonNote -> \\\"ReadList::nffil\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731929196653`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731929342113`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"OpenRead", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \[NoBreak]\\!\\(\\\"C:\\\\\\\\Users\\\\\\\\Sam\
+\\\\\\\\Desktop\\\\\\\\Thesis Work\\\\\\\\Irene\\\\\\\\run 8 - correct \
+wtiminc daisy chained\\\\\\\\observed\\\\\\\\02084472_filled.txt\\\"\\)\
+\[NoBreak]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/noopen\\\", ButtonNote -> \
+\\\"OpenRead::noopen\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.682973192960318*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.68297319297633*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stop"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Further output of \[NoBreak]\\!\\(\\*StyleBox[\\(General \
+:: stream\\), \\\"MessageName\\\"]\\)\[NoBreak] will be suppressed during \
+this calculation. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stop\\\", ButtonNote -> \
+\\\"General::stop\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731929908886`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"OpenRead", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \[NoBreak]\\!\\(\\\"C:\\\\\\\\Users\\\\\\\\Sam\
+\\\\\\\\Desktop\\\\\\\\Thesis Work\\\\\\\\Irene\\\\\\\\run 8 - correct \
+wtiminc daisy chained\\\\\\\\observed\\\\\\\\02084472_filled.txt\\\"\\)\
+\[NoBreak]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/noopen\\\", ButtonNote -> \
+\\\"OpenRead::noopen\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731930178976`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.682973193033941*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "openx"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not open. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/openx\\\", \
+ButtonNote -> \\\"General::openx\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731930469503`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"ReadList", "::", "nffil"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"File not found during \
+\[NoBreak]\\!\\(ReadList[\\(\\($Failed, String\\)\\)]\\)\[NoBreak]. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/nffil\\\", \
+ButtonNote -> \\\"ReadList::nffil\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731930734444`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731930889845`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"OpenRead", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \[NoBreak]\\!\\(\\\"C:\\\\\\\\Users\\\\\\\\Sam\
+\\\\\\\\Desktop\\\\\\\\Thesis Work\\\\\\\\Irene\\\\\\\\run 8 - correct \
+wtiminc daisy chained\\\\\\\\observed\\\\\\\\02084472_filled.txt\\\"\\)\
+\[NoBreak]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/noopen\\\", ButtonNote -> \
+\\\"OpenRead::noopen\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.68297319311756*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stream"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\($Failed\\)\[NoBreak] is not a string, \
+InputStream[ ], or OutputStream[ ]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\
+\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stream\\\", ButtonNote -> \
+\\\"General::stream\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6829731931356087`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"General", "::", "stop"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Further output of \[NoBreak]\\!\\(\\*StyleBox[\\(General \
+:: stream\\), \\\"MessageName\\\"]\\)\[NoBreak] will be suppressed during \
+this calculation. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/stop\\\", ButtonNote -> \
+\\\"General::stop\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.682973193150648*^9}],
+
+Cell[BoxData[
+ GraphicsBox[{{{}, {}, {}}, {{}, {}, {}}},
+  AlignmentPoint->Center,
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{True, True},
+  AxesLabel->{None, None},
+  AxesOrigin->{0, 0},
+  AxesStyle->{},
+  Background->None,
+  BaseStyle->{},
+  BaselinePosition->Automatic,
+  ColorOutput->Automatic,
+  ContentSelectable->Automatic,
+  CoordinatesToolOptions:>Automatic,
+  DisplayFunction->Identity,
+  Epilog->{},
+  FormatType:>TraditionalForm,
+  Frame->{{False, False}, {False, False}},
+  FrameLabel->{{None, None}, {None, None}},
+  FrameStyle->{},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  FrameTicksStyle->{},
+  GridLines->{None, None},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  ImageMargins->0.,
+  ImagePadding->All,
+  ImageSize->Automatic,
+  ImageSizeRaw->Automatic,
+  LabelStyle->{},
+  Method->{"MessagesHead" -> ListPlot},
+  PlotLabel->None,
+  PlotRange->{{0, 10}, {0, 3}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{0, 0}, {0, 0}},
+  PlotRegion->Automatic,
+  PreserveImageOptions->Automatic,
+  Prolog->{},
+  RotateLabel->True,
+  Ticks->{Automatic, Automatic},
+  TicksStyle->{}]], "Output",
+ CellChangeTimes->{
+  3.6409467656164446`*^9, 3.6409664694160213`*^9, 3.642249315109033*^9, {
+   3.6422505436936517`*^9, 3.6422505773273106`*^9}, {3.6422506529562435`*^9, 
+   3.6422506824558954`*^9}, {3.642250775442059*^9, 3.642250785816077*^9}, 
+   3.6439835679418077`*^9, 3.6829731931767445`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ListPlot", "[", "modelWSEscatter", "]"}]], "Input",
+ CellChangeTimes->{{3.6422498554675927`*^9, 3.6422498785712337`*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {}, {}},
+  AlignmentPoint->Center,
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{True, True},
+  AxesLabel->{None, None},
+  AxesOrigin->{0, 0},
+  AxesStyle->{},
+  Background->None,
+  BaseStyle->{},
+  BaselinePosition->Automatic,
+  ColorOutput->Automatic,
+  ContentSelectable->Automatic,
+  CoordinatesToolOptions:>Automatic,
+  DisplayFunction->Identity,
+  Epilog->{},
+  FormatType:>TraditionalForm,
+  Frame->{{False, False}, {False, False}},
+  FrameLabel->{{None, None}, {None, None}},
+  FrameStyle->{},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  FrameTicksStyle->{},
+  GridLines->{None, None},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  ImageMargins->0.,
+  ImagePadding->All,
+  ImageSize->Automatic,
+  ImageSizeRaw->Automatic,
+  LabelStyle->{},
+  Method->{"MessagesHead" -> ListPlot},
+  PlotLabel->None,
+  PlotRange->{{0, 1}, {0, 1}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {
+     Scaled[0.02], 
+     Scaled[0.05]}},
+  PlotRegion->Automatic,
+  PreserveImageOptions->Automatic,
+  Prolog->{},
+  RotateLabel->True,
+  Ticks->{Automatic, Automatic},
+  TicksStyle->{}]], "Output",
+ CellChangeTimes->{{3.642249864125608*^9, 3.6422498790860343`*^9}, 
+   3.6422505607444816`*^9, 3.643983568151808*^9, 3.682973193204301*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1584, 802},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 95, 1, 101, "Title"],
+Cell[678, 25, 787, 18, 152, "Input"],
+Cell[1468, 45, 1488, 34, 72, "Input"],
+Cell[CellGroupData[{
+Cell[2981, 83, 2724, 64, 252, "Input"],
+Cell[5708, 149, 634, 12, 21, "Message"],
+Cell[6345, 163, 501, 10, 21, "Message"],
+Cell[6849, 175, 456, 9, 21, "Message"],
+Cell[7308, 186, 500, 10, 21, "Message"],
+Cell[7811, 198, 501, 10, 21, "Message"],
+Cell[8315, 210, 636, 12, 21, "Message"],
+Cell[8954, 224, 499, 10, 21, "Message"],
+Cell[9456, 236, 554, 11, 21, "Message"],
+Cell[10013, 249, 456, 9, 21, "Message"],
+Cell[10472, 260, 498, 10, 21, "Message"]
+}, Open  ]],
+Cell[10985, 273, 2886, 69, 452, "Input"],
+Cell[13874, 344, 3311, 81, 192, "Input"],
+Cell[17188, 427, 521, 14, 72, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17746, 446, 171, 2, 101, "Title"],
+Cell[CellGroupData[{
+Cell[17942, 452, 3631, 86, 252, "Input"],
+Cell[21576, 540, 607, 12, 21, "Message"],
+Cell[22186, 554, 479, 10, 21, "Message"],
+Cell[22668, 566, 434, 9, 21, "Message"],
+Cell[23105, 577, 478, 10, 21, "Message"],
+Cell[23586, 589, 477, 10, 21, "Message"],
+Cell[24066, 601, 605, 12, 21, "Message"],
+Cell[24674, 615, 479, 10, 21, "Message"],
+Cell[25156, 627, 534, 11, 21, "Message"],
+Cell[25693, 640, 605, 12, 21, "Message"],
+Cell[26301, 654, 477, 10, 21, "Message"],
+Cell[26781, 666, 434, 9, 21, "Message"],
+Cell[27218, 677, 478, 10, 21, "Message"],
+Cell[27699, 689, 479, 10, 21, "Message"],
+Cell[28181, 701, 605, 12, 21, "Message"],
+Cell[28789, 715, 476, 10, 21, "Message"],
+Cell[29268, 727, 534, 11, 21, "Message"],
+Cell[29805, 740, 607, 12, 21, "Message"],
+Cell[30415, 754, 477, 10, 21, "Message"],
+Cell[30895, 766, 434, 9, 21, "Message"],
+Cell[31332, 777, 478, 10, 21, "Message"],
+Cell[31813, 789, 479, 10, 21, "Message"],
+Cell[32295, 801, 604, 12, 21, "Message"],
+Cell[32902, 815, 479, 10, 21, "Message"],
+Cell[33384, 827, 532, 11, 21, "Message"],
+Cell[33919, 840, 1465, 45, 246, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[35421, 890, 145, 2, 31, "Input"],
+Cell[35569, 894, 1357, 46, 243, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

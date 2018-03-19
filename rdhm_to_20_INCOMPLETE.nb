@@ -1,0 +1,588 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     23220,        579]
+NotebookOptionsPosition[     21981,        534]
+NotebookOutlinePosition[     22324,        549]
+CellTagsIndexPosition[     22281,        546]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Add variables & filenames here", "Subtitle",
+ CellChangeTimes->{{3.6326593615734406`*^9, 3.632659374222459*^9}, {
+  3.632667817953198*^9, 3.6326678217783685`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+   "gridfilepath", "=", 
+    "\"\<C:\\\\Users\\\\Sam\\\\Desktop\\\\Scratch Grab 12_1_2014\\\\12_1_2014\
+\\\\isabel4\\\\fort.14\>\""}], ";"}], "\n", 
+  RowBox[{"(*", 
+   RowBox[{"absolute", " ", "reference"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"numberofrivers", "=", "\"\<4\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"numberofrecords", "=", "\"\<\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"timeincrement", "=", "\"\<\>\""}], ";", 
+  RowBox[{"(*", 
+   RowBox[{"in", " ", "seconds"}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"slam0", "=", "0"}], ";", 
+  RowBox[{"(*", 
+   RowBox[{"center", " ", "longitude"}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"sfea0", "=", "0"}], ";", 
+  RowBox[{"(*", 
+   RowBox[{"center", " ", "latitude"}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"NAN", "=", "\"\<NAN\>\""}], ";", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Designator", " ", "for", " ", "non"}], "-", "values"}], 
+   "*)"}]}]}], "Code",
+ CellChangeTimes->{3.6326698124402323`*^9}],
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.6326593362063866`*^9, 3.632659411507513*^9}, {
+   3.6326594420725574`*^9, 3.632659554037734*^9}, {3.6326597723944044`*^9, 
+   3.6326598190764723`*^9}, {3.6326614930006495`*^9, 3.632661505000189*^9}, 
+   3.632662202838496*^9, 3.6326678280566483`*^9, {3.632669026097145*^9, 
+   3.6326690281251483`*^9}, {3.63266909748287*^9, 3.6326691195569086`*^9}, 
+   3.632669811380231*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Constants initialized", "Subtitle",
+ CellChangeTimes->{{3.6326678004564495`*^9, 3.6326678037375975`*^9}, {
+  3.6326729305235176`*^9, 3.6326729315145187`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"d2r", "=", 
+   RowBox[{"3.14159265358979323", "/", "180"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"R", "=", "6378206.4"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"slam0r", "=", 
+   RowBox[{"slam0", "*", "d2r"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"sfea0r", "=", 
+   RowBox[{"sfea0", "*", "d2r"}]}], ";"}], "\[IndentingNewLine]"}], "Code",
+ CellChangeTimes->{
+  3.632667809511855*^9, {3.6326692694107723`*^9, 3.632669270845975*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Import Fort.14 data", "Subtitle",
+ CellChangeTimes->{{3.6326594243025317`*^9, 3.6326594292805395`*^9}, {
+  3.632667794339179*^9, 3.63266779461419*^9}, {3.63266866717949*^9, 
+  3.6326686688885784`*^9}, {3.632672918122489*^9, 3.6326729225024953`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"fort14", "=", 
+   RowBox[{"OpenRead", "[", "gridfilepath", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gridname", "=", 
+   RowBox[{"ToExpression", "[", 
+    RowBox[{"Read", "[", 
+     RowBox[{"fort14", ",", "Word"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ne", "=", 
+   RowBox[{"ToExpression", "[", 
+    RowBox[{"Read", "[", 
+     RowBox[{"fort14", ",", "Number"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"nn", "=", 
+    RowBox[{"ToExpression", "[", 
+     RowBox[{"Read", "[", 
+      RowBox[{"fort14", ",", "Number"}], "]"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"XYZ", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"NAN", ",", "NAN", ",", "NAN"}], "}"}], ",", 
+     RowBox[{"{", "nn", "}"}]}], "]"}]}], ";"}]}], "Code",
+ CellChangeTimes->{{3.632669282062394*^9, 3.6326692918124113`*^9}, {
+   3.632669326741331*^9, 3.6326693677793894`*^9}, {3.6326696027808084`*^9, 
+   3.6326697883471985`*^9}, {3.632669834683264*^9, 3.6326698353832645`*^9}, {
+   3.6326698915784373`*^9, 3.632669947319516*^9}, {3.6326700044945984`*^9, 
+   3.632670096232728*^9}, {3.6326714699297748`*^9, 3.63267160915364*^9}, {
+   3.6326717107224565`*^9, 3.632671942538597*^9}, {3.632671977524268*^9, 
+   3.632672004654716*^9}, {3.632672047260391*^9, 3.6326721047816925`*^9}, {
+   3.632672509911874*^9, 3.6326728777234306`*^9}, {3.6326729089644756`*^9, 
+   3.632672909654477*^9}, 3.6326729525035486`*^9, {3.6326731205967407`*^9, 
+   3.632673220018903*^9}, {3.6326732941595316`*^9, 3.6326733135405645`*^9}, 
+   3.6326733885942726`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Do", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Read", "[", 
+      RowBox[{"fort14", ",", "Number"}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"lon", "=", 
+      RowBox[{"Read", "[", 
+       RowBox[{"fort14", ",", "Number"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"lat", "=", 
+      RowBox[{"Read", "[", 
+       RowBox[{"fort14", ",", "Number"}], "]"}]}], ";", "\n", 
+     RowBox[{
+      RowBox[{"XYZ", "[", 
+       RowBox[{"[", 
+        RowBox[{"i", ",", "3"}], "]"}], "]"}], "=", 
+      RowBox[{"Read", "[", 
+       RowBox[{"fort14", ",", "Number"}], "]"}]}], ";", "\n", "\n", 
+     RowBox[{"slam", "=", 
+      RowBox[{"lon", "*", "d2r"}]}], ";", "\n", 
+     RowBox[{
+      RowBox[{"XYZ", "[", 
+       RowBox[{"[", 
+        RowBox[{"i", ",", "1"}], "]"}], "]"}], "=", 
+      RowBox[{"R", "*", 
+       RowBox[{"(", 
+        RowBox[{"slam", "-", "slam0r"}], ")"}], "*", 
+       RowBox[{"Cos", "[", "sfea0r", "]"}]}]}], ";", "\n", "\n", 
+     RowBox[{"sfea", "=", 
+      RowBox[{"lat", "*", "d2r"}]}], ";", "\n", 
+     RowBox[{
+      RowBox[{"XYZ", "[", 
+       RowBox[{"[", 
+        RowBox[{"i", ",", "2"}], "]"}], "]"}], "=", 
+      RowBox[{"R", "*", "sfea"}]}], ";"}], "\n", ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "1", ",", "nn"}], "}"}]}], "]"}], ";"}]], "Code",
+ CellChangeTimes->{{3.632669282062394*^9, 3.6326692918124113`*^9}, {
+   3.632669326741331*^9, 3.6326693677793894`*^9}, {3.6326696027808084`*^9, 
+   3.6326697883471985`*^9}, {3.632669834683264*^9, 3.6326698353832645`*^9}, {
+   3.6326698915784373`*^9, 3.632669947319516*^9}, {3.6326700044945984`*^9, 
+   3.632670096232728*^9}, {3.6326714699297748`*^9, 3.63267160915364*^9}, {
+   3.6326717107224565`*^9, 3.632671942538597*^9}, {3.632671977524268*^9, 
+   3.632672004654716*^9}, {3.632672047260391*^9, 3.6326721047816925`*^9}, {
+   3.632672509911874*^9, 3.6326728777234306`*^9}, {3.6326729089644756`*^9, 
+   3.632672909654477*^9}, 3.6326729525035486`*^9, {3.6326731205967407`*^9, 
+   3.632673220018903*^9}, {3.6326732941595316`*^9, 3.6326733135405645`*^9}, {
+   3.6326733885942726`*^9, 3.6326733935642796`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Do", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Read", "[", 
+      RowBox[{"fort14", ",", "Word"}], "]"}], ";", "\n", 
+     RowBox[{"Read", "[", 
+      RowBox[{"fort14", ",", "Word"}], "]"}], ";", "\n", 
+     RowBox[{"Read", "[", 
+      RowBox[{"fort14", ",", "Word"}], "]"}], ";", "\n", 
+     RowBox[{"Read", "[", 
+      RowBox[{"fort14", ",", "Word"}], "]"}], ";", "\n", 
+     RowBox[{"Read", "[", 
+      RowBox[{"fort14", ",", "Word"}], "]"}], ";"}], "\[IndentingNewLine]", 
+    ",", 
+    RowBox[{"{", "ne", "}"}]}], "]"}], ";"}]], "Code",
+ CellChangeTimes->{{3.632669282062394*^9, 3.6326692918124113`*^9}, {
+   3.632669326741331*^9, 3.6326693677793894`*^9}, {3.6326696027808084`*^9, 
+   3.6326697883471985`*^9}, {3.632669834683264*^9, 3.6326698353832645`*^9}, {
+   3.6326698915784373`*^9, 3.632669947319516*^9}, {3.6326700044945984`*^9, 
+   3.632670096232728*^9}, {3.6326714699297748`*^9, 3.63267160915364*^9}, {
+   3.6326717107224565`*^9, 3.632671942538597*^9}, {3.632671977524268*^9, 
+   3.632672004654716*^9}, {3.632672047260391*^9, 3.6326721047816925`*^9}, {
+   3.632672509911874*^9, 3.6326728777234306`*^9}, {3.6326729089644756`*^9, 
+   3.632672909654477*^9}, 3.6326729525035486`*^9, {3.6326731205967407`*^9, 
+   3.632673220018903*^9}, {3.6326732941595316`*^9, 3.6326733135405645`*^9}, {
+   3.6326733885942726`*^9, 3.6326733971052847`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"nopen", "=", 
+   RowBox[{"Read", "[", 
+    RowBox[{"fort14", ",", "Number"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Read", "[", 
+   RowBox[{"fort14", ",", "Word"}], "]"}], ";"}]}], "Code",
+ CellChangeTimes->{{3.632669282062394*^9, 3.6326692918124113`*^9}, {
+   3.632669326741331*^9, 3.6326693677793894`*^9}, {3.6326696027808084`*^9, 
+   3.6326697883471985`*^9}, {3.632669834683264*^9, 3.6326698353832645`*^9}, {
+   3.6326698915784373`*^9, 3.632669947319516*^9}, {3.6326700044945984`*^9, 
+   3.632670096232728*^9}, {3.6326714699297748`*^9, 3.63267160915364*^9}, {
+   3.6326717107224565`*^9, 3.632671942538597*^9}, {3.632671977524268*^9, 
+   3.632672004654716*^9}, {3.632672047260391*^9, 3.6326721047816925`*^9}, {
+   3.632672509911874*^9, 3.6326728777234306`*^9}, {3.6326729089644756`*^9, 
+   3.632672909654477*^9}, 3.6326729525035486`*^9, {3.6326731205967407`*^9, 
+   3.632673220018903*^9}, {3.6326732941595316`*^9, 3.6326733135405645`*^9}, {
+   3.6326733885942726`*^9, 3.6326734006522894`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Read", "[", "fort14", "]"}]], "Input",
+ CellChangeTimes->{{3.632673491887447*^9, 3.6326734955774527`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"boundaries", " ", "Number", " ", "of", " ", "open"}]], "Output",
+ CellChangeTimes->{3.6326735518266573`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"ignore", " ", "nnb"}], "*)"}], "\n", 
+  RowBox[{"Do", "[", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"nnb", "=", 
+      RowBox[{"Read", "[", 
+       RowBox[{"fort14", ",", "Number"}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"Do", "[", "\n", "\t\t", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Read", "[", 
+         RowBox[{"fort14", ",", "Word"}], "]"}], ";"}], "\n", "\t", ",", 
+       RowBox[{"{", "nnb", "}"}]}], "]"}]}], "\n", ",", 
+    RowBox[{"{", "nopen", "}"}]}], "]"}]}]], "Code",
+ CellChangeTimes->{{3.632669282062394*^9, 3.6326692918124113`*^9}, {
+   3.632669326741331*^9, 3.6326693677793894`*^9}, {3.6326696027808084`*^9, 
+   3.6326697883471985`*^9}, {3.632669834683264*^9, 3.6326698353832645`*^9}, {
+   3.6326698915784373`*^9, 3.632669947319516*^9}, {3.6326700044945984`*^9, 
+   3.632670096232728*^9}, {3.6326714699297748`*^9, 3.63267160915364*^9}, {
+   3.6326717107224565`*^9, 3.632671942538597*^9}, {3.632671977524268*^9, 
+   3.632672004654716*^9}, {3.632672047260391*^9, 3.6326721047816925`*^9}, {
+   3.632672509911874*^9, 3.6326728777234306`*^9}, {3.6326729089644756`*^9, 
+   3.632672909654477*^9}, 3.6326729525035486`*^9, {3.6326731205967407`*^9, 
+   3.632673220018903*^9}, {3.6326732941595316`*^9, 3.6326733135405645`*^9}, {
+   3.6326733885942726`*^9, 3.632673403652294*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Read", "::", "readn"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Invalid real number found when reading from \
+\[NoBreak]\\!\\(\\\"C:\\\\\\\\Users\\\\\\\\Sam\\\\\\\\Desktop\\\\\\\\Scratch \
+Grab 12_1_2014\\\\\\\\12_1_2014\\\\\\\\isabel4\\\\\\\\fort.14\\\"\\)\[NoBreak]\
+. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/Read/readn\\\", \
+ButtonNote -> \\\"Read::readn\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.632673480563429*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Do", "::", "iterb"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Iterator \[NoBreak]\\!\\({nnb}\\)\[NoBreak] does not have \
+appropriate bounds. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/iterb\\\", ButtonNote -> \
+\\\"Do::iterb\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.632673480613429*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "find", " ", "rivers", " ", "among", " ", "land", " ", "boundaries"}], 
+   "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"nland", "=", 
+     RowBox[{"Read", "[", 
+      RowBox[{"fort14", ",", "Number"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Read", "[", 
+     RowBox[{"fort14", ",", "Word"}], "]"}], ";"}]}]}]], "Code",
+ CellChangeTimes->{{3.632669282062394*^9, 3.6326692918124113`*^9}, {
+   3.632669326741331*^9, 3.6326693677793894`*^9}, {3.6326696027808084`*^9, 
+   3.6326697883471985`*^9}, {3.632669834683264*^9, 3.6326698353832645`*^9}, {
+   3.6326698915784373`*^9, 3.632669947319516*^9}, {3.6326700044945984`*^9, 
+   3.632670096232728*^9}, {3.6326714699297748`*^9, 3.63267160915364*^9}, {
+   3.6326717107224565`*^9, 3.632671942538597*^9}, {3.632671977524268*^9, 
+   3.632672004654716*^9}, {3.632672047260391*^9, 3.6326721047816925`*^9}, {
+   3.632672509911874*^9, 3.6326728777234306`*^9}, {3.6326729089644756`*^9, 
+   3.632672909654477*^9}, 3.6326729525035486`*^9, {3.6326731205967407`*^9, 
+   3.632673220018903*^9}, {3.6326732941595316`*^9, 3.6326733135405645`*^9}, {
+   3.6326733885942726`*^9, 3.632673407413299*^9}},
+ EmphasizeSyntaxErrors->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"rivercount", "=", "0"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Do", "[", "\n", "\t", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"nnb", "=", 
+      RowBox[{"Read", "[", 
+       RowBox[{"fort14", ",", "Number"}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"btype", "=", 
+      RowBox[{"Read", "[", 
+       RowBox[{"fort14", ",", "Number"}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"totalriver", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{"0", ",", 
+        RowBox[{"{", "100", "}"}]}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"nodelist", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{"0", ",", 
+        RowBox[{"{", "100", "}"}]}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"firstriver", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{"0", ",", 
+        RowBox[{"{", "100", "}"}]}], "]"}]}], ";", "\t", "\n", "\n", "\n", 
+     "\t", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"btype", "\[Equal]", "22"}], ",", "\n", "\t\t", 
+       RowBox[{
+        RowBox[{"rivercount", "=", 
+         RowBox[{"rivercount", "+", "1"}]}], ";", "\n", "\t\t", 
+        RowBox[{
+         RowBox[{"totalriver", "[", 
+          RowBox[{"[", "rivercount", "]"}], "]"}], "=", "nnb"}], ";", "\n", 
+        "\t", "\n", "\t\t", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Do", "[", "\n", "\t\t\t", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"nodelist", "[", 
+               RowBox[{"[", "j", "]"}], "]"}], "=", 
+              RowBox[{"Read", "[", 
+               RowBox[{"fort14", ",", "Number"}], "]"}]}], ";"}], "\n", 
+            "\t\t", ",", 
+            RowBox[{"{", 
+             RowBox[{"j", ",", "1", ",", "nnb"}], "}"}]}], "]"}], "\n", 
+          "\t\t", "\n", "\t\t", "zval"}], "=", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "99999"}], "\n", "\t\t", "lownode"}], "=", 
+          RowBox[{"\"\<not found\>\"", "\t\t", "\n", 
+           RowBox[{"(*", 
+            RowBox[{
+            "find", " ", "lowest", " ", "elevation", " ", "on", " ", "river", 
+             " ", "boundary"}], "*)"}], "\n", "\t\t", 
+           RowBox[{"Do", "[", "\n", "\t\t\t", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"tempz", "=", 
+               RowBox[{"XYZ", "[", 
+                RowBox[{"[", 
+                 RowBox[{
+                  RowBox[{"nodelist", "[", 
+                   RowBox[{"[", "j", "]"}], "]"}], ",", "3"}], "]"}], "]"}]}],
+               ";", "\n", "\t\t", "\n", "\t\t\t", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{"tempz", ">", "zval"}], ",", "\n", "\t\t\t\t", 
+                RowBox[{
+                 RowBox[{"zval", "=", "tempz"}], ";", "\n", "\t\t\t\t", 
+                 RowBox[{"lownode", "=", 
+                  RowBox[{"nodelist", "[", 
+                   RowBox[{"[", "j", "]"}], "]"}]}], ";"}]}], "\n", 
+               "\t\t\t\t", "]"}], ";"}], "\n", "\t\t", ",", 
+             RowBox[{"{", 
+              RowBox[{"j", ",", "1", ",", "nnb"}], "}"}]}], "]"}]}]}]}], ";", 
+        "\n", 
+        RowBox[{"(*", 
+         RowBox[{
+         "find", " ", "first", " ", "4", " ", "nodes", " ", "within", " ", 
+          ".25", " ", "of", " ", "the", " ", "low", " ", "value"}], "*)"}], 
+        "\n", "\t\t", 
+        RowBox[{"count", "=", 
+         RowBox[{"0", "\n", "\t\t", 
+          RowBox[{"Do", "[", "\n", "\t\t\t", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"tempz", "=", 
+              RowBox[{"XYZ", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"nodelist", 
+                  RowBox[{"(", "j", ")"}]}], ",", "3"}], ")"}]}]}], ";", "\n",
+              "\t\t\t", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"tempz", ">", 
+                RowBox[{"(", 
+                 RowBox[{"zval", "-", "0.25"}], ")"}]}], ",", "\n", 
+               "\t\t\t\t", 
+               RowBox[{"count", "=", 
+                RowBox[{"count", "+", 
+                 RowBox[{"1", "\n", "\t\t\t\t", 
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                    RowBox[{"count", "\[Equal]", "1"}], ",", "\n", 
+                    "\t\t\t\t\t", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"firstriver", "[", 
+                    RowBox[{"[", "rivercount", "]"}], "]"}], "=", "j"}], 
+                    ";"}]}], "\n", "\t\t\t\t", "]"}], "\n", "\t\t\t\t", 
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                    RowBox[{"count", "<", "5"}], ",", "\n", "\t\t\t\t\t", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"rivernodes", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"rivercount", ",", "count"}], "]"}], "]"}], "=", 
+                    RowBox[{"nodelist", "[", 
+                    RowBox[{"[", "j", "]"}], "]"}]}], ";"}]}], "\n", 
+                   "\t\t\t\t", "]"}]}]}]}]}], "\n", "\t\t", "\n", "\t\t\t", 
+              "]"}]}], "\n", "\n", "\t\t", ",", 
+            RowBox[{"{", 
+             RowBox[{"j", ",", "1", ",", "nnb"}], "}"}]}], "]"}]}]}]}], "\n", 
+       "\t", ",", 
+       RowBox[{"(*", "else", "*)"}], "\n", "\t\t", 
+       RowBox[{
+        RowBox[{"Do", "[", "\n", "\t\t", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Read", "[", 
+            RowBox[{"fort14", ",", "Word"}], "]"}], ";"}], "\n", "\t\t", ",", 
+          RowBox[{"{", "nnb", "}"}]}], "]"}], ";"}]}], "\n", "\t", "]"}], 
+     ";"}], 
+    RowBox[{"(*", 
+     RowBox[{"end", " ", "if"}], "*)"}], "\n", "\n", ",", 
+    RowBox[{"{", "nland", "}"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Close", "[", "fort14", "]"}], ";"}]}], "Code",
+ CellChangeTimes->{{3.632669282062394*^9, 3.6326692918124113`*^9}, {
+   3.632669326741331*^9, 3.6326693677793894`*^9}, {3.6326696027808084`*^9, 
+   3.6326697883471985`*^9}, {3.632669834683264*^9, 3.6326698353832645`*^9}, {
+   3.6326698915784373`*^9, 3.632669947319516*^9}, {3.6326700044945984`*^9, 
+   3.632670096232728*^9}, {3.6326714699297748`*^9, 3.63267160915364*^9}, {
+   3.6326717107224565`*^9, 3.632671942538597*^9}, {3.632671977524268*^9, 
+   3.632672004654716*^9}, {3.632672047260391*^9, 3.6326721047816925`*^9}, {
+   3.632672509911874*^9, 3.6326728777234306`*^9}, {3.6326729089644756`*^9, 
+   3.632672909654477*^9}, 3.6326729525035486`*^9, {3.6326731205967407`*^9, 
+   3.632673220018903*^9}, {3.6326732941595316`*^9, 3.6326733135405645`*^9}, {
+   3.6326733885942726`*^9, 3.632673407413299*^9}},
+ EmphasizeSyntaxErrors->True],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Read", "::", "readn"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Invalid real number found when reading from \
+\[NoBreak]\\!\\(\\\"C:\\\\\\\\Users\\\\\\\\Sam\\\\\\\\Desktop\\\\\\\\Scratch \
+Grab 12_1_2014\\\\\\\\12_1_2014\\\\\\\\isabel4\\\\\\\\fort.14\\\"\\)\[NoBreak]\
+. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/Read/readn\\\", \
+ButtonNote -> \\\"Read::readn\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6326732810985117`*^9, 3.6326733697487173`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Do", "::", "iterb"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Iterator \[NoBreak]\\!\\({nnb}\\)\[NoBreak] does not have \
+appropriate bounds. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/iterb\\\", ButtonNote -> \
+\\\"Do::iterb\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6326732810985117`*^9, 3.6326733697987175`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Read", "::", "readn"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Invalid real number found when reading from \
+\[NoBreak]\\!\\(\\\"C:\\\\\\\\Users\\\\\\\\Sam\\\\\\\\Desktop\\\\\\\\Scratch \
+Grab 12_1_2014\\\\\\\\12_1_2014\\\\\\\\isabel4\\\\\\\\fort.14\\\"\\)\[NoBreak]\
+. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/Read/readn\\\", \
+ButtonNote -> \\\"Read::readn\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6326732810985117`*^9, 3.6326733698187175`*^9}]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.632672415728059*^9, 3.6326724230110693`*^9}}]
+}, Open  ]]
+},
+WindowSize->{638, 637},
+WindowMargins->{{Automatic, 20}, {Automatic, 0}},
+FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (January 25, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 169, 2, 49, "Subtitle"],
+Cell[751, 26, 1078, 28, 193, "Code"],
+Cell[1832, 56, 477, 7, 72, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2346, 68, 164, 2, 49, "Subtitle"],
+Cell[2513, 72, 461, 13, 133, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3011, 90, 255, 3, 49, "Subtitle"],
+Cell[3269, 95, 1715, 41, 153, "Code"],
+Cell[4987, 138, 2161, 48, 273, "Code"],
+Cell[7151, 188, 1409, 27, 173, "Code"],
+Cell[8563, 217, 1037, 18, 73, "Code"],
+Cell[CellGroupData[{
+Cell[9625, 239, 130, 2, 31, "Input"],
+Cell[9758, 243, 132, 2, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9927, 250, 1355, 27, 173, "Code"],
+Cell[11285, 279, 578, 11, 39, "Message"],
+Cell[11866, 292, 452, 10, 21, "Message"]
+}, Open  ]],
+Cell[12333, 305, 1224, 25, 93, "Code"],
+Cell[CellGroupData[{
+Cell[13582, 334, 6579, 155, 1073, "Code"],
+Cell[20164, 491, 604, 11, 39, "Message"],
+Cell[20771, 504, 478, 10, 21, "Message"],
+Cell[21252, 516, 604, 11, 39, "Message"]
+}, Open  ]],
+Cell[21871, 530, 94, 1, 31, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

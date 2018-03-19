@@ -1,0 +1,1137 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     43609,       1128]
+NotebookOptionsPosition[     42317,       1080]
+NotebookOutlinePosition[     42678,       1096]
+CellTagsIndexPosition[     42635,       1093]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Read RDHM results - single member", "Title",
+ CellChangeTimes->{{3.6589487759502077`*^9, 3.6589487830012693`*^9}, {
+  3.658948861984253*^9, 3.658948863669056*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+    "filepath", "=", 
+     "\"\<D:\\\\Dropbox\\\\Irene\\\\RDHM results\\\\RDHM \
+results\\\\00000001_discharge.outlet_ts\>\""}], ";", "\n", "\n", 
+    RowBox[{"scatter", "=", 
+     RowBox[{"ReadRDHMQ", "[", "filepath", "]"}]}], ";"}], "*)"}], 
+  "\n"}]], "Code",
+ CellChangeTimes->{{3.6589488656026754`*^9, 3.6589489289251194`*^9}, {
+   3.658948990123128*^9, 3.6589490395756207`*^9}, {3.658949075021781*^9, 
+   3.658949103504867*^9}, {3.658949145142065*^9, 3.6589494576145706`*^9}, {
+   3.6589494899400725`*^9, 3.6589495568299184`*^9}, {3.6589496093386335`*^9, 
+   3.6589496562316875`*^9}, {3.6589497687260866`*^9, 3.658949908127076*^9}, {
+   3.658949989108471*^9, 3.658950093706524*^9}, {3.65895017473193*^9, 
+   3.6589502315675898`*^9}, {3.6589504009341583`*^9, 
+   3.6589505456870008`*^9}, {3.6589505863874083`*^9, 
+   3.6589506840764894`*^9}, {3.6589508241516466`*^9, 3.658950843509242*^9}, {
+   3.6589509215562067`*^9, 3.658950955688339*^9}, {3.6589510536784067`*^9, 
+   3.658951067308542*^9}, {3.659222710112048*^9, 3.6592227142136874`*^9}, 
+   3.6695038992818785`*^9, 3.6742508401948147`*^9, 3.674251055244897*^9}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{3.674258818956773*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Read Ensemble", "Title",
+ CellChangeTimes->{{3.6589511075267324`*^9, 3.6589511119095726`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"first", ",", " ", 
+    RowBox[{
+    "create", " ", "list", " ", "of", " ", "filepaths", " ", "representing", 
+     " ", "ensemble"}]}], "*)"}], "\n", "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"storm", "=", "\"\<april2003\>\""}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"site", "=", "\"\<02083500\>\""}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"nmembers", "=", "128"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"readflag", "=", "1"}], ";"}], "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"at", " ", "the", " ", "moment"}], ",", " ", 
+     RowBox[{
+      RowBox[{
+      "only", " ", "works", " ", "for", " ", "irene", " ", "and", " ", 
+       "floyd"}], "-", " ", 
+      RowBox[{
+      "fix", " ", "the", " ", "formatting", " ", "in", " ", "those", " ", 
+       "other", " ", 
+       RowBox[{"folders", "!!"}]}]}]}], "*)"}], "\n", "\n", "\n", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"readflag", "\[Equal]", "1"}], ",", "\n", "\n", "\n", "\n", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"storm", "\[Equal]", "\"\<floyd\>\""}], ",", "\n", 
+         RowBox[{
+          RowBox[{"fpaths", "=", 
+           RowBox[{"Table", "[", "\n", 
+            RowBox[{
+             RowBox[{"StringJoin", "[", 
+              RowBox[{
+              "\"\<D:\\\\Dropbox\\\\HL-RDHM\\\\\>\"", ",", "storm", ",", 
+               "\"\< Ensemble\\\\results\\\\\>\"", ",", 
+               RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<_\>\"", ",", 
+               "site", ",", "\"\<.txt\>\""}], "]"}], "\n", ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", "1", ",", "nmembers"}], "}"}]}], "]"}]}], 
+          ";"}]}], "\n", "]"}], ";", "\n", "\n", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"storm", "\[Equal]", "\"\<april2003\>\""}], "\[Or]", 
+          RowBox[{"storm", "\[Equal]", "\"\<isabel\>\""}]}], ",", "\n", 
+         RowBox[{
+          RowBox[{"fpaths", "=", 
+           RowBox[{"Table", "[", "\n", 
+            RowBox[{
+             RowBox[{"StringJoin", "[", 
+              RowBox[{
+              "\"\<D:\\\\Dropbox\\\\HL-RDHM\\\\\>\"", ",", "storm", ",", 
+               "\"\< Ensemble\\\\results\\\\\>\"", ",", 
+               RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<\\\\\>\"", ",", 
+               "site", ",", "\"\<_discharge_\>\"", ",", 
+               RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<.txt\>\""}], 
+              "]"}], "\n", ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", "1", ",", "nmembers"}], "}"}]}], "]"}]}], 
+          ";"}]}], "\n", "]"}], ";", "\n", "\n", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"storm", "\[Equal]", "\"\<irene\>\""}], ",", "\n", 
+         RowBox[{
+          RowBox[{"fpaths", "=", 
+           RowBox[{"Table", "[", "\n", 
+            RowBox[{
+             RowBox[{"StringJoin", "[", 
+              RowBox[{
+              "\"\<D:\\\\Dropbox\\\\HL-RDHM\\\\\>\"", ",", "storm", ",", 
+               "\"\< Ensemble\\\\results\\\\\>\"", ",", "\"\<discharge_\>\"", 
+               ",", 
+               RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<.txt\>\""}], 
+              "]"}], "\n", ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", "1", ",", "nmembers"}], "}"}]}], "]"}]}], 
+          ";"}]}], "\n", "]"}], ";", "\n", "\n", 
+       RowBox[{"r", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{
+         "\"\<D:\\\\Dropbox\\\\\>\"", ",", "storm", ",", "\"\<\\\\\>\""}], 
+         "]"}]}], ";", "\n", "\n", 
+       RowBox[{"(*", 
+        RowBox[{"this", " ", "step", " ", 
+         RowBox[{"takes", " ", "~", "3"}], " ", 
+         RowBox[{"minutes", "."}]}], "*)"}], "\n", 
+       RowBox[{"scatters", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"ReadRDHMQ", "[", 
+           RowBox[{"fpaths", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "1", ",", "nmembers"}], "}"}]}], "]"}]}], ";", 
+       "\n", 
+       RowBox[{"expath", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{
+         "\"\<D:\\\\Dropbox\\\\HL-RDHM\\\\\>\"", ",", "storm", ",", 
+          "\"\< Ensemble\\\\results\\\\\>\"", ",", "site", ",", 
+          "\"\<_ensemble_discharge.txt\>\""}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Export", "[", 
+        RowBox[{"expath", ",", "scatters"}], "]"}], ";"}], "\n", ",", "\n", 
+      RowBox[{
+       RowBox[{"impath", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{
+         "\"\<D:\\\\Dropbox\\\\HL-RDHM\\\\\>\"", ",", "storm", ",", 
+          "\"\< Ensemble\\\\results\\\\\>\"", ",", "site", ",", 
+          "\"\<_ensemble_discharge.txt\>\""}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"scatters", "=", 
+        RowBox[{"Import", "[", "impath", "]"}]}], ";"}]}], "\n", "]"}], ";"}],
+    "\n"}]}]], "Code",
+ CellChangeTimes->{{3.6589511173238297`*^9, 3.658951140816463*^9}, {
+   3.658951173091392*^9, 3.658951212185169*^9}, {3.6589512732912793`*^9, 
+   3.658951274804482*^9}, {3.658951308627433*^9, 3.6589513796169386`*^9}, {
+   3.6589514574501023`*^9, 3.6589515865640078`*^9}, {3.6592123492147408`*^9, 
+   3.659212404152883*^9}, {3.659215843944094*^9, 3.659215844849146*^9}, 
+   3.6612647547197227`*^9, {3.66950389931588*^9, 3.669503899356882*^9}, {
+   3.669504072248771*^9, 3.669504072873807*^9}, {3.6695041292490315`*^9, 
+   3.6695041551425123`*^9}, {3.669504250362959*^9, 3.6695042633257003`*^9}, {
+   3.669504436316595*^9, 3.669504443994034*^9}, {3.669504516324171*^9, 
+   3.669504542136647*^9}, {3.669504829343075*^9, 3.6695048306711507`*^9}, 
+   3.6695091370094595`*^9, {3.669746178594573*^9, 3.6697461804655914`*^9}, {
+   3.6697492807137604`*^9, 3.6697492817997622`*^9}, 3.6697527805909863`*^9, 
+   3.669752822542169*^9, {3.6697536647771444`*^9, 3.6697536855762386`*^9}, {
+   3.6697537182313595`*^9, 3.6697537327304173`*^9}, {3.6742506826725035`*^9, 
+   3.6742507305654683`*^9}, {3.674250793856126*^9, 3.6742508044677343`*^9}, {
+   3.67425084014294*^9, 3.674250840165002*^9}, {3.674251055198708*^9, 
+   3.6742510552183456`*^9}, {3.674258773696*^9, 3.6742588109699187`*^9}, {
+   3.6742588423110714`*^9, 3.6742588456016216`*^9}, {3.7206457804330893`*^9, 
+   3.72064578114398*^9}, {3.7207258955099196`*^9, 3.720725896587639*^9}, {
+   3.720747544849332*^9, 3.720747545240086*^9}, {3.720747751042202*^9, 
+   3.720747763543583*^9}, {3.7207478085097704`*^9, 3.720747824539595*^9}, 
+   3.7207479411380854`*^9, {3.7207510095022545`*^9, 3.7207510101741815`*^9}, {
+   3.7208076700459957`*^9, 3.72080767045813*^9}, {3.720818352339495*^9, 
+   3.7208183529212523`*^9}, {3.720819186010599*^9, 3.720819187169505*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Read observed flow results at given station", "Title",
+ CellChangeTimes->{{3.659212534804356*^9, 3.659212544156891*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Data", " ", "newer", " ", "than", " ", "2007"}], ",", " ", 
+    RowBox[{"or", " ", 
+     RowBox[{"floyd", "'"}], "s", " ", "manually", " ", "processed", " ", "Q",
+      " ", "file"}]}], "*)"}], "\n", "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"storm", "\[Equal]", "\"\<irene\>\""}], "\[Or]", 
+       RowBox[{"storm", "\[Equal]", "\"\<sandy\>\""}]}], ",", "\n", "\t", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Print", "[", "\"\<new format\>\"", "]"}], ";", "\n", "\t", 
+        RowBox[{"obfile", "=", 
+         RowBox[{"StringJoin", "[", 
+          RowBox[{
+          "\"\<D:\\\\Dropbox\\\\\>\"", ",", "storm", ",", 
+           "\"\<\\\\observed flow\\\\02083500.txt\>\""}], "]"}]}], ";", "\n", 
+        "\n", "\t", 
+        RowBox[{"obflows", "=", 
+         RowBox[{"ReadUSGSQfile", "[", 
+          RowBox[{
+          "obfile", ",", "26", ",", "7", ",", "6", ",", "\"\<Word\>\""}], 
+          "]"}]}], ";", "\n", "\t", 
+        RowBox[{"obdates", "=", 
+         RowBox[{"ReadUSGSQfile", "[", 
+          RowBox[{
+          "obfile", ",", "26", ",", "7", ",", "3", ",", "\"\<Word\>\""}], 
+          "]"}]}], ";", "\n", "\t", 
+        RowBox[{"obtimes", "=", 
+         RowBox[{"ReadUSGSQfile", "[", 
+          RowBox[{
+          "obfile", ",", "26", ",", "7", ",", "4", ",", "\"\<Word\>\""}], 
+          "]"}]}], ";"}], "\n", "\t", ";", "\n", "\t", 
+       RowBox[{"obflows", "=", 
+        RowBox[{"ToExpression", "[", "obflows", "]"}]}], ";", "\n", "\n", 
+       "\t", 
+       RowBox[{"dellist", "=", 
+        RowBox[{"Position", "[", 
+         RowBox[{"obtimes", ",", "0"}], "]"}]}], ";", "\n", "\n", "\t", 
+       RowBox[{"obflows", "=", 
+        RowBox[{"Delete", "[", 
+         RowBox[{"obflows", ",", "dellist"}], "]"}]}], ";", "\n", "\t", 
+       RowBox[{"t1", "=", 
+        RowBox[{"ListPlot", "[", "obflows", "]"}]}], ";", "\n", "\t", 
+       RowBox[{"obflows", "=", 
+        RowBox[{"obflows", "/", "35.3147"}]}], ";", "\n", "\t", 
+       RowBox[{"t2", "=", 
+        RowBox[{"ListPlot", "[", "obflows", "]"}]}], ";", "\n", "\t", 
+       RowBox[{"obdates", "=", 
+        RowBox[{"Delete", "[", 
+         RowBox[{"obdates", ",", "dellist"}], "]"}]}], ";", "\n", "\t", 
+       RowBox[{"obtimes", "=", 
+        RowBox[{"Delete", "[", 
+         RowBox[{"obtimes", ",", "dellist"}], "]"}]}], ";", "\n", "\n", "\t", 
+       RowBox[{"datestrings", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"StringJoin", "[", 
+           RowBox[{
+            RowBox[{"obdates", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], ",", "\"\< \>\"", ",", 
+            RowBox[{"obtimes", "[", 
+             RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "1", ",", 
+            RowBox[{"Length", "[", "obdates", "]"}]}], "}"}]}], "]"}]}], ";", 
+       "\n", "\t", 
+       RowBox[{"obscatter", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"AbsoluteTime", "[", 
+             RowBox[{"datestrings", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
+            RowBox[{"obflows", "[", 
+             RowBox[{"[", "i", "]"}], "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "1", ",", 
+            RowBox[{"Length", "[", "obdates", "]"}]}], "}"}]}], "]"}]}], 
+       ";"}]}], "\n", "]"}], ";"}], "\n", "\n", "t1", "\n", "\n", "t2", "\n", 
+   "\n", 
+   RowBox[{"ListPlot", "[", "obscatter", "]"}], "\n", "\n", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"storm", "\[Equal]", "\"\<floyd\>\""}], ",", "\n", "\t", 
+      RowBox[{
+       RowBox[{"Print", "[", "\"\<new format\>\"", "]"}], ";", "\n", "\t", 
+       RowBox[{
+       "obfile", "=", 
+        "\"\<D:\\\\Dropbox\\\\Floyd\\\\Observed Flow\\\\02083500.txt\>\""}], 
+       ";", "\n", "\n", "\t", 
+       RowBox[{"obflows", "=", 
+        RowBox[{"ReadUSGSQfile", "[", 
+         RowBox[{
+         "obfile", ",", "26", ",", "7", ",", "6", ",", "\"\<Word\>\""}], 
+         "]"}]}], ";", "\n", "\t", 
+       RowBox[{"obdates", "=", 
+        RowBox[{"ReadUSGSQfile", "[", 
+         RowBox[{
+         "obfile", ",", "26", ",", "7", ",", "3", ",", "\"\<Word\>\""}], 
+         "]"}]}], ";", "\n", "\t", 
+       RowBox[{"obtimes", "=", 
+        RowBox[{"ReadUSGSQfile", "[", 
+         RowBox[{
+         "obfile", ",", "26", ",", "7", ",", "4", ",", "\"\<Word\>\""}], 
+         "]"}]}], ";", "\n", "\n", "\t", 
+       RowBox[{"obflows", "=", 
+        RowBox[{"ToExpression", "[", "obflows", "]"}]}], ";", "\n", "\n", 
+       "\t", 
+       RowBox[{"dellist", "=", 
+        RowBox[{"Position", "[", 
+         RowBox[{"obtimes", ",", "0"}], "]"}]}], ";", "\n", "\n", "\t", 
+       RowBox[{"obflows", "=", 
+        RowBox[{"Delete", "[", 
+         RowBox[{"obflows", ",", "dellist"}], "]"}]}], ";", "\n", "\n", "\t", 
+       RowBox[{"obflows", "=", 
+        RowBox[{"(", 
+         RowBox[{"obflows", "/", "35.3147"}], ")"}]}], ";", "\n", "\t", 
+       RowBox[{"obdates", "=", 
+        RowBox[{"Delete", "[", 
+         RowBox[{"obdates", ",", "dellist"}], "]"}]}], ";", "\n", "\t", 
+       RowBox[{"obtimes", "=", 
+        RowBox[{"Delete", "[", 
+         RowBox[{"obtimes", ",", "dellist"}], "]"}]}], ";", "\n", "\n", "\t", 
+       RowBox[{"datestrings", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"StringJoin", "[", 
+           RowBox[{
+            RowBox[{"obdates", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], ",", "\"\< \>\"", ",", 
+            RowBox[{"obtimes", "[", 
+             RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "1", ",", 
+            RowBox[{"Length", "[", "obdates", "]"}]}], "}"}]}], "]"}]}], ";", 
+       "\n", "\n", "\t", 
+       RowBox[{"obscatter", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"AbsoluteTime", "[", 
+             RowBox[{"datestrings", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
+            RowBox[{"obflows", "[", 
+             RowBox[{"[", "i", "]"}], "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "1", ",", 
+            RowBox[{"Length", "[", "obdates", "]"}]}], "}"}]}], "]"}]}], 
+       ";"}]}], "\n", "]"}], ";"}], "\n", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"old", " ", "data", " ", "format"}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"storm", "\[Equal]", "\"\<isabel\>\""}], "\[Or]", 
+       RowBox[{"storm", "\[Equal]", "\"\<april2003\>\""}]}], ",", "\n", "\t", 
+      RowBox[{
+       RowBox[{"Print", "[", "\"\<old format\>\"", "]"}], ";", "\n", "\t", 
+       RowBox[{"obfile", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{
+         "\"\<D:\\\\Dropbox\\\\\>\"", ",", "storm", ",", 
+          "\"\<\\\\observed flow\\\\02083500.txt\>\""}], "]"}]}], ";", "\n", 
+       "\t", 
+       RowBox[{"obscatter", "=", 
+        RowBox[{"ReadUSGSQfileOld", "[", 
+         RowBox[{"obfile", ",", "7", ",", "2", ",", "6", ",", "Number"}], 
+         "]"}]}], ";", "\n", "\t", 
+       RowBox[{"obflows", "=", 
+        RowBox[{
+         RowBox[{"Transpose", "[", "obscatter", "]"}], "[", 
+         RowBox[{"[", "2", "]"}], "]"}]}], ";", "\n", "\t", 
+       RowBox[{"obtimes", "=", 
+        RowBox[{
+         RowBox[{"Transpose", "[", "obscatter", "]"}], "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "\t", 
+       RowBox[{"obflows", "=", 
+        RowBox[{"obflows", "/", "35.3147"}]}], ";", "\n", "\t", 
+       RowBox[{"obscatter", "=", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"Table", "[", 
+          RowBox[{"{", 
+           RowBox[{"obtimes", ",", "obflows"}], "}"}], "]"}], "]"}]}], 
+       ";"}]}], "\n", "]"}], ";"}], "\n", "\n", "\n"}]}]], "Code",
+ CellChangeTimes->{{3.659212574596632*^9, 3.6592125794359083`*^9}, {
+   3.659212634499058*^9, 3.6592126790716076`*^9}, {3.659212931813737*^9, 
+   3.659213010216916*^9}, {3.659213116193367*^9, 3.659213161616807*^9}, {
+   3.6592135737873917`*^9, 3.659213592070775*^9}, {3.6592142222049694`*^9, 
+   3.6592142728448534`*^9}, {3.6592143164628763`*^9, 
+   3.6592143725770297`*^9}, {3.659215812074271*^9, 3.6592158281641912`*^9}, 
+   3.6695038993898845`*^9, {3.669510626152633*^9, 3.6695106370832586`*^9}, {
+   3.6697497973249283`*^9, 3.6697498492622747`*^9}, {3.6697533343602467`*^9, 
+   3.6697533932555866`*^9}, {3.669753438855759*^9, 3.669753521165284*^9}, {
+   3.669753583673641*^9, 3.6697535973337636`*^9}, {3.6697552221393924`*^9, 
+   3.6697552238234887`*^9}, {3.6697582545028334`*^9, 3.669758325546897*^9}, {
+   3.674250840181754*^9, 3.67425084018426*^9}, {3.6742510552313786`*^9, 
+   3.6742510552328844`*^9}, {3.720655817114414*^9, 3.720655843509627*^9}, {
+   3.7206580471846066`*^9, 3.7206580478380527`*^9}, {3.720658080880238*^9, 
+   3.720658091469666*^9}, {3.7206608953406825`*^9, 3.7206608977584076`*^9}, {
+   3.7207489616248612`*^9, 3.720749003375191*^9}, {3.7207490789229155`*^9, 
+   3.7207490819075627`*^9}, {3.7207491129047737`*^9, 
+   3.7207491397825766`*^9}, {3.720749488151758*^9, 3.720749491339651*^9}, {
+   3.720749917581314*^9, 3.720749919909687*^9}, 3.720750017634637*^9, 
+   3.7207507566372557`*^9, {3.7208082328976517`*^9, 3.72080832085415*^9}, {
+   3.7208084192069387`*^9, 3.7208084708734903`*^9}, {3.7208085063809257`*^9, 
+   3.720808538839656*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Max", "[", "obflows", "]"}]], "Input",
+ CellChangeTimes->{{3.7207507928091536`*^9, 3.720750799075494*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Subset ensemble scatters to only include data in date range of observed\
+\>", "Title",
+ CellChangeTimes->{{3.659214898507018*^9, 3.659214912680829*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"starttime", "=", 
+   RowBox[{"obscatter", "[", 
+    RowBox[{"[", 
+     RowBox[{"1", ",", "1"}], "]"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"endtime", "=", 
+   RowBox[{"obscatter", "[", 
+    RowBox[{"[", 
+     RowBox[{
+      RowBox[{"Length", "[", "obscatter", "]"}], ",", "1"}], "]"}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Dynamic", "[", "i", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"deletelist", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{"\"\<junk\>\"", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Length", "[", "scatters", "]"}], "*", 
+       RowBox[{"Length", "[", 
+        RowBox[{"scatters", "[", 
+         RowBox[{"[", "128", "]"}], "]"}], "]"}]}], "}"}]}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"index", "=", "1"}], ";"}], "\n", 
+ RowBox[{"Timing", "[", "\n", 
+  RowBox[{
+   RowBox[{"Do", "[", "\n", "\t", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Do", "[", "\n", "\t\t", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"scatters", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", ",", "j", ",", "1"}], "]"}], "]"}], "<", 
+            "starttime"}], "\[Or]", 
+           RowBox[{
+            RowBox[{"scatters", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", ",", "j", ",", "1"}], "]"}], "]"}], ">", 
+            "endtime"}]}], ",", "\n", "\t\t\t", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"deletelist", "[", 
+             RowBox[{"[", "index", "]"}], "]"}], "=", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "j"}], "}"}]}], ";", "\n", "\t\t\t", 
+           RowBox[{"index", "=", 
+            RowBox[{"index", "+", "1"}]}], ";"}]}], "\n", "\t\t\t", "]"}], 
+        "\n", "\t", ",", 
+        RowBox[{"{", 
+         RowBox[{"j", ",", "1", ",", 
+          RowBox[{"Length", "[", 
+           RowBox[{"scatters", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "}"}]}], "]"}], ";"}], 
+     "\n", ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"Length", "[", "scatters", "]"}]}], "}"}]}], "]"}], ";"}], 
+  "\n", "]"}], "\n", 
+ RowBox[{
+  RowBox[{"deletelist", "=", 
+   RowBox[{"Delete", "[", 
+    RowBox[{"deletelist", ",", 
+     RowBox[{"Position", "[", 
+      RowBox[{"deletelist", ",", "\"\<junk\>\""}], "]"}]}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"deletelist", "=", 
+   RowBox[{"Flatten", "[", "deletelist", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"deletelist", "=", 
+    RowBox[{"Partition", "[", 
+     RowBox[{"deletelist", ",", "2"}], "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"scatters", "=", 
+   RowBox[{"Delete", "[", 
+    RowBox[{"scatters", ",", "deletelist"}], "]"}]}], ";"}]}], "Code",
+ CellChangeTimes->{{3.6592149211123114`*^9, 3.659215018346873*^9}, {
+  3.6592150578471317`*^9, 3.6592151549476857`*^9}, {3.659215260693734*^9, 
+  3.659215301498068*^9}, {3.659215337992155*^9, 3.6592154425601363`*^9}, {
+  3.659215578192894*^9, 3.6592155991220913`*^9}, {3.659215631412938*^9, 
+  3.659215631689954*^9}, {3.659216272848626*^9, 3.659216273724676*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Create Figure for \[OpenCurlyDoubleQuote]Spaghetti Plot\
+\[CloseCurlyDoubleQuote] of Ensemble Results", "Title",
+ CellChangeTimes->{{3.6592162757337914`*^9, 3.65921628690543*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"xstart", "=", 
+   RowBox[{"obscatter", "[", 
+    RowBox[{"[", 
+     RowBox[{"1", ",", "1"}], "]"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"xend", "=", 
+   RowBox[{"obscatter", "[", 
+    RowBox[{"[", 
+     RowBox[{
+      RowBox[{"Length", "[", "obscatter", "]"}], ",", "1"}], "]"}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ystart", "=", "0"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"yend", "=", 
+   RowBox[{
+    RowBox[{"Max", "[", 
+     RowBox[{
+      RowBox[{"Transpose", "[", "obscatter", "]"}], "[", 
+      RowBox[{"[", "2", "]"}], "]"}], "]"}], "*", "1.3"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ylab", "=", "\"\<Flow, CMS\>\""}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"xlab", "=", "\"\<Date\>\""}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"title", "=", 
+   RowBox[{"StringJoin", "[", 
+    RowBox[{"storm", ",", "\"\< HL-RDHM Ensemble Results @ 02083500\>\""}], 
+    "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"daylines", "=", "7"}], ";"}], "\n", 
+ RowBox[{"spaghettigraph", "=", 
+  RowBox[{"Show", "[", 
+   RowBox[{
+    RowBox[{"scatterplot", "[", 
+     RowBox[{
+      RowBox[{"scatters", "[", 
+       RowBox[{"[", 
+        RowBox[{"1", ";;", "80"}], "]"}], "]"}], ",", "xstart", ",", "xend", 
+      ",", "ystart", ",", "yend", ",", "ylab", ",", "xlab", ",", "title", ",",
+       "daylines", ",", "True", ",", "Blue"}], "]"}], ",", "\n", 
+    RowBox[{"scatterplot", "[", 
+     RowBox[{
+      RowBox[{"scatters", "[", 
+       RowBox[{"[", 
+        RowBox[{"81", ";;", "128"}], "]"}], "]"}], ",", "xstart", ",", "xend",
+       ",", "ystart", ",", "yend", ",", "ylab", ",", "xlab", ",", "title", 
+      ",", "daylines", ",", "True", ",", "Red"}], "]"}], ",", "\n", 
+    RowBox[{"scatterplot", "[", 
+     RowBox[{
+     "obscatter", ",", "xstart", ",", "xend", ",", "ystart", ",", "yend", ",",
+       "ylab", ",", "xlab", ",", "title", ",", "daylines", ",", "False", ",", 
+      "Black"}], "]"}]}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< Spaghetti Plot.eps\>\""}], "]"}], 
+    ",", "spaghettigraph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\<Spaghetti Plot.wmf\>\""}], "]"}], 
+    ",", "spaghettigraph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Export", "[", 
+    RowBox[{
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"r", ",", "storm", ",", "\"\<Spaghetti Plot.bmp\>\""}], "]"}], 
+     ",", "spaghettigraph"}], "]"}], ";"}], "\n", "\n"}], "\n", 
+ RowBox[{"spaghettipriori", "=", 
+  RowBox[{"Show", "[", 
+   RowBox[{
+    RowBox[{"scatterplot", "[", 
+     RowBox[{
+      RowBox[{"scatters", "[", 
+       RowBox[{"[", 
+        RowBox[{"1", ";;", "80"}], "]"}], "]"}], ",", "xstart", ",", "xend", 
+      ",", "ystart", ",", "yend", ",", "ylab", ",", "xlab", ",", 
+      RowBox[{"StringJoin", "[", 
+       RowBox[{"title", ",", "\"\<\na priori members\>\""}], "]"}], ",", 
+      "daylines", ",", "True", ",", "Red"}], "]"}], ",", "\n", 
+    RowBox[{"scatterplot", "[", 
+     RowBox[{
+     "obscatter", ",", "xstart", ",", "xend", ",", "ystart", ",", "yend", ",",
+       "ylab", ",", "xlab", ",", "title", ",", "daylines", ",", "False", ",", 
+      "Black"}], "]"}]}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< Spaghetti priori Plot.eps\>\""}], 
+     "]"}], ",", "spaghettipriori"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< Spaghetti priori Plot.wmf\>\""}], 
+     "]"}], ",", "spaghettipriori"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Export", "[", 
+    RowBox[{
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"r", ",", "storm", ",", "\"\< Spaghetti priori Plot.bmp\>\""}], 
+      "]"}], ",", "spaghettipriori"}], "]"}], ";"}], "\n"}], "\n", 
+ RowBox[{"spaghetticalib", "=", 
+  RowBox[{"Show", "[", 
+   RowBox[{
+    RowBox[{"scatterplot", "[", 
+     RowBox[{
+      RowBox[{"scatters", "[", 
+       RowBox[{"[", 
+        RowBox[{"81", ";;", "128"}], "]"}], "]"}], ",", "xstart", ",", "xend",
+       ",", "ystart", ",", "yend", ",", "ylab", ",", "xlab", ",", 
+      RowBox[{"StringJoin", "[", 
+       RowBox[{"title", ",", "\"\<\nCalibrated members\>\""}], "]"}], ",", 
+      "daylines", ",", "True", ",", "Red"}], "]"}], ",", "\n", 
+    RowBox[{"scatterplot", "[", 
+     RowBox[{
+     "obscatter", ",", "xstart", ",", "xend", ",", "ystart", ",", "yend", ",",
+       "ylab", ",", "xlab", ",", "title", ",", "daylines", ",", "False", ",", 
+      "Black"}], "]"}]}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< Spaghetti calib Plot.eps\>\""}], 
+     "]"}], ",", "spaghetticalib"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< Spaghetti calib Plot.wmf\>\""}], 
+     "]"}], ",", "spaghetticalib"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< Spaghetti calib Plot.bmp\>\""}], 
+     "]"}], ",", "spaghetticalib"}], "]"}], ";"}], "\n"}], "Code",
+ CellChangeTimes->CompressedData["
+1:eJwdz19IU2EABfCpzYeuG5GxEHxww3I0QRxCveW0EuoSN8OyJW5rujkVdLFp
+SoRczTYvgj24lVvRrDAmKP5Bh00yitJhZHsIDAuFWyni3iQ3ttl3vofD7+1w
+jvJOW3VjpkQiKSSBrz+tfWys3NVdud62DO1O5gv0TghR6LAaHBairOqIE849
+1z6A3TxHdQonHkK1JOWGxt7hIZhUyx9D8zbnhX0x2QuY718PwquRxAS0Nb0L
+Q148/AyL3xZUW4kFcy3Usg+OG3Cztoeadg12wrVryntwfGtIZyM+27Ow0OKO
+meEve00n7Mgw8HDZ5H8EA7kLLuYm+fdD74ZWoW4QHmt+T23IyfJBbcXXUXhg
+YMfhwJKJqi8ZjsCijRXqan/4N1RtlP6F4vnJGOSYn1TxnyDNQc/WajZ8Kv0m
+kxGjm9+p2+WKHc0tslu4TD3qjZ89adzVvcpSnIPTL4Mh+MbkWYSa/qnZPGLl
+fvc85JMX7Z4Q2W9k7sKEoiP1hNgTH0lD1YX65hFi6E9GK5Qz5e3w9inRDvnS
+qAdWlcwEoPJgcQwe31dPwktl4TM+IseqiuHs6dYuyHq77sP/qM8bTQ==
+  "]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Calculate and display boxplot of NSE values for ensemble", "Title",
+ CellChangeTimes->{{3.6592176285801697`*^9, 3.659217647069227*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"herm", "=", 
+   RowBox[{"NSEtable", "[", 
+    RowBox[{"scatters", ",", "obscatter", ",", "\"\<Hermite\>\""}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"herm", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"herm", "[", 
+      RowBox[{"[", 
+       RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"Length", "[", "herm", "]"}]}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"spli", "=", 
+   RowBox[{"NSEtable", "[", 
+    RowBox[{"scatters", ",", "obscatter", ",", "\"\<Spline\>\""}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"spli", "=", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"spli", "[", 
+       RowBox[{"[", 
+        RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", 
+        RowBox[{"Length", "[", "spli", "]"}]}], "}"}]}], "]"}]}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"graph", "=", 
+   RowBox[{"Histogram", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"herm", ",", 
+       RowBox[{"herm", "[", 
+        RowBox[{"[", 
+         RowBox[{"1", ";;", "80"}], "]"}], "]"}], ",", 
+       RowBox[{"herm", "[", 
+        RowBox[{"[", 
+         RowBox[{"81", ";;", "128"}], "]"}], "]"}]}], "}"}], ",", "\n", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1", ",", "0.05"}], "}"}], ",", "\n", 
+     RowBox[{"ChartLegends", "\[Rule]", 
+      RowBox[{"Placed", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"\"\<All\>\"", ",", "\"\<\!\(\*
+StyleBox[\"A\",
+FontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\" \",
+FontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"Priori\",
+FontSlant->\"Italic\"]\)\>\"", ",", "\"\<Calibrated\>\""}], "}"}], ",", 
+        "Center"}], "]"}]}], ",", "\n", 
+     RowBox[{"Frame", "\[Rule]", "True"}], ",", "\n", 
+     RowBox[{"FrameLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"\"\<Occurence\>\"", ",", "None"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"\"\<NSE\>\"", ",", 
+          RowBox[{"StringJoin", "[", 
+           RowBox[{
+           "storm", ",", 
+            "\"\< HL-RDHM Ensemble Skill Summary, Bin = 0.05\>\""}], "]"}]}], 
+         "}"}]}], "}"}]}], ",", "\n", 
+     RowBox[{"LabelStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"FontSize", "\[Rule]", "14"}], ",", 
+        RowBox[{"FontFamily", "\[Rule]", "\"\<Times New Roman\>\""}], ",", 
+        "Black"}], "}"}]}]}], "]"}]}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< hist.eps\>\""}], "]"}], ",", 
+    "graph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< hist.wmf\>\""}], "]"}], ",", 
+    "graph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Export", "[", 
+    RowBox[{
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"r", ",", "storm", ",", "\"\< hist.bmp\>\""}], "]"}], ",", 
+     "graph"}], "]"}], ";"}], "\n"}], "\n"}], "Code",
+ CellChangeTimes->{{3.6592179130774417`*^9, 3.6592179431661625`*^9}, {
+  3.65921798612862*^9, 3.6592180015135*^9}, {3.659218067790291*^9, 
+  3.659218102308265*^9}, {3.659218237632005*^9, 3.6592182402981577`*^9}, {
+  3.6592183769979763`*^9, 3.6592184131240425`*^9}, {3.6592223094293776`*^9, 
+  3.6592223299043818`*^9}, {3.669512143363413*^9, 3.66951214751165*^9}, {
+  3.6695156987077665`*^9, 3.6695157269223804`*^9}, {3.6697587285509477`*^9, 
+  3.669758729674012*^9}, {3.6742578721024084`*^9, 3.6742578728707714`*^9}, {
+  3.6742629798742914`*^9, 3.6742629932014093`*^9}, {3.720654795776101*^9, 
+  3.7206548110935187`*^9}, {3.7206627542729044`*^9, 3.7206627615121555`*^9}, {
+  3.720663570051169*^9, 3.7206635862913218`*^9}, {3.720666100495839*^9, 
+  3.720666103903372*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"graph2", "=", 
+   RowBox[{"Histogram", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"herm", "[", 
+        RowBox[{"[", 
+         RowBox[{"1", ";;", "80"}], "]"}], "]"}], ",", 
+       RowBox[{"herm", "[", 
+        RowBox[{"[", 
+         RowBox[{"81", ";;", "128"}], "]"}], "]"}]}], "}"}], ",", "\n", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1", ",", "0.05"}], "}"}], ",", "\n", 
+     RowBox[{"ChartLegends", "\[Rule]", 
+      RowBox[{"Placed", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"\"\<\!\(\*
+StyleBox[\"A\",
+FontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\" \",
+FontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"Priori\",
+FontSlant->\"Italic\"]\)\>\"", ",", "\"\<Calibrated\>\""}], "}"}], ",", 
+        "Center"}], "]"}]}], ",", "\n", 
+     RowBox[{"Frame", "\[Rule]", "True"}], ",", "\n", 
+     RowBox[{"FrameLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"\"\<Occurence\>\"", ",", "None"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"\"\<NSE\>\"", ",", 
+          RowBox[{"StringJoin", "[", 
+           RowBox[{
+           "storm", ",", 
+            "\"\< HL-RDHM Ensemble Skill Summary, Bin = 0.05\>\""}], "]"}]}], 
+         "}"}]}], "}"}]}], ",", "\n", 
+     RowBox[{"LabelStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"FontSize", "\[Rule]", "14"}], ",", 
+        RowBox[{"FontFamily", "\[Rule]", "\"\<Times New Roman\>\""}], ",", 
+        "Black"}], "}"}]}]}], "]"}]}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< two hist.eps\>\""}], "]"}], ",", 
+    "graph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< two hist.wmf\>\""}], "]"}], ",", 
+    "graph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< two hist.bmp\>\""}], "]"}], ",", 
+    "graph"}], "]"}], ";"}]}], "Code",
+ CellChangeTimes->{{3.6592179130774417`*^9, 3.6592179431661625`*^9}, {
+  3.65921798612862*^9, 3.6592180015135*^9}, {3.659218067790291*^9, 
+  3.659218102308265*^9}, {3.659218237632005*^9, 3.6592182402981577`*^9}, {
+  3.6592183769979763`*^9, 3.6592184131240425`*^9}, {3.6592223094293776`*^9, 
+  3.6592223299043818`*^9}, {3.669512143363413*^9, 3.66951214751165*^9}, {
+  3.6695156987077665`*^9, 3.6695157269223804`*^9}, {3.6697587285509477`*^9, 
+  3.669758729674012*^9}, {3.6742578721024084`*^9, 3.6742578728707714`*^9}, {
+  3.6742629798742914`*^9, 3.6742629932014093`*^9}, {3.720654795776101*^9, 
+  3.7206548110935187`*^9}, {3.7206627542729044`*^9, 3.7206627615121555`*^9}, {
+  3.720663570051169*^9, 3.7206636168974466`*^9}, {3.7206636600098767`*^9, 
+  3.7206636928166523`*^9}, {3.720666109785041*^9, 3.7206661126069407`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"graph3", "=", 
+   RowBox[{"Histogram", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"herm", "[", 
+       RowBox[{"[", 
+        RowBox[{"1", ";;", "80"}], "]"}], "]"}], "}"}], ",", "\n", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1", ",", "0.05"}], "}"}], ",", "\n", 
+     RowBox[{"Frame", "\[Rule]", "True"}], ",", "\n", 
+     RowBox[{"FrameLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"\"\<Occurence\>\"", ",", "None"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"\"\<NSE\>\"", ",", 
+          RowBox[{"StringJoin", "[", 
+           RowBox[{
+           "storm", ",", 
+            "\"\< HL-RDHM Ensemble Skill Summary\na priori members, Bin = \
+0.05\>\""}], "]"}]}], "}"}]}], "}"}]}], ",", "\n", 
+     RowBox[{"LabelStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"FontSize", "\[Rule]", "14"}], ",", 
+        RowBox[{"FontFamily", "\[Rule]", "\"\<Times New Roman\>\""}], ",", 
+        "Black"}], "}"}]}]}], "]"}]}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< a priori hist.eps\>\""}], "]"}], 
+    ",", "graph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< a priori hist.wmf\>\""}], "]"}], 
+    ",", "graph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< a priori hist.bmp\>\""}], "]"}], 
+    ",", "graph"}], "]"}], ";"}]}], "Code",
+ CellChangeTimes->{{3.720663722289293*^9, 3.7206637726410217`*^9}, {
+  3.7206638538117375`*^9, 3.720663854216815*^9}, {3.7206661227518854`*^9, 
+  3.7206661255119257`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"graph4", "=", 
+   RowBox[{"Histogram", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"herm", "[", 
+       RowBox[{"[", 
+        RowBox[{"81", ";;", "128"}], "]"}], "]"}], "}"}], ",", "\n", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1", ",", "0.05"}], "}"}], ",", "\n", 
+     RowBox[{"Frame", "\[Rule]", "True"}], ",", "\n", 
+     RowBox[{"FrameLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"\"\<Occurence\>\"", ",", "None"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"\"\<NSE\>\"", ",", 
+          RowBox[{"StringJoin", "[", 
+           RowBox[{
+           "storm", ",", 
+            "\"\< HL-RDHM Ensemble Skill Summary\nCalibrated members, Bin = \
+0.05\>\""}], "]"}]}], "}"}]}], "}"}]}], ",", "\n", 
+     RowBox[{"LabelStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"FontSize", "\[Rule]", "14"}], ",", 
+        RowBox[{"FontFamily", "\[Rule]", "\"\<Times New Roman\>\""}], ",", 
+        "Black"}], "}"}]}]}], "]"}]}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< calibrated hist.eps\>\""}], "]"}], 
+    ",", "graph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< calibrated hist.wmf\>\""}], "]"}], 
+    ",", "graph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< calibrated hist.bmp\>\""}], "]"}], 
+    ",", "graph"}], "]"}], ";"}]}], "Code",
+ CellChangeTimes->{{3.720663796020609*^9, 3.7206638512811813`*^9}, {
+  3.7206661308086452`*^9, 3.720666134455386*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Show best member", "Title",
+ CellChangeTimes->{{3.6592223629474907`*^9, 3.65922236467771*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"bestmember", "=", 
+  RowBox[{
+   RowBox[{"Position", "[", 
+    RowBox[{"herm", ",", 
+     RowBox[{"Max", "[", "herm", "]"}]}], "]"}], "[", 
+   RowBox[{"[", 
+    RowBox[{"1", ",", "1"}], "]"}], "]"}]}], "\n", 
+ RowBox[{"title", "=", 
+  RowBox[{"StringJoin", "[", 
+   RowBox[{
+   "\"\<Hurricane \>\"", ",", "storm", ",", 
+    "\"\< HL-RDHM Best Member @ 02083500 \\n NSE = \>\"", ",", 
+    RowBox[{"ToString", "[", 
+     RowBox[{"herm", "[", 
+      RowBox[{"[", "bestmember", "]"}], "]"}], "]"}]}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"graph", "=", 
+   RowBox[{"Show", "[", 
+    RowBox[{
+     RowBox[{"scatterplot", "[", 
+      RowBox[{
+       RowBox[{"scatters", "[", 
+        RowBox[{"[", "bestmember", "]"}], "]"}], ",", "xstart", ",", "xend", 
+       ",", "ystart", ",", "yend", ",", "ylab", ",", "xlab", ",", "title", 
+       ",", "daylines", ",", "True", ",", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"bestmember", "<", "81"}], ",", "Blue", ",", "Red"}], 
+        "]"}]}], "]"}], ",", "\n", 
+     RowBox[{"scatterplot", "[", 
+      RowBox[{
+      "obscatter", ",", "xstart", ",", "xend", ",", "ystart", ",", "yend", 
+       ",", "ylab", ",", "xlab", ",", "title", ",", "daylines", ",", "False", 
+       ",", "Black"}], "]"}]}], "]"}]}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< Best Plot.eps\>\""}], "]"}], ",", 
+    "graph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< Best Plot.wmf\>\""}], "]"}], ",", 
+    "graph"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"StringJoin", "[", 
+     RowBox[{"r", ",", "storm", ",", "\"\< Best Plot.bmp\>\""}], "]"}], ",", 
+    "graph"}], "]"}], ";"}]}], "Code",
+ CellChangeTimes->{{3.659222367847145*^9, 3.659222536636377*^9}, {
+   3.669512969781681*^9, 3.6695129826694183`*^9}, {3.6695132691228027`*^9, 
+   3.6695132761332035`*^9}, {3.6695158292482333`*^9, 
+   3.6695158299312725`*^9}, {3.6695158947919817`*^9, 3.66951591818732*^9}, {
+   3.6695162174074345`*^9, 3.669516218515498*^9}, {3.6695185038502116`*^9, 
+   3.6695185091225133`*^9}, {3.6695186311974955`*^9, 3.669518643463197*^9}, {
+   3.6695187157143297`*^9, 3.6695187157973347`*^9}, {3.6695188359382057`*^9, 
+   3.6695188553633175`*^9}, {3.6697586136833773`*^9, 
+   3.6697586166135454`*^9}, {3.6742578795573*^9, 3.6742578803021593`*^9}, {
+   3.6742630191135893`*^9, 3.674263029289646*^9}, {3.720661288797373*^9, 
+   3.7206613083281927`*^9}, {3.720664482176861*^9, 3.7206644942899675`*^9}, {
+   3.720666140232535*^9, 3.7206661432153244`*^9}, {3.720726682257717*^9, 
+   3.7207267112414336`*^9}, 3.7207465311394677`*^9}],
+
+Cell[BoxData[
+ RowBox[{"Min", "[", "herm", "]"}]], "Input",
+ CellChangeTimes->{{3.720818649286646*^9, 3.7208186531650777`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Max", "[", "herm", "]"}]], "Input",
+ CellChangeTimes->{{3.7208186574296136`*^9, 3.720818659731592*^9}}]
+}, Open  ]]
+},
+WindowSize->{1904, 997},
+WindowMargins->{{-8, Automatic}, {Automatic, 0}},
+Magnification->1.5,
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 169, 2, 150, "Title"],
+Cell[752, 26, 1187, 22, 157, "Code"],
+Cell[1942, 50, 68, 1, 45, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2047, 56, 100, 1, 150, "Title"],
+Cell[2150, 59, 6753, 146, 1183, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8940, 210, 126, 1, 150, "Title"],
+Cell[9069, 213, 9529, 216, 1858, "Code"],
+Cell[18601, 431, 130, 2, 45, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[18768, 438, 162, 3, 246, "Title"],
+Cell[18933, 443, 3146, 90, 616, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22116, 538, 185, 2, 150, "Title"],
+Cell[22304, 542, 6047, 156, 859, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[28388, 703, 141, 1, 150, "Title"],
+Cell[28532, 706, 3926, 108, 508, "Code"],
+Cell[32461, 816, 2974, 75, 319, "Code"],
+Cell[35438, 893, 1851, 51, 319, "Code"],
+Cell[37292, 946, 1808, 50, 319, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[39137, 1001, 100, 1, 150, "Title"],
+Cell[39240, 1004, 2801, 65, 265, "Code"],
+Cell[42044, 1071, 127, 2, 45, "Input"],
+Cell[42174, 1075, 127, 2, 45, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

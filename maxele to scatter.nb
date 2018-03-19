@@ -1,0 +1,267 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     10012,        258]
+NotebookOptionsPosition[      9503,        237]
+NotebookOutlinePosition[      9844,        252]
+CellTagsIndexPosition[      9801,        249]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "maxpath", "=", 
+   "\"\<D:\\\\Dropbox\\\\april2003\\\\river \
+results\\\\april2003_riversspinup_results\\\\scratch\\\\sambush\\\\april2003_\
+rivers\\\\spinup\\\\results\\\\maxele.63\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"s", "=", 
+   RowBox[{"OpenRead", "[", "maxpath", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"junk", "=", 
+   RowBox[{"Read", "[", 
+    RowBox[{"s", ",", "String"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"junk", "=", 
+   RowBox[{"Read", "[", 
+    RowBox[{"s", ",", "String"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"junk", "=", 
+   RowBox[{"Read", "[", 
+    RowBox[{"s", ",", "String"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"elevs", "=", 
+   RowBox[{"ReadList", "[", 
+    RowBox[{"s", ",", "Number"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"elevs", "=", 
+   RowBox[{
+    RowBox[{"Transpose", "[", 
+     RowBox[{"Partition", "[", 
+      RowBox[{"elevs", ",", "2"}], "]"}], "]"}], "[", 
+    RowBox[{"[", "2", "]"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.6652482084994535`*^9, 3.6652482271545377`*^9}, {
+   3.665248459044073*^9, 3.6652484694691124`*^9}, {3.665248527264068*^9, 
+   3.6652485565047407`*^9}, {3.665248973524593*^9, 3.6652489737926083`*^9}, {
+   3.688955328975171*^9, 3.6889553430937138`*^9}, {3.688955416763999*^9, 
+   3.688955476863343*^9}, {3.689039717496679*^9, 3.6890397467185726`*^9}, 
+   3.6925765571142445`*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "gridpath", "=", 
+   "\"\<D:\\\\Dropbox\\\\ADCIRC\\\\base grid\\\\fort.14\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"s", "=", 
+   RowBox[{"OpenRead", "[", "gridpath", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"junk", "=", 
+   RowBox[{"Read", "[", 
+    RowBox[{"s", ",", "String"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"junk", "=", 
+   RowBox[{"Read", "[", 
+    RowBox[{"s", ",", "String"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"nnodes", "=", 
+   RowBox[{"Length", "[", "elevs", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"xyz", "=", 
+   RowBox[{"ReadList", "[", 
+    RowBox[{"s", ",", "Number", ",", 
+     RowBox[{"4", "*", "nnodes"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"xyz", "=", 
+   RowBox[{"Partition", "[", 
+    RowBox[{"xyz", ",", "4"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"x", "=", 
+   RowBox[{
+    RowBox[{"Transpose", "[", "xyz", "]"}], "[", 
+    RowBox[{"[", "2", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"y", "=", 
+   RowBox[{
+    RowBox[{"Transpose", "[", "xyz", "]"}], "[", 
+    RowBox[{"[", "3", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"z", "=", 
+   RowBox[{
+    RowBox[{"Transpose", "[", "xyz", "]"}], "[", 
+    RowBox[{"[", "4", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Clear", "[", "xyz", "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.665248625304676*^9, 3.6652487120726385`*^9}, {
+   3.665248746096585*^9, 3.665248753371001*^9}, {3.6652488246840796`*^9, 
+   3.665248863276287*^9}, {3.6652489036625967`*^9, 3.6652489363944693`*^9}, {
+   3.6652489821040835`*^9, 3.665248989015479*^9}, 3.6889553731246243`*^9, 
+   3.68895541674946*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+   "outpath", "=", 
+    "\"\<D:\\\\Dropbox\\\\april2003\\\\river \
+results\\\\adcirc_maxele_scatter.txt\>\""}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"s", "=", 
+   RowBox[{"OpenWrite", "[", "outpath", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c", "=", "\"\<,\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Write", "[", 
+   RowBox[{
+   "s", ",", "\"\<Longitude,\>\"", ",", "\"\<Latitude,\>\"", ",", 
+    "\"\<Elevation_m_above_msl\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Do", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"elevs", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], ">", "0"}], "\[And]", 
+        RowBox[{
+         RowBox[{"x", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "<", 
+         RowBox[{"-", "77.0605"}]}], "\[And]", 
+        RowBox[{
+         RowBox[{"y", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], ">", "35.47637"}], "\[And]", 
+        RowBox[{
+         RowBox[{"x", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], ">", 
+         RowBox[{"-", "77.579"}]}], "\[And]", 
+        RowBox[{
+         RowBox[{"y", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "<", "35.8995881"}]}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Write", "[", 
+         RowBox[{"s", ",", 
+          RowBox[{"x", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], ",", "c", ",", 
+          RowBox[{"y", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], ",", "c", ",", 
+          RowBox[{"elevs", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "1", ",", "nnodes"}], "}"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Close", "[", "outpath", "]"}], 
+  ";"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.6652490679279923`*^9, 3.665249092669408*^9}, {
+   3.6652491402911315`*^9, 3.665249145499429*^9}, {3.6652491766762123`*^9, 
+   3.665249200512576*^9}, {3.6652492784630165`*^9, 3.6652493000232496`*^9}, {
+   3.665249381522911*^9, 3.6652493916804924`*^9}, {3.665249499587664*^9, 
+   3.665249509624238*^9}, {3.6653496831118135`*^9, 3.665349744469377*^9}, {
+   3.665349778919656*^9, 3.6653497924794807`*^9}, 3.6653541623489914`*^9, {
+   3.6653542151190095`*^9, 3.6653542156540403`*^9}, {3.665361157954096*^9, 
+   3.6653612689184427`*^9}, {3.665361565689417*^9, 3.6653615683445687`*^9}, {
+   3.6653621170049505`*^9, 3.665362131583784*^9}, {3.68895532896247*^9, 
+   3.68895534310324*^9}, 3.688955416755977*^9, {3.688955488262744*^9, 
+   3.6889555248555813`*^9}, {3.688955574719063*^9, 3.6889555798790555`*^9}, {
+   3.6889893085005445`*^9, 3.6889893148042088`*^9}, {3.68898944910168*^9, 
+   3.688989455398345*^9}, {3.688989508061455*^9, 3.6889895166866045`*^9}, {
+   3.688989618652506*^9, 3.688989626685343*^9}, {3.6890397569331975`*^9, 
+   3.6890397579714017`*^9}, {3.6925765817149367`*^9, 
+   3.6925765952886934`*^9}, {3.692576688095414*^9, 3.692576705366458*^9}, {
+   3.6925778423593826`*^9, 3.6925778576951075`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"s", "=", 
+   RowBox[{"OpenRead", "[", "outpath", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Read", "[", 
+  RowBox[{"s", ",", "String"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Read", "[", 
+  RowBox[{"s", ",", "String"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Close", "[", "outpath", "]"}]}], "Input",
+ CellChangeTimes->{{3.665249353581313*^9, 3.665249369144203*^9}, {
+  3.665249423208296*^9, 3.665249424697381*^9}, {3.6652494680268593`*^9, 
+  3.6652494687409*^9}, {3.6653497692270384`*^9, 3.6653497694766393`*^9}}],
+
+Cell[BoxData["\<\"\\\"Longitude,\\\"\\\"Latitude,\\\"\\\"Elevations,\\\"\"\>"]\
+, "Output",
+ CellChangeTimes->{
+  3.665249370031254*^9, 3.665249406361332*^9, {3.665249469175925*^9, 
+   3.6652494907621593`*^9}, 3.6652495250151186`*^9, 3.6653498064648495`*^9, {
+   3.665354203842365*^9, 3.66535422159138*^9}, 3.6653613017793226`*^9, 
+   3.6653615736468725`*^9, 3.665361644362917*^9, 3.665362138350171*^9, 
+   3.6889554986552486`*^9, 3.688955529175495*^9, 3.689039782660782*^9, 
+   3.692576615393895*^9, {3.6925766937535257`*^9, 3.6925767093701897`*^9}}],
+
+Cell[BoxData["\<\"-77.062927\\\",\\\"35.517818\\\",\\\"0.33595927741\"\>"], \
+"Output",
+ CellChangeTimes->{
+  3.665249370031254*^9, 3.665249406361332*^9, {3.665249469175925*^9, 
+   3.6652494907621593`*^9}, 3.6652495250151186`*^9, 3.6653498064648495`*^9, {
+   3.665354203842365*^9, 3.66535422159138*^9}, 3.6653613017793226`*^9, 
+   3.6653615736468725`*^9, 3.665361644362917*^9, 3.665362138350171*^9, 
+   3.6889554986552486`*^9, 3.688955529175495*^9, 3.689039782660782*^9, 
+   3.692576615393895*^9, {3.6925766937535257`*^9, 3.6925767093742*^9}}],
+
+Cell[BoxData["\<\"D:\\\\Dropbox\\\\april2003\\\\river \
+results\\\\adcirc_maxele_scatter.txt\"\>"], "Output",
+ CellChangeTimes->{
+  3.665249370031254*^9, 3.665249406361332*^9, {3.665249469175925*^9, 
+   3.6652494907621593`*^9}, 3.6652495250151186`*^9, 3.6653498064648495`*^9, {
+   3.665354203842365*^9, 3.66535422159138*^9}, 3.6653613017793226`*^9, 
+   3.6653615736468725`*^9, 3.665361644362917*^9, 3.665362138350171*^9, 
+   3.6889554986552486`*^9, 3.688955529175495*^9, 3.689039782660782*^9, 
+   3.692576615393895*^9, {3.6925766937535257`*^9, 3.692576709374775*^9}}]
+}, Open  ]]
+},
+WindowSize->{1920, 997},
+WindowMargins->{{-8, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 1527, 38, 152, "Input"],
+Cell[2088, 60, 1888, 52, 272, "Input"],
+Cell[3979, 114, 3251, 75, 252, "Input"],
+Cell[CellGroupData[{
+Cell[7255, 193, 562, 11, 92, "Input"],
+Cell[7820, 206, 551, 8, 31, "Output"],
+Cell[8374, 216, 543, 8, 31, "Output"],
+Cell[8920, 226, 567, 8, 31, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

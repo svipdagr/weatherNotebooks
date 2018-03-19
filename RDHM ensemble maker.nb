@@ -1,0 +1,551 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     20310,        542]
+NotebookOptionsPosition[     19493,        510]
+NotebookOutlinePosition[     19837,        525]
+CellTagsIndexPosition[     19794,        522]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.634359834627668*^9, 3.634359837914856*^9}}],
+
+Cell["\<\
+>Generates set of bsubs.
+
+>Head: bsub up to the output lines. 
+>code manually adds output lines here. Format guide: 
+
+#BSUB -o /scratch/sambush/hlrdhm/irene_ensemble/logs/###_%J_out.txt
+#BSUB -e /scratch/sambush/hlrdhm/irene_ensemble/logs/###_%J_err.txt
+
+>middle1: bsub from output lines (non-inclusive) to jobname
+>code manually adds jobname here. Format guide:
+
+#BSUB -J ir_###
+
+>middle2: goes until \[OpenCurlyDoubleQuote]cd\[CloseCurlyDoubleQuote] \
+command. Format guide:
+
+cd /scratch/sambush/hlrdhm/irene_ensemble/###
+
+>middle3: goes until calling the warmup card. format guide for calling card:
+
+/scratch/sambush/hlrdhm/irene_ensemble/###/###.card
+
+>end with final line, which is just:
+
+date
+
+
+
+
+
+\
+\>", "Text",
+ CellChangeTimes->{{3.6343598459983187`*^9, 3.6343599136801896`*^9}, {
+  3.634360151240777*^9, 3.634360236461652*^9}, {3.634360310177868*^9, 
+  3.6343603173722796`*^9}, {3.634360428981663*^9, 3.6343606108110633`*^9}, {
+  3.6343606972760086`*^9, 3.634360716337099*^9}, {3.6343607619627085`*^9, 
+  3.6343607860890884`*^9}, {3.634360887676899*^9, 3.6343609769700065`*^9}, {
+  3.634361007827771*^9, 3.6343610117429953`*^9}, {3.6343613737407007`*^9, 
+  3.634361497412774*^9}, {3.6343627969061007`*^9, 3.634362812536995*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"initialization", " ", "values"}], "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"nmembers", "=", "128"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+    "r", "=", 
+     "\"\<C:\\\\Users\\\\Sam\\\\Desktop\\\\Thesis Work\\\\HL-RDHM\\\\Isabel \
+Ensemble\\\\\>\""}], ";"}], "\n", "\n", "\n", 
+   RowBox[{
+    RowBox[{"headpath", "=", 
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"r", ",", "\"\<head.txt\>\""}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"middle1path", "=", 
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"r", ",", "\"\<middle1.txt\>\""}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"middle2path", "=", 
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"r", ",", "\"\<middle2.txt\>\""}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"middle3path", "=", 
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"r", ",", "\"\<middle3.txt\>\""}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"direcpath", "=", 
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"r", ",", "\"\<real_cmd.txt\>\""}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"bsubname", "=", "\"\<_irene_ensemble.bsub\>\""}], 
+    ";"}]}]}]], "Code",
+ CellChangeTimes->{{3.634361138773261*^9, 3.6343611515409913`*^9}, {
+  3.634361545477523*^9, 3.6343615631225324`*^9}, {3.634361598677566*^9, 
+  3.6343616397559156`*^9}, {3.634363429784299*^9, 3.634363560513777*^9}, {
+  3.6343637932990913`*^9, 3.6343637997884626`*^9}, {3.634363849014278*^9, 
+  3.634363849191288*^9}, {3.6347999165068474`*^9, 3.6347999172738914`*^9}, {
+  3.6477695905425663`*^9, 3.647769591182603*^9}, {3.6477699010402513`*^9, 
+  3.6477699067875795`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Code to read/write bsubs", "Subtitle",
+ CellChangeTimes->{{3.634359918703477*^9, 3.6343599239447765`*^9}, {
+  3.634364557674811*^9, 3.6343645595109158`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"OpenRead", " ", "sample", " ", "files"}], ",", " ", 
+    RowBox[{"store", " ", "as", " ", "table", " ", "of", " ", "strings", " ", 
+     RowBox[{"(", 
+      RowBox[{"readlist", "[", 
+       RowBox[{"fname", ",", "string"}], "]"}], ")"}]}]}], "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"read", "=", 
+     RowBox[{"OpenRead", "[", "headpath", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"head", "=", 
+     RowBox[{"ReadList", "[", 
+      RowBox[{"read", ",", "String"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Close", "[", "read", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Do", "[", "\n", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"head", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{
+          RowBox[{"head", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<\\n\>\""}], "]"}]}], 
+       ";"}], "\n", ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", 
+        RowBox[{"Length", "[", "head", "]"}]}], "}"}]}], "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"head", "=", 
+     RowBox[{"StringJoin", "[", "head", "]"}]}], ";"}], "\n", "\n", 
+   RowBox[{
+    RowBox[{"read", "=", 
+     RowBox[{"OpenRead", "[", "middle1path", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"middle1", "=", 
+     RowBox[{"ReadList", "[", 
+      RowBox[{"read", ",", "String"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Close", "[", "read", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Do", "[", "\n", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"middle1", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{
+          RowBox[{"middle1", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<\\n\>\""}], "]"}]}], 
+       ";"}], "\n", ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", 
+        RowBox[{"Length", "[", "middle1", "]"}]}], "}"}]}], "]"}], ";"}], 
+   "\n", 
+   RowBox[{
+    RowBox[{"middle1", "=", 
+     RowBox[{"StringJoin", "[", "middle1", "]"}]}], ";"}], "\n", "\n", 
+   RowBox[{
+    RowBox[{"read", "=", 
+     RowBox[{"OpenRead", "[", "middle2path", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"middle2", "=", 
+     RowBox[{"ReadList", "[", 
+      RowBox[{"read", ",", "String"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Close", "[", "read", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Do", "[", "\n", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"middle2", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{
+          RowBox[{"middle2", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<\\n\>\""}], "]"}]}], 
+       ";"}], "\n", ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", 
+        RowBox[{"Length", "[", "middle2", "]"}]}], "}"}]}], "]"}], ";"}], 
+   "\n", 
+   RowBox[{
+    RowBox[{"middle2", "=", 
+     RowBox[{"StringJoin", "[", "middle2", "]"}]}], ";"}], "\n", "\n", 
+   RowBox[{
+    RowBox[{"read", "=", 
+     RowBox[{"OpenRead", "[", "middle3path", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"middle3", "=", 
+     RowBox[{"ReadList", "[", 
+      RowBox[{"read", ",", "String"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Close", "[", "read", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Do", "[", "\n", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"middle3", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{
+          RowBox[{"middle3", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<\\n\>\""}], "]"}]}], 
+       ";"}], "\n", ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", 
+        RowBox[{"Length", "[", "middle3", "]"}]}], "}"}]}], "]"}], ";"}], 
+   "\n", 
+   RowBox[{
+    RowBox[{"middle3", "=", 
+     RowBox[{"StringJoin", "[", "middle3", "]"}]}], ";"}], "\n", "\n", "\n", 
+   "\n", "\n", "\n", "\n", 
+   RowBox[{
+    RowBox[{"Do", "[", "\n", "\n", "\n", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"outline", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{
+         "\"\<#BSUB -o /scratch/sambush/hlrdhm/irene_ensemble/logs/\>\"", ",", 
+          RowBox[{"ToString", "[", "i", "]"}], ",", 
+          "\"\<_out%J.txt\\n#BSUB -e \
+/scratch/sambush/hlrdhm/irene_ensemble/logs/\>\"", ",", 
+          RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<_err%J.txt\>\"", 
+          ",", "\"\<\\n\>\""}], "]"}]}], ";", "\n", 
+       RowBox[{"jobname", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{"\"\<#BSUB -J ir_\>\"", ",", 
+          RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<\\n\>\""}], "]"}]}], 
+       ";", "\n", 
+       RowBox[{"cd", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{"\"\<\\ncd /scratch/sambush/hlrdhm/irene_ensemble/\>\"", ",", 
+          RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<\\n\\n\>\""}], 
+         "]"}]}], ";", "\n", 
+       RowBox[{"cardcall", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{"\"\</scratch/sambush/hlrdhm/irene_ensemble/\>\"", ",", 
+          RowBox[{"ToString", "[", "i", "]"}], ",", "\"\</\>\"", ",", 
+          RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<.card\>\"", ",", 
+          "\"\<\\n\>\""}], "]"}]}], ";", "\n", 
+       RowBox[{"writestring", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{
+         "head", ",", "outline", ",", "middle1", ",", "jobname", ",", 
+          "middle2", ",", "cd", ",", "middle3", ",", "cardcall", ",", 
+          "\"\<date\>\""}], "]"}]}], ";", "\n", "\n", 
+       RowBox[{"bsub", "=", 
+        RowBox[{"OpenWrite", "[", 
+         RowBox[{"StringJoin", "[", 
+          RowBox[{"r", ",", "\"\<\\\\written bsubs\\\\\>\"", ",", 
+           RowBox[{"ToString", "[", "i", "]"}], ",", "bsubname"}], "]"}], 
+         "]"}]}], ";", "\n", 
+       RowBox[{"WriteString", "[", 
+        RowBox[{"bsub", ",", "writestring"}], "]"}], ";", "\n", 
+       RowBox[{"Close", "[", "bsub", "]"}], ";"}], "\n", "\n", ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", "nmembers"}], "}"}]}], "]"}], ";"}], "\n", 
+   "\n", "\n", "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{"create", " ", "output", " ", "lines"}], " ", "*)"}], "\n", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"create", " ", "jobname", " ", "line"}], "*)"}]}]}]], "Code",
+ CellChangeTimes->{{3.634359928887059*^9, 3.6343599737746267`*^9}, {
+   3.6343601401761446`*^9, 3.6343601472045465`*^9}, {3.634361227152316*^9, 
+   3.634361325041915*^9}, {3.6343616549187827`*^9, 3.634361996271307*^9}, {
+   3.634362055089671*^9, 3.6343621213564615`*^9}, {3.634362189746373*^9, 
+   3.6343621997519455`*^9}, {3.6343623537957563`*^9, 3.634362389783815*^9}, {
+   3.6343627770459647`*^9, 3.634363031993547*^9}, {3.6343630620912685`*^9, 
+   3.6343630674745765`*^9}, {3.6343631268499727`*^9, 
+   3.6343633293105526`*^9}, {3.634363363498508*^9, 3.6343634224948826`*^9}, {
+   3.634363515447199*^9, 3.6343635244087114`*^9}, {3.634363564107982*^9, 
+   3.6343636175510387`*^9}, {3.6343636768644314`*^9, 
+   3.6343637375919046`*^9}, {3.6343638687484064`*^9, 
+   3.6343638958949594`*^9}, {3.6343639586875505`*^9, 3.634363986973169*^9}, {
+   3.6343640569141693`*^9, 3.634364060826393*^9}, {3.6343641145514655`*^9, 
+   3.63436411847469*^9}, {3.6343641597240496`*^9, 3.634364160105071*^9}, {
+   3.634364193444978*^9, 3.6343641940210114`*^9}, {3.6343642615758753`*^9, 
+   3.6343642752966595`*^9}, {3.6343643293877535`*^9, 
+   3.6343643498449235`*^9}, {3.6343644279543915`*^9, 3.634364442882245*^9}, {
+   3.6343645992471886`*^9, 3.634364631458031*^9}, {3.634536841009647*^9, 
+   3.6345368413060474`*^9}, 3.6345369152554836`*^9, {3.634549156636781*^9, 
+   3.634549157557183*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Code to write commands", "Subtitle",
+ CellChangeTimes->{{3.6343645700455184`*^9, 3.634364573512717*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"direc", "=", 
+    RowBox[{"OpenWrite", "[", "direcpath", "]"}]}], ";"}], "\n", "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Do", "[", "\n", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"WriteString", "[", 
+       RowBox[{"direc", ",", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{"\"\<cd /scratch/sambush/hlrdhm/irene_ensemble/\>\"", ",", 
+          RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<\\n\>\""}], "]"}]}], 
+       "]"}], ";", "\n", 
+      RowBox[{"WriteString", "[", 
+       RowBox[{"direc", ",", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{"\"\<dos2unix \>\"", ",", 
+          RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<.card\\n\>\""}], 
+         "]"}]}], "]"}], ";", "\n", "\n", 
+      RowBox[{"WriteString", "[", 
+       RowBox[{
+       "direc", ",", 
+        "\"\<cd /scratch/sambush/hlrdhm/irene_ensemble/bsubs\\n\>\""}], "]"}],
+       ";", "\n", 
+      RowBox[{"WriteString", "[", 
+       RowBox[{"direc", ",", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{"\"\<bsub < \>\"", ",", 
+          RowBox[{"ToString", "[", "i", "]"}], ",", "bsubname", ",", 
+          "\"\<\\n\>\""}], "]"}]}], "]"}], ";"}], "\n", ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", "nmembers"}], "}"}]}], "]"}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Close", "[", "direc", "]"}], ";"}]}], "Code",
+ CellChangeTimes->{{3.6343645967950487`*^9, 3.634364633469146*^9}, {
+   3.634536846828457*^9, 3.6345368471248574`*^9}, {3.6345368933374453`*^9, 
+   3.6345369095458736`*^9}, 3.6345487752464256`*^9, {3.634799786540414*^9, 
+   3.6347998914454145`*^9}, {3.6347999604223595`*^9, 
+   3.6347999873388987`*^9}, {3.63480023946632*^9, 3.6348002396143284`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Code to make directories", "Subtitle",
+ CellChangeTimes->{{3.6345471492283993`*^9, 3.6345471529880066`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Do", "[", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"CreateDirectory", "[", 
+      RowBox[{"StringJoin", "[", 
+       RowBox[{"r", ",", 
+        RowBox[{"ToString", "[", "i", "]"}]}], "]"}], "]"}], ";"}], "\n", ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "1", ",", "nmembers"}], "}"}]}], "]"}], ";"}]], "Code",
+ CellChangeTimes->{3.6345471581692157`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Code to write cards", "Subtitle",
+ CellChangeTimes->{{3.634364664165902*^9, 3.6343646666150417`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"make", " ", "directory", " ", "for", " ", 
+    RowBox[{"each", " ", ".", "card"}], " ", "file"}], "*)"}], "\n", "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+   "import", " ", "constant", " ", "data", " ", "for", " ", "each", " ", 
+    "import", " ", "card"}], "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"first14", "=", 
+     RowBox[{"OpenRead", "[", 
+      RowBox[{"StringJoin", "[", 
+       RowBox[{"r", ",", "\"\<first14.txt\>\""}], "]"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"first", "=", 
+     RowBox[{"ReadList", "[", 
+      RowBox[{"first14", ",", "String"}], "]"}]}], ";"}], "\n", "\n", 
+   RowBox[{
+    RowBox[{"Do", "[", "\n", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"importpath", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{"r", ",", "\"\<ciflow_decks\\\\member\>\"", ",", 
+          RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<.card\>\""}], 
+         "]"}]}], ";", "\n", 
+       RowBox[{"importstream", "=", 
+        RowBox[{"OpenRead", "[", "importpath", "]"}]}], ";", "\n", 
+       RowBox[{"raw", "=", 
+        RowBox[{"ReadList", "[", 
+         RowBox[{"importstream", ",", "String"}], "]"}]}], ";", "\n", 
+       RowBox[{"Do", "[", "\n", 
+        RowBox[{
+         RowBox[{"raw", "=", 
+          RowBox[{"Delete", "[", 
+           RowBox[{"raw", ",", "1"}], "]"}]}], "\n", ",", 
+         RowBox[{"{", "15", "}"}]}], "]"}], ";", "\n", 
+       RowBox[{"raw", "=", 
+        RowBox[{
+         RowBox[{"Prepend", "[", 
+          RowBox[{"raw", ",", "first"}], "]"}], "//", "Flatten"}]}], ";", 
+       "\n", 
+       RowBox[{"Do", "[", "\n", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"raw", "[", 
+            RowBox[{"[", "j", "]"}], "]"}], "=", 
+           RowBox[{"StringJoin", "[", 
+            RowBox[{
+             RowBox[{"raw", "[", 
+              RowBox[{"[", "j", "]"}], "]"}], ",", "\"\<\\n\>\""}], "]"}]}], 
+          ";"}], "\n", ",", 
+         RowBox[{"{", 
+          RowBox[{"j", ",", "1", ",", 
+           RowBox[{"Length", "[", "raw", "]"}]}], "}"}]}], "]"}], ";", "\n", 
+       RowBox[{"out", "=", 
+        RowBox[{"StringJoin", "[", "raw", "]"}]}], ";", "\n", 
+       RowBox[{"out", "=", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{"out", ",", 
+          RowBox[{
+          "\"\<{EXTRA}\>\"", "\[Rule]", 
+           "\"\< uztwc=0.0 uzfwc=0.0 lztwc=0.0 lzfsc=0.0 lzfpc=0.0 adimpc=0.0 \
+areac=0.5 depth=0.0 \>\""}]}], "]"}]}], ";", "\n", 
+       RowBox[{"out", "=", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{"out", ",", 
+          RowBox[{"\"\<{member number}\>\"", "\[Rule]", 
+           RowBox[{"ToString", "[", "i", "]"}]}]}], "]"}]}], ";", "\n", 
+       RowBox[{"out", "=", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{"out", ",", 
+          RowBox[{"\"\<{member number}\>\"", "\[Rule]", 
+           RowBox[{"ToString", "[", "i", "]"}]}]}], "]"}]}], ";", "\n", 
+       RowBox[{"out", "=", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{"out", ",", 
+          RowBox[{"\"\<TARHF\>\"", "\[Rule]", "\"\<00000001\>\""}]}], "]"}]}],
+        ";", "\n", 
+       RowBox[{"out", "=", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{"out", ",", 
+          RowBox[{"\"\<NEUSEHF\>\"", "\[Rule]", "\"\<00000002\>\""}]}], 
+         "]"}]}], ";", "\n", 
+       RowBox[{"out", "=", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{"out", ",", 
+          RowBox[{"\"\<FISHHF\>\"", "\[Rule]", "\"\<00000003\>\""}]}], 
+         "]"}]}], ";", "\n", 
+       RowBox[{"out", "=", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{"out", ",", 
+          RowBox[{"\"\<CONTHF\>\"", "\[Rule]", "\"\<00000004\>\""}]}], 
+         "]"}]}], ";", "\n", "\n", 
+       RowBox[{"cardstream", "=", 
+        RowBox[{"OpenWrite", "[", 
+         RowBox[{"StringJoin", "[", 
+          RowBox[{"r", ",", "\"\<\\\\\>\"", ",", 
+           RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<\\\\\>\"", ",", 
+           RowBox[{"ToString", "[", "i", "]"}], ",", "\"\<.card\>\""}], "]"}],
+          "]"}]}], ";", "\n", 
+       RowBox[{"WriteString", "[", 
+        RowBox[{"cardstream", ",", "out"}], "]"}], ";", "\n", 
+       RowBox[{"Close", "[", "cardstream", "]"}]}], "\n", "\n", ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", "nmembers"}], "}"}]}], "]"}], ";"}], "\n", 
+   "\n", "\n"}]}]], "Code",
+ CellChangeTimes->{{3.634536708674209*^9, 3.634536813771999*^9}, {
+   3.634536945732747*^9, 3.634536977900004*^9}, {3.634546435797633*^9, 
+   3.634546527793439*^9}, {3.634546606787435*^9, 3.6345466510759125`*^9}, {
+   3.6345466954626555`*^9, 3.6345467162730923`*^9}, {3.6345467644911222`*^9, 
+   3.634546776378343*^9}, {3.6345468472356677`*^9, 3.6345470713928623`*^9}, 
+   3.634547136825378*^9, {3.6345471742216434`*^9, 3.634547207295702*^9}, 
+   3.634547582357767*^9, {3.634547694338764*^9, 3.634547741813648*^9}, {
+   3.6345479253348136`*^9, 3.6345479335678363`*^9}, {3.634547968323965*^9, 
+   3.6345480079310737`*^9}, {3.6345480613362713`*^9, 
+   3.6345481494000435`*^9}, {3.634627868877987*^9, 3.634627871323127*^9}, {
+   3.6346279162566967`*^9, 3.634627991086977*^9}, {3.6346379970052824`*^9, 
+   3.634638002155577*^9}, 3.634638067718327*^9, {3.6347994726654615`*^9, 
+   3.634799481711979*^9}, {3.634799607150153*^9, 3.6347996405580645`*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.634536934155527*^9, 3.634536941910741*^9}}]
+}, Open  ]]
+},
+WindowSize->{846, 703},
+WindowMargins->{{291, Automatic}, {16, Automatic}},
+FrontEndVersion->"10.1 for Microsoft Windows (64-bit) (March 23, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 92, 1, 31, "Input"],
+Cell[652, 23, 1248, 39, 581, "Text"],
+Cell[1903, 64, 1656, 41, 253, "Code"],
+Cell[CellGroupData[{
+Cell[3584, 109, 163, 2, 49, "Subtitle"],
+Cell[3750, 113, 7718, 192, 1193, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11505, 310, 110, 1, 49, "Subtitle"],
+Cell[11618, 313, 1736, 42, 273, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13391, 360, 114, 1, 49, "Subtitle"],
+Cell[13508, 363, 395, 11, 93, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13940, 379, 107, 1, 49, "Subtitle"],
+Cell[14050, 382, 5332, 122, 713, "Code"],
+Cell[19385, 506, 92, 1, 31, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

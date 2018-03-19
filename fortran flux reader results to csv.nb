@@ -1,0 +1,918 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     36632,        909]
+NotebookOptionsPosition[     35977,        882]
+NotebookOutlinePosition[     36317,        897]
+CellTagsIndexPosition[     36274,        894]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Fortran Flow Reader", "Title",
+ CellChangeTimes->{{3.6531395291519537`*^9, 3.6531395328341646`*^9}}],
+
+Cell["\<\
+fortran flow in this case refers to flux_calc.f, developed by Kolar & \
+Dresback. this code is hardcoded for the EC grid, with the following \
+cross-sections:
+
+tar at greenville (12 nodes)
+tar at pamlico (8 nodes)
+tar at tarboro (11 nodes)
+tar r. 5 nodes into domain (12 nodes)
+tar r. 10 nodes into domain (14 nodes)
+fishing ck 5 nodes into domain (13 nodes)
+fishing ck 10 nodes into domain (14 nodes)
+
+this script reads the output from that program and reports a {time,flow} \
+scatter at each cross section\
+\>", "Text",
+ CellChangeTimes->{{3.653139544973859*^9, 3.6531396943624034`*^9}, {
+  3.653139840221746*^9, 3.653139861526965*^9}}],
+
+Cell["\<\
+that file\[CloseCurlyQuote]s format looks like this:
+
+{header info}
+{header info}
+\tfor L=1, timesteps
+\t\t{time\ttimestep}
+\t\tfor i=1, nsegs
+\t\t\tfor J=1,nodes in segment -1 (number of element faces in segment)
+\t\t\t{flux}
+\t\t\tend for
+\t\t{segmentnumber\tavg_depth\tavg_V\t    segment_Q}
+\t\tend for
+\tend for
+~end of file~
+
+whereas the output file format we want looks like this:
+{header info},
+for i=1, nsegs
+{
+\tfor L=1, timesteps
+\t\t{absolute time, flow},
+\tend for
+},
+end for
+
+
+
+
+
+\
+\>", "Text",
+ CellChangeTimes->{{3.653140431662575*^9, 3.653140454157861*^9}, {
+  3.6531405051597786`*^9, 3.653140516791444*^9}, {3.6531406262767057`*^9, 
+  3.653140731567728*^9}, {3.653140836905753*^9, 3.653140993985738*^9}, {
+  3.65314105015395*^9, 3.65314114945763*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "put", " ", "\"\<no file\>\"", " ", "if", " ", "the", " ", "flux", " ", 
+    "file", " ", 
+    RowBox[{"doesn", "'"}], "t", " ", "exist"}], "*)"}], "\n", "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"...", "..."}], "..."}], "..."}], "..."}], 
+                    "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], 
+                    "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], 
+                    "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], 
+                    "..."}], "..."}], "..."}], "..."}], ".", "Irene"}], 
+                "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], "..."}],
+          "..."}], "..."}], ".."}], "\n", "spinupinputfile"}], "=", 
+     "\"\<C:\\\\Users\\\\Sam\\\\Desktop\\\\Thesis \
+Work\\\\Irene\\\\spinup.flux\>\""}], ";", "\n", 
+    RowBox[{
+    "hurricaneinputfile", "=", 
+     "\"\<C:\\\\Users\\\\Sam\\\\Desktop\\\\Thesis \
+Work\\\\Irene\\\\hurricane.flux\>\""}], ";", "\n", 
+    RowBox[{
+    "spindowninputfile", "=", 
+     "\"\<C:\\\\Users\\\\Sam\\\\Desktop\\\\Thesis \
+Work\\\\Irene\\\\spindown.flux\>\""}], ";", "\n", 
+    RowBox[{
+    "outpath", "=", 
+     "\"\<C:\\\\Users\\\\Sam\\\\Desktop\\\\Thesis \
+Work\\\\Irene\\\\spinup_hurricane_fluxscatters\>\""}], ";", "\n", 
+    RowBox[{"filestarttime", "=", 
+     RowBox[{"\"\<July 06, 2011\>\"", "//", "AbsoluteTime"}]}], ";", "\n", 
+    RowBox[{"rundays", "=", "55"}], ";", "\n", 
+    RowBox[{"nstorms", "=", "3"}], ";"}], "\n", "*)"}], "\n", "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"...", "..."}], "..."}], "..."}], "..."}], 
+                    "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], 
+                    "..."}], "..."}], "..."}], "..."}], "..."}], "Floyd"}], 
+                    "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], 
+                    "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], 
+               "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], 
+        "..."}], "..."}], "\n", "spinupinputfile"}], "=", 
+     "\"\<D:\\\\Dropbox\\\\Floyd\\\\river_fluxes\\\\spinup.txt\>\""}], ";", 
+    "\n", 
+    RowBox[{
+    "hurricaneinputfile", "=", 
+     "\"\<D:\\\\Dropbox\\\\Floyd\\\\river_fluxes\\\\hurricane.txt\>\""}], ";",
+     "\n", 
+    RowBox[{
+    "spindowninputfile", "=", 
+     "\"\<D:\\\\Dropbox\\\\Floyd\\\\river_fluxes\\\\spindown.txt\>\""}], ";", 
+    "\n", 
+    RowBox[{
+    "outpath", "=", 
+     "\"\<D:\\\\Dropbox\\\\Floyd\\\\river_fluxes\\\\combined.csv\>\""}], ";", 
+    "\n", 
+    RowBox[{"filestarttime", "=", 
+     RowBox[{"\"\<Aug 11, 1999\>\"", "//", "AbsoluteTime"}]}], ";", "\n", 
+    RowBox[{"rundays", "=", 
+     RowBox[{"31", "+", "6", "+", "30"}]}], ";", "\n", 
+    RowBox[{"nstorms", "=", "3"}], ";"}], "\n", "*)"}], "\n", "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"...", "..."}], "..."}], "..."}], "..."}], "..."}],
+                "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], "..."}],
+         "..."}], "..."}], "..."}], "April"}], ",", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"2003", "..."}], "..."}], "..."}], "..."}], 
+                    "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], 
+               "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], "..."}], 
+        "..."}], "..."}], "..."}], "..."}]}], "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+   "spinupinputfile", "=", 
+    "\"\<D:\\\\Dropbox\\\\april2003\\\\river \
+results\\\\river_fluxes.txt\>\""}], "\n", 
+   RowBox[{
+    RowBox[{
+    "outpath", "=", 
+     "\"\<D:\\\\Dropbox\\\\april2003\\\\river results\\\\combined.csv\>\""}], 
+    ";"}], "\n", 
+   RowBox[{
+    RowBox[{"filestarttime", "=", 
+     RowBox[{"\"\<Mar 15, 2003\>\"", "//", "AbsoluteTime"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"rundays", "=", "60"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"nstorms", "=", "1"}], ";"}], "\n", "\n", 
+   RowBox[{
+    RowBox[{"segmentlengths", "=", 
+     RowBox[{"{", 
+      RowBox[{
+      "12", ",", "8", ",", "11", ",", "12", ",", "14", ",", "13", ",", "14", 
+       ",", "6", ",", "6", ",", "30", ",", "30", ",", "64", ",", "63"}], 
+      "}"}]}], ";", 
+    RowBox[{"(*", 
+     RowBox[{
+     "number", " ", "of", " ", "nodes", " ", "in", " ", "each", " ", 
+      "segment"}], "*)"}], "\n", 
+    RowBox[{"nsegs", "=", 
+     RowBox[{"Length", "[", "segmentlengths", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Js", "=", 
+     RowBox[{"segmentlengths", "-", "1"}]}], ";", " ", 
+    RowBox[{"(*", 
+     RowBox[{
+     "number", " ", "of", " ", "element", " ", "faces", " ", "in", " ", 
+      "each", " ", "segment"}], "*)"}], "\n", "\n", 
+    RowBox[{"nodestringnames", "=", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<Tar At Greenville\>\"", ",", "\"\<Tar At Pamlico\>\"", ",", 
+       "\"\<Tar At Tarboro\>\"", ",", "\"\<Tar Handoff +5 Nodes\>\"", ",", 
+       "\"\<Tar Handoff +10 Nodes\>\"", ",", 
+       "\"\<Fishing Handoff +5 Nodes\>\"", ",", 
+       "\"\<Fishing Handoff +10 Nodes\>\"", ",", "\"\<Tar Handoff\>\"", ",", 
+       "\"\<Fishing Handoff\>\"", ",", "\"\<some bullshit\>\"", ",", 
+       "\"\<some bullshit\>\"", ",", "\"\<some bullshit\>\"", ",", 
+       "\"\<some bullshit\>\""}], "}"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"signs", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1", ",", 
+       RowBox[{"-", "1"}], ",", "1", ",", "1", ",", 
+       RowBox[{"-", "1"}], ",", "1", ",", "1", ",", "1", ",", "1", ",", "1", 
+       ",", "1", ",", "1"}], "}"}]}], ";"}]}]}]], "Code",
+ CellChangeTimes->{{3.65313980287361*^9, 3.653139837991618*^9}, {
+   3.653139874847727*^9, 3.653139941292527*^9}, {3.653139992028429*^9, 
+   3.6531399936755233`*^9}, {3.653140103291793*^9, 3.6531402745375876`*^9}, {
+   3.6531411389830313`*^9, 3.6531411830265503`*^9}, {3.653141693778764*^9, 
+   3.6531417315259223`*^9}, {3.653141825985325*^9, 3.653141830197566*^9}, {
+   3.6531425379920497`*^9, 3.6531425423062963`*^9}, {3.653143936915064*^9, 
+   3.653143959911379*^9}, {3.6531443847796803`*^9, 3.653144421547783*^9}, {
+   3.6531445913934975`*^9, 3.6531445918395233`*^9}, {3.6531453143198466`*^9, 
+   3.6531453182500715`*^9}, {3.6531467224533873`*^9, 
+   3.6531467237544613`*^9}, {3.6531468262783256`*^9, 3.653146831938649*^9}, {
+   3.653659451486568*^9, 3.6536594538421717`*^9}, {3.653664924602933*^9, 
+   3.6536649604361963`*^9}, {3.6536651936750073`*^9, 
+   3.6536652711447434`*^9}, {3.6536664854001355`*^9, 3.653666514583805*^9}, {
+   3.6536665778334227`*^9, 3.653666577888426*^9}, {3.6536697032686644`*^9, 
+   3.6536697447630377`*^9}, {3.653669781461137*^9, 3.6536697818251576`*^9}, {
+   3.6807347540362377`*^9, 3.680734812403505*^9}, {3.6807350486780767`*^9, 
+   3.6807350699402447`*^9}, {3.6816915715058165`*^9, 3.681691609815692*^9}, {
+   3.682024741067192*^9, 3.6820247415083666`*^9}, {3.6829067935921564`*^9, 
+   3.6829067942029676`*^9}, {3.6829068910200987`*^9, 3.682906892050743*^9}, 
+   3.682906924170121*^9, 3.682907513224984*^9, {3.682908044795192*^9, 
+   3.6829080454623356`*^9}, {3.692027677019099*^9, 3.692027722247168*^9}, {
+   3.6920279853427944`*^9, 3.692027992806029*^9}, {3.6920281226156015`*^9, 
+   3.6920281231638575`*^9}}],
+
+Cell[BoxData["\<\"D:\\\\Dropbox\\\\april2003\\\\river \
+results\\\\river_fluxes.txt\"\>"], "Output",
+ CellChangeTimes->{
+  3.692027696379717*^9, 3.692027733058112*^9, {3.692027986812668*^9, 
+   3.692027993400488*^9}, 3.692028088245943*^9, 3.6920281242627153`*^9, 
+   3.692056882699157*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.692027674871804*^9, 3.6920276751531143`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"step", " ", "1"}], "-", " ", 
+    RowBox[{"import", " ", "spinup", " ", "file"}]}], "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"inp", "=", 
+     RowBox[{"{", 
+      RowBox[{
+      "spinupinputfile", ",", "hurricaneinputfile", ",", 
+       "spindowninputfile"}], "}"}]}], ";"}], "\n", "\n", 
+   RowBox[{
+    RowBox[{"Qgrab", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{"{", "nstorms", "}"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Do", "[", "\n", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"inputfile", "=", 
+        RowBox[{"inp", "[", 
+         RowBox[{"[", "storm", "]"}], "]"}]}], ";", "\n", "\n", "\n", "\n", 
+       "\n", "\n", 
+       RowBox[{
+        RowBox[{"Qgrab", "[", 
+         RowBox[{"[", "storm", "]"}], "]"}], "=", 
+        RowBox[{"Catch", "[", "\n", "\n", "\n", 
+         RowBox[{
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"inputfile", "==", "\"\<no file\>\""}], ",", "\n", 
+            RowBox[{
+             RowBox[{"Throw", "[", "\"\<error - no file selected\>\"", "]"}], 
+             ";"}]}], "\n", "]"}], ";", "\n", "\n", 
+          RowBox[{"in", "=", 
+           RowBox[{"OpenRead", "[", "inputfile", "]"}]}], ";", "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{"STEP", " ", "1"}], " ", "-", " ", 
+            RowBox[{"CHECK", " ", "FOR", " ", "COMPLETENESS"}]}], "*)"}], 
+          "\n", 
+          RowBox[{"junk", "=", 
+           RowBox[{"Read", "[", 
+            RowBox[{"in", ",", "String"}], "]"}]}], ";", "\n", 
+          RowBox[{"stepsheader", "=", 
+           RowBox[{"Read", "[", 
+            RowBox[{"in", ",", "Number"}], "]"}]}], ";", "\n", 
+          RowBox[{"junk", "=", 
+           RowBox[{"Read", "[", 
+            RowBox[{"in", ",", "String"}], "]"}]}], ";", "\n", "\n", "\n", 
+          "\n", 
+          RowBox[{"(*", 
+           RowBox[{"get", " ", "filelength"}], "*)"}], "\n", 
+          RowBox[{"entries", "=", 
+           RowBox[{"ReadList", "[", 
+            RowBox[{"in", ",", "String"}], "]"}]}], ";", 
+          RowBox[{"(*", 
+           RowBox[{
+           "these", " ", "are", " ", "all", " ", "the", " ", "individual", 
+            " ", "entries"}], "*)"}], "\n", 
+          RowBox[{"filelength", "=", 
+           RowBox[{"Length", "[", "entries", "]"}]}], ";", "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+           "figure", " ", "out", " ", "how", " ", "many", " ", "output", " ", 
+            "entries", " ", "there", " ", "are", " ", "in", " ", "the", " ", 
+            "file"}], "*)"}], "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+           "the", " ", "file", " ", "has", " ", "2", " ", "header", " ", 
+            "lines"}], "*)"}], "\n", "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{"at", " ", "each", " ", "timestep"}], ",", " ", 
+            RowBox[{
+            "there", " ", "is", " ", "one", " ", "line", " ", "plus", " ", 
+             "one", " ", "for", " ", "each", " ", "segment", " ", "node"}]}], 
+           "*)"}], "\n", 
+          RowBox[{"perstep", "=", 
+           RowBox[{"1", "+", 
+            RowBox[{"Sum", "[", 
+             RowBox[{
+              RowBox[{"segmentlengths", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], ",", 
+              RowBox[{"{", 
+               RowBox[{"i", ",", "1", ",", 
+                RowBox[{"Length", "[", "segmentlengths", "]"}]}], "}"}]}], 
+             "]"}]}]}], ";", "\n", 
+          RowBox[{"nsteps", "=", 
+           RowBox[{"filelength", "/", "perstep"}]}], ";", "\n", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"nsteps", "\[NotEqual]", "stepsheader"}], ",", "\n", 
+            RowBox[{
+             RowBox[{"Print", "[", "\"\<error-steps don't match\>\"", "]"}], 
+             ";", "\n", 
+             RowBox[{"Print", "[", "storm", "]"}]}]}], "\n", "]"}], ";", "\n",
+           "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+           "now", " ", "that", " ", "we", " ", "know", " ", "the", " ", 
+            "number", " ", "of", " ", "lines", " ", "in", " ", "each", " ", 
+            "step", " ", 
+            RowBox[{"(", "perstep", ")"}], " ", "we", " ", "can", " ", 
+            "import", " ", "all", " ", "the", " ", "data"}], "*)"}], " ", 
+          "\n", 
+          RowBox[{"Close", "[", "in", "]"}], ";", "\n", "\n", "\n", "\n", 
+          "\n", "\n", "\n", 
+          RowBox[{"in", "=", 
+           RowBox[{"OpenRead", "[", "inputfile", "]"}]}], ";", "\n", "\n", 
+          RowBox[{"outputlist", "=", 
+           RowBox[{"{", 
+            RowBox[{"\"\<header\>\"", ",", 
+             RowBox[{"Table", "[", 
+              RowBox[{"0", ",", 
+               RowBox[{"{", "nsegs", "}"}]}], "]"}]}], "}"}]}], ";", "\n", 
+          "\n", 
+          RowBox[{"header", "=", 
+           RowBox[{"Read", "[", 
+            RowBox[{"in", ",", "String"}], "]"}]}], ";", "\n", 
+          RowBox[{"junk", "=", 
+           RowBox[{"Read", "[", 
+            RowBox[{"in", ",", "String"}], "]"}]}], ";", "\n", 
+          RowBox[{"raw", "=", 
+           RowBox[{"ReadList", "[", 
+            RowBox[{"in", ",", "Word"}], "]"}]}], ";", "\n", 
+          RowBox[{
+           RowBox[{"Close", "[", "in", "]"}], "\n", 
+           RowBox[{"(*", 
+            RowBox[{"clean", " ", "the", " ", "entries"}], "*)"}], "\n", 
+           RowBox[{"Do", "[", "\n", 
+            RowBox[{
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"raw", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}], "==", "\"\<NaN\>\""}], ",", 
+               "\n", 
+               RowBox[{
+                RowBox[{"raw", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}], "=", 
+                RowBox[{"-", "9999"}]}], ",", "\n", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"raw", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}], "=", 
+                 RowBox[{"StringReplace", "[", 
+                  RowBox[{
+                   RowBox[{"raw", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"\"\<E+\>\"", "\[Rule]", "\"\<*^\>\""}], ",", 
+                    RowBox[{"\"\<E-\>\"", "\[Rule]", "\"\<*^-\>\""}]}], 
+                    "}"}]}], "]"}]}], ";", "\n", 
+                RowBox[{
+                 RowBox[{"raw", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}], "=", 
+                 RowBox[{
+                  RowBox[{"raw", "[", 
+                   RowBox[{"[", "i", "]"}], "]"}], "//", 
+                  "ToExpression"}]}]}]}], "]"}], "\n", ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", "1", ",", 
+               RowBox[{"Length", "[", "raw", "]"}]}], "}"}]}], "]"}]}], ";", 
+          "\n", "\n", "\n", "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{"step", " ", "1"}], " ", "-", " ", 
+            RowBox[{
+            "partition", " ", "raw", " ", "into", " ", "each", " ", 
+             "timestep", " ", 
+             RowBox[{"entry", "."}]}]}], "*)"}], "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+           "the", " ", "quick", " ", "way", " ", "to", " ", "do", " ", "this",
+             " ", "is", " ", "to", " ", "use", " ", "nsteps", " ", "and", " ",
+             "filelength", " ", "to", " ", "get", " ", "the", " ", "entries", 
+            " ", "per", " ", 
+            RowBox[{"step", "."}]}], "*)"}], "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{"note", " ", "that", " ", "we", " ", 
+             RowBox[{"can", "'"}], "t", " ", "just", " ", "use", " ", "the", 
+             " ", "prior", " ", "value", " ", "of", " ", "\"\<perstep\>\"", 
+             " ", "because", " ", "at", " ", "this", " ", "point"}], ","}], 
+           " ", "*)"}], "\n", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{"\"\<perstep\>\"", " ", "is", " ", "in", " ", "lines"}], 
+            ",", " ", 
+            RowBox[{
+            "and", " ", "we", " ", "need", " ", "it", " ", "in", " ", 
+             "numbers"}]}], "*)"}], "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"e", ".", "g", ".", " ", "each"}], " ", "timestep", " ", 
+             "line", " ", "is", " ", "one", " ", "line"}], ",", " ", 
+            RowBox[{"2", " ", "numbers"}], ",", " ", "etc"}], "*)"}], "\n", 
+          RowBox[{"perstep", "=", 
+           RowBox[{
+            RowBox[{"Length", "[", "raw", "]"}], "/", "nsteps"}]}], ";", "\n", 
+          RowBox[{"raw", "=", 
+           RowBox[{"Partition", "[", 
+            RowBox[{"raw", ",", "perstep"}], "]"}]}], ";", "\n", 
+          RowBox[{"raw", "=", 
+           RowBox[{"Transpose", "[", "raw", "]"}]}], ";", "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+           "now", " ", "raw", " ", "is", " ", "a", " ", "bunch", " ", "of", 
+            " ", "vectorized", " ", "entries", " ", "with", " ", "the", " ", 
+            "following", " ", "form"}], "*)"}], "\n", 
+          RowBox[{"(*", "\n", 
+           RowBox[{
+            RowBox[{"time", "\n", "timestep", "\n", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"for", " ", "i"}], " ", "=", " ", 
+               RowBox[{"1", " ", "\[Rule]", " ", "nsegs"}]}], ")"}], "\n", 
+             "node", " ", "i"}], ",", 
+            RowBox[{"1", "\n", "node", " ", "i"}], ",", 
+            RowBox[{"2", "\n", "node", " ", "i"}], ",", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"3", "\n", "..."}], ".", "\n", "node"}], " ", "i"}], 
+            ",", 
+            RowBox[{"J", 
+             RowBox[{"(", "i", ")"}], "\n", "segmentnumber", 
+             RowBox[{"(", "i", ")"}], "\n", "avg_depth", 
+             RowBox[{"(", "i", ")"}], "\n", "avg_V", 
+             RowBox[{"(", "i", ")"}], "\n", "segment_Q", 
+             RowBox[{"(", "i", ")"}]}]}], "\n", "*)"}], "\n", "\n", "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{"from", " ", "that", " ", "vectorization"}], ",", " ", 
+            RowBox[{
+            "it", " ", "becomes", " ", "clear", " ", "that", " ", "the", " ", 
+             "index", " ", "of", " ", "each", " ", "segment_Q", 
+             RowBox[{"(", "i", ")"}], " ", "is", " ", "as", " ", 
+             RowBox[{"follows", ":", "\n", 
+              RowBox[{"2", " ", 
+               RowBox[{"(", 
+                RowBox[{"time", "+", "timestep"}], ")"}], "\n", "plus", " ", 
+               "the", " ", "number", " ", "of", " ", "nodes", " ", "of", " ", 
+               "each", " ", "preceeding", " ", "segment"}]}]}], ",", " ", 
+            RowBox[{
+             RowBox[{"including", " ", "the", " ", "one", " ", "itself"}], 
+             "\n", "+", 
+             RowBox[{"Sum", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"J", 
+                 RowBox[{"(", 
+                  RowBox[{"i", "'"}], ")"}]}], ",", " ", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"i", "'"}], " ", "1"}], "\[Rule]", "i"}]}], ")"}], 
+              "\n", "plus", " ", "three", " ", "for", " ", "each", " ", 
+              "preceeding", " ", "segment"}]}], ",", " ", 
+            RowBox[{
+             RowBox[{"including", " ", "the", " ", "one", " ", "itself"}], 
+             "\n", "+", 
+             RowBox[{
+             "3", "*", "i", "\n", "plus", " ", "one", " ", "for", " ", "each",
+               " ", "preceeding", " ", "segment_Q"}], "\n", "+", 
+             RowBox[{"(", 
+              RowBox[{"i", "-", "1"}], ")"}]}]}], "\n", "*)"}], "\n", 
+          RowBox[{"Qindices", "=", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{"2", "\n", "+", 
+              RowBox[{"Sum", "[", 
+               RowBox[{
+                RowBox[{"Js", "[", 
+                 RowBox[{"[", "i2", "]"}], "]"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"i2", ",", "1", ",", "i"}], "}"}]}], "]"}], "\n", 
+              "+", 
+              RowBox[{"3", "*", "i"}], "\n", "+", 
+              RowBox[{"(", "i", ")"}]}], "\n", ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", "1", ",", "nsegs"}], "}"}]}], "]"}]}], ";", 
+          "\n", "\n", "\n", 
+          RowBox[{"times", "=", 
+           RowBox[{"raw", "[", 
+            RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", 
+          RowBox[{"times", "=", 
+           RowBox[{"times", "+", "filestarttime"}]}], ";", "\n", 
+          RowBox[{"endtime", "=", 
+           RowBox[{"times", "[", 
+            RowBox[{"[", 
+             RowBox[{"Length", "[", "times", "]"}], "]"}], "]"}]}], ";", "\n",
+           "\n", 
+          RowBox[{"Qseries", "=", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"times", ",", 
+                RowBox[{
+                 RowBox[{"signs", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}], "*", 
+                 RowBox[{"raw", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"Qindices", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], "]"}], "]"}]}]}], "}"}], "//",
+               "Transpose"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", "1", ",", 
+               RowBox[{"Length", "[", "Qindices", "]"}]}], "}"}]}], "]"}]}], 
+          ";", "\n", 
+          RowBox[{"Throw", "[", "Qseries", "]"}], ";"}], "\n", "\n", "\n", 
+         "\n", "]"}]}]}], "\n", "\n", ",", 
+      RowBox[{"{", 
+       RowBox[{"storm", ",", "1", ",", "nstorms"}], "}"}]}], "]"}], ";"}], 
+   "\n", "\n", "\n", "\n", 
+   RowBox[{
+    RowBox[{"Qlists", "=", 
+     RowBox[{"Transpose", "[", "Qgrab", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Qlists", "=", 
+     RowBox[{"Qlists", "[", 
+      RowBox[{"[", 
+       RowBox[{"1", ";;", "3"}], "]"}], "]"}]}], ";", 
+    RowBox[{"(*", 
+     RowBox[{"greenville", ",", " ", "pamlico", ",", " ", "tarboro"}], "*)"}],
+     "\[IndentingNewLine]", 
+    RowBox[{"Qlists", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"Partition", "[", 
+        RowBox[{
+         RowBox[{"Flatten", "[", 
+          RowBox[{"{", 
+           RowBox[{"Qlists", "[", 
+            RowBox[{"[", 
+             RowBox[{"i", ",", 
+              RowBox[{"1", ";;", "nstorms"}]}], "]"}], "]"}], "}"}], "]"}], 
+         ",", "2"}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", "3"}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"header", "=", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<abstime_days\>\"", ",", "\"\<greenville\>\"", ",", 
+       "\"\<pamlico\>\"", ",", "\"\<tarboro\>\""}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"data", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"Qlists", "[", 
+            RowBox[{"[", 
+             RowBox[{"1", ",", "i", ",", "1"}], "]"}], "]"}], "/", 
+           RowBox[{"(", 
+            RowBox[{"24", "*", "60", "*", "60"}], ")"}]}], "+", "2"}], ",", 
+         RowBox[{
+          RowBox[{"Qlists", "[", 
+           RowBox[{"[", 
+            RowBox[{"1", ",", "i", ",", "2"}], "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           RowBox[{"3.2808", "^", "3"}], ")"}]}], ",", 
+         RowBox[{
+          RowBox[{"Qlists", "[", 
+           RowBox[{"[", 
+            RowBox[{"2", ",", "i", ",", "2"}], "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           RowBox[{"3.2808", "^", "3"}], ")"}]}], ",", 
+         RowBox[{
+          RowBox[{"Qlists", "[", 
+           RowBox[{"[", 
+            RowBox[{"3", ",", "i", ",", "2"}], "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           RowBox[{"3.2808", "^", "3"}], ")"}]}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", 
+         RowBox[{"Length", "[", 
+          RowBox[{"Qlists", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "}"}]}], "]"}]}], ";", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{"+", "2"}], " ", "to", " ", "convert", " ", "to", " ", "Excel", 
+      " ", "time"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"Clear", "[", "Qlists", "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"data", "=", 
+     RowBox[{"Partition", "[", 
+      RowBox[{
+       RowBox[{"Flatten", "[", 
+        RowBox[{"{", 
+         RowBox[{"header", ",", "data"}], "}"}], "]"}], ",", "4"}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{"Export", "[", 
+    RowBox[{"outpath", ",", "data"}], "]"}]}]}]], "Code",
+ CellChangeTimes->{{3.65313980287361*^9, 3.653139837991618*^9}, {
+   3.653139874847727*^9, 3.653139941292527*^9}, {3.653139992028429*^9, 
+   3.6531399936755233`*^9}, {3.653140103291793*^9, 3.6531402745375876`*^9}, {
+   3.6531411389830313`*^9, 3.6531413223935213`*^9}, {3.6531417845719566`*^9, 
+   3.6531418056071596`*^9}, {3.653141848948639*^9, 3.6531419944989634`*^9}, {
+   3.6531420320161095`*^9, 3.6531422167936783`*^9}, {3.653142297524296*^9, 
+   3.6531425491436872`*^9}, {3.6531425953843327`*^9, 
+   3.6531426102031803`*^9}, {3.6531426557237835`*^9, 
+   3.6531430034946747`*^9}, {3.6531431165001383`*^9, 3.653143554351182*^9}, {
+   3.653143768855451*^9, 3.653143915267825*^9}, {3.6531439694149227`*^9, 
+   3.6531441086008835`*^9}, {3.653144258612464*^9, 3.6531443285144615`*^9}, {
+   3.653144362156386*^9, 3.6531443658935995`*^9}, {3.653144429961264*^9, 
+   3.6531445256097345`*^9}, {3.653144597740861*^9, 3.6531446092145166`*^9}, {
+   3.6531446407003174`*^9, 3.653144641126342*^9}, {3.653144732686579*^9, 
+   3.6531448597548466`*^9}, {3.6531448944368305`*^9, 3.6531449043373966`*^9}, 
+   3.6531449633997755`*^9, {3.653145004500126*^9, 3.6531451506384845`*^9}, 
+   3.6531452257587814`*^9, {3.653145456755994*^9, 3.653145538090646*^9}, {
+   3.6531456834989624`*^9, 3.653145686895157*^9}, {3.6531457337998395`*^9, 
+   3.653145735854957*^9}, {3.653145805409935*^9, 3.6531458210088277`*^9}, {
+   3.6531459301950727`*^9, 3.653145936778449*^9}, {3.653146218406557*^9, 
+   3.6531462401057987`*^9}, {3.6531464068443356`*^9, 
+   3.6531464892820506`*^9}, {3.6531466352834015`*^9, 3.653146636903494*^9}, {
+   3.6531466750896783`*^9, 3.6531467201992583`*^9}, {3.653146760337554*^9, 
+   3.653146779513651*^9}, {3.6536653123288155`*^9, 3.6536653124692163`*^9}, {
+   3.653665480278711*^9, 3.653665506970358*^9}, {3.6536665255444317`*^9, 
+   3.653666530340706*^9}, {3.653670118738201*^9, 3.653670118888201*^9}, {
+   3.6538856771262107`*^9, 3.6538856787143016`*^9}, {3.6538857098550825`*^9, 
+   3.6538857136092978`*^9}, {3.6538859552391176`*^9, 3.653885965667714*^9}, {
+   3.6807349689760513`*^9, 3.680734975551544*^9}, {3.692027726919262*^9, 
+   3.6920277277821484`*^9}, {3.692027916232896*^9, 3.692027917160533*^9}, {
+   3.692028531398466*^9, 3.692028532059109*^9}, {3.692028668510373*^9, 
+   3.692028677529333*^9}, {3.6920570770702095`*^9, 3.6920570922659607`*^9}}],
+
+Cell[BoxData["\<\"D:\\\\Dropbox\\\\april2003\\\\river results\\\\combined.csv\
+\"\>"], "Output",
+ CellChangeTimes->{
+  3.692028680114922*^9, 3.692056886708038*^9, {3.6920570980855045`*^9, 
+   3.692057108393672*^9}}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"GraphicsGrid", "[", "\[IndentingNewLine]", 
+   RowBox[{"Partition", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Table", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Show", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"scatterplot", "[", 
+          RowBox[{
+           RowBox[{"Qgrab", "[", 
+            RowBox[{"[", 
+             RowBox[{"2", ",", "i"}], "]"}], "]"}], ",", "filestarttime", ",", 
+           RowBox[{"filestarttime", "+", 
+            RowBox[{"rundays", "*", "24", "*", "60", "*", "60"}]}], ",", "0", 
+           ",", "2200", ",", "\"\<Q - CMS\>\"", ",", "\"\<Date\>\"", ",", 
+           RowBox[{"nodestringnames", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], ",", "7", ",", "True", ",", 
+           "Blue"}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"scatterplot", "[", 
+          RowBox[{
+           RowBox[{"Qgrab", "[", 
+            RowBox[{"[", 
+             RowBox[{"1", ",", "i"}], "]"}], "]"}], ",", "filestarttime", ",", 
+           RowBox[{"filestarttime", "+", 
+            RowBox[{"rundays", "*", "24", "*", "60", "*", "60"}]}], ",", "0", 
+           ",", "2200", ",", "\"\<Q - CMS\>\"", ",", "\"\<Date\>\"", ",", 
+           RowBox[{"nodestringnames", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], ",", "7", ",", "True", ",", 
+           "Red"}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"scatterplot", "[", 
+          RowBox[{
+           RowBox[{"Qgrab", "[", 
+            RowBox[{"[", 
+             RowBox[{"3", ",", "i"}], "]"}], "]"}], ",", "filestarttime", ",", 
+           RowBox[{"filestarttime", "+", 
+            RowBox[{"rundays", "*", "24", "*", "60", "*", "60"}]}], ",", "0", 
+           ",", "2200", ",", "\"\<Q - CMS\>\"", ",", "\"\<Date\>\"", ",", 
+           RowBox[{"nodestringnames", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], ",", "7", ",", "True", ",", 
+           "Green"}], "]"}]}], "\[IndentingNewLine]", "]"}], 
+       "\[IndentingNewLine]", ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", 
+         RowBox[{"Length", "[", 
+          RowBox[{"Qgrab", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "]"}]}], "}"}]}], "]"}], 
+     "\[IndentingNewLine]", ",", "3"}], "]"}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.653145709369442*^9, 3.653145862682211*^9}, {
+   3.6531468483995905`*^9, 3.653146884989684*^9}, {3.6536592461722407`*^9, 
+   3.653659296677582*^9}, {3.6536605497216487`*^9, 3.653660566739622*^9}, {
+   3.653660978076149*^9, 3.6536609862566175`*^9}, {3.6536610194845176`*^9, 
+   3.6536610313701973`*^9}, {3.6536611021352453`*^9, 
+   3.6536611144909515`*^9}, {3.6536612755891657`*^9, 3.653661310664172*^9}, 
+   3.653661421165492*^9, {3.6536614838970804`*^9, 3.6536614871712675`*^9}, {
+   3.6536618485679383`*^9, 3.653661918615945*^9}, {3.6536625791917276`*^9, 
+   3.653662721297856*^9}, {3.653662863371982*^9, 3.65366286841127*^9}, {
+   3.653663426451188*^9, 3.6536634268012085`*^9}, {3.6536634906408596`*^9, 
+   3.653663498802326*^9}, {3.653663686039036*^9, 3.6536636876381273`*^9}, {
+   3.6536637407547307`*^9, 3.653663865830552*^9}, {3.653663916114506*^9, 
+   3.6536639206707134`*^9}, {3.6536639583728247`*^9, 
+   3.6536639599016275`*^9}, {3.653664171113485*^9, 3.653664228449586*^9}, {
+   3.6536648961952834`*^9, 3.653664899471289*^9}, {3.6536649761766243`*^9, 
+   3.65366498530264*^9}, {3.6536651441265187`*^9, 3.653665154360137*^9}, {
+   3.6536651858125935`*^9, 3.6536651907422023`*^9}, {3.6536653280692434`*^9, 
+   3.653665381764538*^9}, {3.65366543985904*^9, 3.653665443119446*^9}, {
+   3.6536663607490063`*^9, 3.653666438938478*^9}, {3.653666550528861*^9, 
+   3.653666558633324*^9}, {3.653666716705365*^9, 3.653666718148448*^9}, 
+   3.653669721709719*^9, 3.653882265455788*^9, {3.6538831284084325`*^9, 
+   3.653883170521841*^9}, {3.6538852435084095`*^9, 3.6538853124373517`*^9}, {
+   3.6538856280974064`*^9, 3.653885629070462*^9}, {3.6538858163291726`*^9, 
+   3.653885868068132*^9}, {3.653886077190093*^9, 3.6538860840234838`*^9}, {
+   3.680734837845213*^9, 3.6807349432225437`*^9}, {3.682024620988329*^9, 
+   3.682024625211405*^9}}]
+}, Open  ]]
+},
+WindowSize->{1904, 988},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 106, 1, 101, "Title"],
+Cell[689, 25, 648, 17, 220, "Text"],
+Cell[1340, 44, 778, 35, 581, "Text"],
+Cell[CellGroupData[{
+Cell[2143, 83, 9854, 260, 733, "Code"],
+Cell[12000, 345, 289, 5, 31, "Output"]
+}, Open  ]],
+Cell[12304, 353, 148, 2, 72, "Input"],
+Cell[CellGroupData[{
+Cell[12477, 359, 19048, 436, 2673, "Code"],
+Cell[31528, 797, 215, 4, 31, "Output"]
+}, Open  ]],
+Cell[31758, 804, 4203, 75, 272, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
